@@ -92,11 +92,12 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
             {/* Mobile Dropdown Menu (Full Screen) */}
             <AnimatePresence>
                 {isMenuOpen && (
-                    <motion.div
+                    <GlassSurface
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[55] lg:hidden flex items-center justify-center bg-bg-body/95 backdrop-blur-2xl"
+                        className="fixed inset-0 z-[55] lg:hidden flex items-center justify-center"
+                        intensity="high"
                     >
                         <div className="w-full max-w-md px-6">
                             <motion.div
@@ -143,7 +144,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                                 ))}
                             </motion.div>
                         </div>
-                    </motion.div>
+                    </GlassSurface>
                 )}
             </AnimatePresence>
         </>
