@@ -61,7 +61,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                         {/* Action Area (UX Easy) */}
                         <div className="flex items-center gap-4">
                             {/* Phone Icon - Subtle but handy */}
-                            <a href="tel:+1555000000" aria-label="Call Us" className="hidden xl:flex items-center justify-center w-10 h-10 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors">
+                            <a href="tel:+442071234567" aria-label="Call Us" className="hidden xl:flex items-center justify-center w-10 h-10 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors">
                                 <Phone size={18} />
                             </a>
 
