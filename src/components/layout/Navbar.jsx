@@ -92,14 +92,13 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
             {/* Mobile Dropdown Menu (Full Screen) */}
             <AnimatePresence>
                 {isMenuOpen && (
-                    <GlassSurface
+                    <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[55] lg:hidden flex flex-col justify-center items-center"
-                        intensity="high"
+                        className="fixed inset-0 z-[55] lg:hidden flex items-center justify-center bg-bg-body/95 backdrop-blur-2xl"
                     >
-                        <div className="container mx-auto px-6 flex flex-col justify-center w-full max-w-md">
+                        <div className="w-full max-w-md px-6">
                             <motion.div
                                 initial="closed"
                                 animate="open"
@@ -126,13 +125,13 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                                         <Link
                                             to={item.path}
                                             onClick={() => setIsMenuOpen(false)}
-                                            className="glass-liquid-dark group flex items-center justify-between p-5 rounded-3xl transition-all duration-300 active:scale-[0.98] cursor-pointer"
+                                            className="glass-liquid-dark group flex items-center justify-between p-6 rounded-3xl transition-all duration-300 active:scale-[0.98] cursor-pointer"
                                         >
                                             <div className="flex items-center gap-5">
-                                                <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white transition-colors duration-300 shadow-inner">
-                                                    <item.icon size={22} strokeWidth={1.5} />
+                                                <div className="w-14 h-14 rounded-full bg-white/5 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white transition-colors duration-300 shadow-inner">
+                                                    <item.icon size={24} strokeWidth={1.5} />
                                                 </div>
-                                                <span className="text-xl font-medium tracking-tight text-white/90 group-hover:text-white transition-colors">{item.label}</span>
+                                                <span className="text-xl font-semibold tracking-tight text-white/90 group-hover:text-white transition-colors">{item.label}</span>
                                             </div>
                                             {item.value ? (
                                                 <span className="text-xs font-bold text-white/40 bg-white/5 px-3 py-1.5 rounded-full border border-white/5">{item.value}</span>
@@ -144,7 +143,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                                 ))}
                             </motion.div>
                         </div>
-                    </GlassSurface>
+                    </motion.div>
                 )}
             </AnimatePresence>
         </>
