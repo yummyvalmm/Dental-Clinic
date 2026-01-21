@@ -1,52 +1,60 @@
 import React from 'react';
-import Navbar from './components/layout/Navbar';
-import Footer from './components/layout/Footer';
-import SmoothScroll from './components/layout/SmoothScroll';
-import MobileAppBar from './components/layout/MobileAppBar';
-
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { useDrag } from 'react-use-gesture';
 
-// Direct Imports for Instant Navigation
+// Layout Components
+import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
+import SmoothScroll from './components/layout/SmoothScroll';
+import MobileAppBar from './components/layout/MobileAppBar';
+import PageTransition from './components/layout/PageTransition';
+import ScrollToTop from './components/layout/ScrollToTop';
+
+// UI Components
+import LoadingSpinner from './components/ui/LoadingSpinner';
+import InstallPrompt from './components/ui/InstallPrompt';
+import OfflineStatus from './components/ui/OfflineStatus';
+
+// Pages - Direct Imports for Performance
 import HomePage from './pages/HomePage';
+import MobileDashboard from './pages/MobileDashboard';
 import ServicesPage from './pages/ServicesPage';
 import StudioPage from './pages/StudioPage';
 import BookingPage from './pages/BookingPage';
-import VisitPage from './pages/VisitPage';
+import HistoryPage from './pages/HistoryPage';
 import HotlinePage from './pages/HotlinePage';
 
-// Keep Login lazy
+// Lazy Load Non-Critical Pages
 const LoginPage = React.lazy(() => import('./pages/LoginPage'));
 
-import PageTransition from './components/layout/PageTransition';
-import LoadingSpinner from './components/ui/LoadingSpinner';
-import ScrollToTop from './components/layout/ScrollToTop';
+// Helper to detect mobile
+const isMobile = () => window.innerWidth < 1024;
 
 function AppRoutes() {
   const location = useLocation();
   const navigate = useNavigate();
+  const [isMobileView, setIsMobileView] = React.useState(isMobile());
 
-  // Swipe Logic for Mobile Menu
-  const swipeOrder = ['/', '/visit', '/hotline', '/book'];
+  React.useEffect(() => {
+    const handleResize = () => setIsMobileView(isMobile());
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Swipe Logic for Mobile
+  const swipeOrder = ['/', '/book', '/history', '/hotline'];
 
   const bind = useDrag(({ swipe: [swipeX] }) => {
-    // Only allow swipe on mobile
-    if (window.innerWidth >= 1024) return;
+    if (!isMobileView) return;
 
     const currentIndex = swipeOrder.indexOf(location.pathname);
-    if (currentIndex === -1) return; // Not on a swippable page
+    if (currentIndex === -1) return;
 
-    if (swipeX === -1) {
-      // Swipe Left -> Next Page
-      if (currentIndex < swipeOrder.length - 1) {
-        navigate(swipeOrder[currentIndex + 1]);
-      }
-    } else if (swipeX === 1) {
-      // Swipe Right -> Previous Page
-      if (currentIndex > 0) {
-        navigate(swipeOrder[currentIndex - 1]);
-      }
+    if (swipeX === -1 && currentIndex < swipeOrder.length - 1) {
+      navigate(swipeOrder[currentIndex + 1]);
+    } else if (swipeX === 1 && currentIndex > 0) {
+      navigate(swipeOrder[currentIndex - 1]);
     }
   }, {
     axis: 'x',
@@ -56,19 +64,47 @@ function AppRoutes() {
   return (
     <div {...bind()} className="relative w-full min-h-screen overflow-x-hidden touch-pan-y">
       <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<PageTransition><HomePage /></PageTransition>} />
-        <Route path="/services" element={<PageTransition><ServicesPage /></PageTransition>} />
-        <Route path="/studio" element={<PageTransition><StudioPage /></PageTransition>} />
-        <Route path="/hotline" element={<PageTransition><HotlinePage /></PageTransition>} />
+        {/* Mobile gets Dashboard, Desktop gets HomePage */}
+        <Route path="/" element={
+          <PageTransition>
+            {isMobileView ? <MobileDashboard /> : <HomePage />}
+          </PageTransition>
+        } />
+
+        {/* Utility Routes (Mobile + Desktop) */}
         <Route path="/book" element={<PageTransition><BookingPage /></PageTransition>} />
-        <Route path="/login" element={<React.Suspense fallback={<LoadingSpinner />}><PageTransition><LoginPage /></PageTransition></React.Suspense>} />
-        <Route path="/visit" element={<PageTransition><VisitPage /></PageTransition>} />
+        <Route path="/history" element={<PageTransition><HistoryPage /></PageTransition>} />
+        <Route path="/hotline" element={<PageTransition><HotlinePage /></PageTransition>} />
+        <Route path="/login" element={
+          <React.Suspense fallback={<LoadingSpinner />}>
+            <PageTransition><LoginPage /></PageTransition>
+          </React.Suspense>
+        } />
+
+        {/* Desktop-Only Routes */}
+        <Route path="/services" element={
+          <PageTransition>
+            {isMobileView ? <MobileDashboard /> : <ServicesPage />}
+          </PageTransition>
+        } />
+        <Route path="/studio" element={
+          <PageTransition>
+            {isMobileView ? <MobileDashboard /> : <StudioPage />}
+          </PageTransition>
+        } />
       </Routes>
     </div>
   );
 }
 
-import InstallPrompt from './components/ui/InstallPrompt';
+const ConditionalFooter = () => {
+  const { pathname } = useLocation();
+  const hiddenRoutes = ['/', '/book', '/history', '/hotline', '/login'];
+
+  if (hiddenRoutes.includes(pathname)) return null;
+
+  return <Footer />;
+};
 
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
@@ -79,65 +115,17 @@ function App() {
         <ScrollToTop />
         <SmoothScroll>
           <MobileAppBar isMenuOpen={isMobileMenuOpen} />
-          import InstallPrompt from './components/ui/InstallPrompt';
-          import BookingFAB from './components/ui/BookingFAB';
-
-          function App() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-
-          return (
-          <HelmetProvider>
-            <Router>
-              <ScrollToTop />
-              <SmoothScroll>
-                <MobileAppBar isMenuOpen={isMobileMenuOpen} />
-                <div className="min-h-screen bg-bg-body font-sans antialiased text-primary selection:bg-accent/20">
-                  <Navbar isMenuOpen={isMobileMenuOpen} setIsMenuOpen={setIsMobileMenuOpen} />
-                  <AppRoutes />
-                  <InstallPrompt />
-                  <BookingFAB />
-                  <ConditionalFooter />
-                </div>
-              </SmoothScroll>
-            </Router>
-          </HelmetProvider>
-          );
+          <div className="min-h-screen bg-bg-body font-sans antialiased text-primary selection:bg-accent/20">
+            <Navbar isMenuOpen={isMobileMenuOpen} setIsMenuOpen={setIsMobileMenuOpen} />
+            <AppRoutes />
+            <InstallPrompt />
+            <OfflineStatus />
+            <ConditionalFooter />
+          </div>
+        </SmoothScroll>
+      </Router>
+    </HelmetProvider>
+  );
 }
 
-
-// Helper to handle Redirects
-const DesktopRedirector = () => {
-  const {pathname} = useLocation();
-          const navigate = useNavigate();
-
-  React.useEffect(() => {
-    const checkRedirect = () => {
-      // If we are on Desktop (lg breakpoint is usually 1024px)
-      if (window.innerWidth >= 1024) {
-        // Routes that exist as "Sections" on Desktop Home Page
-        const mobileContextRoutes = ['/visit', '/hotline', '/services', '/studio'];
-          if (mobileContextRoutes.includes(pathname)) {
-            navigate('/');
-        }
-      }
-    };
-
-          checkRedirect(); // Run on mount/path change
-          window.addEventListener('resize', checkRedirect);
-    return () => window.removeEventListener('resize', checkRedirect);
-  }, [pathname, navigate]);
-
-          return null;
-};
-
-const ConditionalFooter = () => {
-  const {pathname} = useLocation();
-          // Hide footer on specific "App-like" pages where native no-scroll is desired
-          const hiddenRoutes = ['/visit', '/hotline', '/book', '/login'];
-
-          if (hiddenRoutes.includes(pathname)) return null;
-
-          return <Footer />;
-};
-
-          export default App;
+export default App;
