@@ -96,10 +96,10 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-40 pt-32 lg:hidden flex flex-col"
+                        className="fixed inset-0 z-40 lg:hidden flex flex-col justify-center items-center"
                         intensity="high"
                     >
-                        <div className="container mx-auto px-6 h-full flex flex-col">
+                        <div className="container mx-auto px-6 flex flex-col justify-center w-full max-w-md">
                             <motion.div
                                 initial="closed"
                                 animate="open"
