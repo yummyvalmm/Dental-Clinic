@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { requestForToken } from '../../firebase';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Bell, CheckCheck, BellRing } from 'lucide-react';
+import { X, Bell, CheckCheck, BellRing, Settings } from 'lucide-react';
 import GlassSurface from './GlassSurface';
 import NotificationItem from './NotificationItem';
 
@@ -163,6 +163,23 @@ const NotificationCenter = ({ isOpen, onClose, notifications, onMarkAsRead, onMa
                                     </div>
                                 )}
 
+                                {/* Permission Denied Banner */}
+                                {permission === 'denied' && (
+                                    <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-4 mb-4 flex flex-col gap-3">
+                                        <div className="flex items-start gap-3">
+                                            <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center shrink-0">
+                                                <Settings size={16} className="text-red-400" />
+                                            </div>
+                                            <div>
+                                                <h4 className="text-sm font-bold text-white mb-1">Notifications Blocked</h4>
+                                                <p className="text-xs text-white/60 leading-relaxed">
+                                                    You previously blocked notifications. Please reset permissions in your browser settings to enable them.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
                                 {/* Debugging: Display Token for Mobile Users */}
                                 {permission === 'granted' && fcmToken && (
                                     <div className="mb-4 p-3 bg-white/5 rounded-xl border border-white/10">
@@ -207,8 +224,9 @@ const NotificationCenter = ({ isOpen, onClose, notifications, onMarkAsRead, onMa
                         </GlassSurface>
                     </motion.div>
                 </>
-            )}
-        </AnimatePresence>
+            )
+            }
+        </AnimatePresence >
     );
 };
 
