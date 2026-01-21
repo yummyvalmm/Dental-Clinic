@@ -44,7 +44,7 @@ const NotificationCenter = ({ isOpen, onClose, notifications, onMarkAsRead, onMa
                             intensity="high"
                         >
                             {/* Header */}
-                            <div className="p-6 border-b border-white/10">
+                            <div className="px-6 pb-6 pt-28 border-b border-white/10">
                                 <div className="flex items-center justify-between mb-4">
                                     <div className="flex items-center gap-3">
                                         <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
