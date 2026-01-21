@@ -120,6 +120,19 @@ const LoginPage = () => {
                             <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                         </button>
 
+                        <div className="mt-6 text-center">
+                            <p className="text-white/40 text-sm">
+                                {isSignUp ? 'Already have an account?' : "Don't have an account?"}
+                                {' '}
+                                <button
+                                    onClick={() => setIsSignUp(!isSignUp)}
+                                    className="text-accent hover:text-white transition-colors font-bold"
+                                >
+                                    {isSignUp ? 'Login' : 'Sign up'}
+                                </button>
+                            </p>
+                        </div>
+
                         <div className="relative my-8">
                             <div className="absolute inset-0 flex items-center">
                                 <span className="w-full border-t border-white/10"></span>
@@ -146,19 +159,6 @@ const LoginPage = () => {
                                 <span>Facebook</span>
                             </button>
                         </div>
-                    </div>
-
-                    <div className="mt-8 text-center">
-                        <p className="text-white/40 text-sm">
-                            {isSignUp ? 'Already have an account?' : "Don't have an account?"}
-                            {' '}
-                            <button
-                                onClick={() => setIsSignUp(!isSignUp)}
-                                className="text-accent hover:text-white transition-colors font-bold"
-                            >
-                                {isSignUp ? 'Login' : 'Sign up'}
-                            </button>
-                        </p>
                     </div>
                 </GlassSurface>
             </motion.div>
