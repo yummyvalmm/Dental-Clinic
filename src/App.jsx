@@ -123,15 +123,34 @@ const ConditionalMobileAppBar = (props) => {
   return <MobileAppBar {...props} />;
 };
 
+// Notification
+import { Toaster, toast } from 'sonner';
+import { onMessageListener } from './firebase';
+
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    onMessageListener()
+      .then((payload) => {
+        console.log('Foreground push notification received:', payload);
+        toast.info(payload.notification.title || 'New Notification', {
+          description: payload.notification.body,
+          duration: 5000,
+          position: 'top-center'
+        });
+      })
+      .catch((err) => console.log('failed: ', err));
+  }, []);
 
   return (
     <HelmetProvider>
       <AuthProvider>
         <Router>
+          <Toaster richColors closeButton />
           <ScrollToTop />
           <SmoothScroll>
+            {/* ... rest of app ... */}
             <ConditionalMobileAppBar isMenuOpen={isMobileMenuOpen} />
             <div className="min-h-screen bg-bg-body font-sans antialiased text-primary selection:bg-accent/20">
               <ConditionalNavbar isMenuOpen={isMobileMenuOpen} setIsMenuOpen={setIsMobileMenuOpen} />

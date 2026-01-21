@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getMessaging, getToken } from "firebase/messaging";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 // TODO: Replace the following with your app's Firebase project configuration
 // See: https://console.firebase.google.com/
@@ -33,5 +33,12 @@ export const requestForToken = async (vapidKey) => {
         return null;
     }
 };
+
+export const onMessageListener = () =>
+    new Promise((resolve) => {
+        onMessage(messaging, (payload) => {
+            resolve(payload);
+        });
+    });
 
 export { messaging };
