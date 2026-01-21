@@ -17,6 +17,17 @@ const NotificationCenter = ({ isOpen, onClose, notifications, onMarkAsRead, onMa
     useEffect(() => {
         if ('Notification' in window) {
             setPermission(Notification.permission);
+
+            // If already granted, fetch token immediately so user can test
+            if (Notification.permission === 'granted') {
+                const VAPID_KEY = "BK3XYkH9i6fTttyp9jRNv0khvF5W5dakjIzGlbkW9B7VQPrtr8VauY6IdBcSNeq2aoaMqFT6uHAOXnYjkRhWb-0";
+                requestForToken(VAPID_KEY).then(token => {
+                    if (token) {
+                        setFcmToken(token);
+                        console.log("FCM Token obtained:", token);
+                    }
+                });
+            }
         }
     }, []);
 
@@ -29,7 +40,7 @@ const NotificationCenter = ({ isOpen, onClose, notifications, onMarkAsRead, onMa
             setPermission(result);
             if (result === 'granted') {
                 // REPLACE WITH YOUR FIREBASE VAPID KEY
-                const VAPID_KEY = "BCjWQQeDjgsX_G01LB37TzhAeB9ctflVYFuf_0WcVa34QrZnkIbbk0JXnXQa5gTm1rnT8QiOqBkoNXS9mNNho9s";
+                const VAPID_KEY = "BK3XYkH9i6fTttyp9jRNv0khvF5W5dakjIzGlbkW9B7VQPrtr8VauY6IdBcSNeq2aoaMqFT6uHAOXnYjkRhWb-0";
                 const token = await requestForToken(VAPID_KEY);
                 if (token) {
                     setFcmToken(token);

@@ -3,15 +3,16 @@ import { getMessaging, getToken } from "firebase/messaging";
 
 // TODO: Replace the following with your app's Firebase project configuration
 // See: https://console.firebase.google.com/
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "REPLACE_WITH_YOUR_API_KEY",
-    authDomain: "REPLACE_WITH_YOUR_PROJECT_ID.firebaseapp.com",
-    projectId: "REPLACE_WITH_YOUR_PROJECT_ID",
-    storageBucket: "REPLACE_WITH_YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "REPLACE_WITH_YOUR_SENDER_ID",
-    appId: "REPLACE_WITH_YOUR_APP_ID"
+    apiKey: "AIzaSyD-d1G_3ts544fPuOYrqviGNZttiDhJmAQ",
+    authDomain: "dental-notification-17c35.firebaseapp.com",
+    projectId: "dental-notification-17c35",
+    storageBucket: "dental-notification-17c35.firebasestorage.app",
+    messagingSenderId: "506732300361",
+    appId: "1:506732300361:web:4c491545eea9ef39b19798",
+    measurementId: "G-MY3Z2XX5FV"
 };
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
