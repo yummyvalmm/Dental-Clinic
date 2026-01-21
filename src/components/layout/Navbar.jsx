@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, ArrowRight, ChevronRight, Phone, User, Settings, Globe } from 'lucide-react';
+import { Menu, X, ArrowRight, ChevronRight, Phone, User, Settings, Globe, Shield, LifeBuoy } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import GlassSurface from '../ui/GlassSurface';
@@ -111,9 +111,10 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                                 className="space-y-4 flex-1"
                             >
                                 {[
-                                    { label: 'Login', path: '/login', icon: User },
-                                    { label: 'Settings', path: '/settings', icon: Settings },
-                                    { label: 'Language', path: '#', icon: Globe, value: 'EN' }
+                                    { label: 'Login / Sign Up', path: '/login', icon: User },
+                                    { label: 'My Insurance', path: '#', icon: Shield },
+                                    { label: 'Language', path: '#', icon: Globe, value: 'EN' },
+                                    { label: 'Help & Support', path: '/hotline', icon: LifeBuoy }
                                 ].map((item, index) => (
                                     <motion.div
                                         key={index}
@@ -141,17 +142,6 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                                         </Link>
                                     </motion.div>
                                 ))}
-
-                                <motion.div
-                                    variants={{ open: { opacity: 1 }, closed: { opacity: 0 } }}
-                                    className="pt-12 flex flex-col items-center gap-6 opacity-30 mt-auto pb-12"
-                                >
-                                    <div className="w-16 h-1 bg-white/10 rounded-full" />
-                                    <div className="flex gap-8">
-                                        <span className="text-[10px] uppercase tracking-[0.2em] hover:text-white transition-colors">Instagram</span>
-                                        <span className="text-[10px] uppercase tracking-[0.2em] hover:text-white transition-colors">LinkedIn</span>
-                                    </div>
-                                </motion.div>
                             </motion.div>
                         </div>
                     </GlassSurface>
