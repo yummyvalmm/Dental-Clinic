@@ -106,12 +106,12 @@ const ProfilePage = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
-                        className="space-y-3"
+                        className="flex flex-col gap-3"
                     >
                         <h3 className="text-xs uppercase tracking-widest text-white/40 pl-4 font-bold">Account</h3>
                         {menuItems.map((item, index) => (
-                            <Link to={item.path} key={index}>
-                                <GlassSurface className="p-4 rounded-2xl flex items-center justify-between group mb-3 last:mb-0 hover:bg-white/5 transition-colors" intensity="low">
+                            <Link to={item.path} key={index} className="block">
+                                <GlassSurface className="p-4 rounded-2xl flex items-center justify-between group hover:bg-white/5 transition-colors" intensity="low">
                                     <div className="flex items-center gap-4">
                                         <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/70 group-hover:text-white transition-colors">
                                             <item.icon size={20} />
@@ -131,12 +131,12 @@ const ProfilePage = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: isLoggedIn ? 0.3 : 0.2 }}
-                    className="space-y-3"
+                    className="flex flex-col gap-3"
                 >
                     <h3 className="text-xs uppercase tracking-widest text-white/40 pl-4 font-bold">Resources</h3>
                     {resources.map((item, index) => (
-                        <Link to={item.path} key={index}>
-                            <GlassSurface className="p-4 rounded-2xl flex items-center justify-between group mb-3 last:mb-0 hover:bg-white/5 transition-colors" intensity="low">
+                        <Link to={item.path} key={index} className="block">
+                            <GlassSurface className="p-4 rounded-2xl flex items-center justify-between group hover:bg-white/5 transition-colors" intensity="low">
                                 <div className="flex items-center gap-4">
                                     <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/70 group-hover:text-white transition-colors">
                                         <item.icon size={20} />
