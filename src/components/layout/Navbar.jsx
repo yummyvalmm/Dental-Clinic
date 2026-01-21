@@ -128,7 +128,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                                         >
                                             <GlassSurface
                                                 className="group flex items-center justify-between p-6 rounded-3xl transition-all duration-300 active:scale-[0.98] cursor-pointer"
-                                                intensity="high"
+                                                intensity="medium"
                                             >
                                                 <div className="flex items-center gap-5">
                                                     <div className="w-14 h-14 rounded-full bg-white/5 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white transition-colors duration-300 shadow-inner">
