@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Phone, Calendar, FileText, Home } from 'lucide-react';
+import { Phone, Calendar, FileText, Home, User } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { NavLink, useLocation } from 'react-router-dom';
 import GlassSurface from '../ui/GlassSurface';
@@ -20,7 +20,7 @@ const MobileAppBar = ({ isMenuOpen }) => {
         { path: '/', icon: Home, label: 'Home' },
         { path: '/book', icon: Calendar, label: 'Book' },
         { path: '/history', icon: FileText, label: 'History' },
-        { path: '/hotline', icon: Phone, label: 'Contact' }
+        { path: '/profile', icon: User, label: 'Profile' }
     ];
 
     return (

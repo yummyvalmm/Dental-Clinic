@@ -24,6 +24,7 @@ import StudioPage from './pages/StudioPage';
 import BookingPage from './pages/BookingPage';
 import HistoryPage from './pages/HistoryPage';
 import HotlinePage from './pages/HotlinePage';
+import ProfilePage from './pages/ProfilePage';
 
 // Lazy Load Non-Critical Pages
 const LoginPage = React.lazy(() => import('./pages/LoginPage'));
@@ -43,7 +44,7 @@ function AppRoutes() {
   }, []);
 
   // Swipe Logic for Mobile
-  const swipeOrder = ['/', '/book', '/history', '/hotline'];
+  const swipeOrder = ['/', '/book', '/history', '/profile'];
 
   const bind = useDrag(({ swipe: [swipeX] }) => {
     if (!isMobileView) return;
@@ -74,6 +75,7 @@ function AppRoutes() {
         {/* Utility Routes (Mobile + Desktop) */}
         <Route path="/book" element={<PageTransition><BookingPage /></PageTransition>} />
         <Route path="/history" element={<PageTransition><HistoryPage /></PageTransition>} />
+        <Route path="/profile" element={<PageTransition><ProfilePage /></PageTransition>} />
         <Route path="/hotline" element={<PageTransition><HotlinePage /></PageTransition>} />
         <Route path="/login" element={
           <React.Suspense fallback={<LoadingSpinner />}>
@@ -99,7 +101,7 @@ function AppRoutes() {
 
 const ConditionalFooter = () => {
   const { pathname } = useLocation();
-  const hiddenRoutes = ['/', '/book', '/history', '/hotline', '/login'];
+  const hiddenRoutes = ['/', '/book', '/history', '/hotline', '/login', '/profile'];
 
   if (hiddenRoutes.includes(pathname)) return null;
 
