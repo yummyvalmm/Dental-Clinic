@@ -1,12 +1,20 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, Phone, Mail, ArrowRight, ArrowLeft, ChevronRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import GlassSurface from '../components/ui/GlassSurface';
+import { useAuth } from '../context/AuthContext';
 
 const LoginPage = () => {
     const [method, setMethod] = useState('email'); // 'email' or 'phone'
     const [isSignUp, setIsSignUp] = useState(false);
+    const { login } = useAuth();
+    const navigate = useNavigate();
+
+    const handleAuth = () => {
+        login(); // In a real app, pass form data here
+        navigate('/profile');
+    };
 
     return (
         <div className="min-h-[100dvh] w-full bg-bg-body relative flex flex-col items-center justify-center p-6 overflow-hidden">
@@ -115,7 +123,10 @@ const LoginPage = () => {
                             </motion.div>
                         </AnimatePresence>
 
-                        <button className="w-full btn-liquid rounded-2xl py-4 text-white font-bold tracking-wide flex items-center justify-center gap-2 group mt-4">
+                        <button
+                            onClick={handleAuth}
+                            className="w-full btn-liquid rounded-2xl py-4 text-white font-bold tracking-wide flex items-center justify-center gap-2 group mt-4"
+                        >
                             <span>{isSignUp ? 'Sign Up' : 'Continue'}</span>
                             <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                         </button>

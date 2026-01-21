@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { useDrag } from 'react-use-gesture';
+import { AuthProvider } from './context/AuthContext';
 
 // Layout Components
 import Navbar from './components/layout/Navbar';
@@ -127,19 +128,21 @@ function App() {
 
   return (
     <HelmetProvider>
-      <Router>
-        <ScrollToTop />
-        <SmoothScroll>
-          <ConditionalMobileAppBar isMenuOpen={isMobileMenuOpen} />
-          <div className="min-h-screen bg-bg-body font-sans antialiased text-primary selection:bg-accent/20">
-            <ConditionalNavbar isMenuOpen={isMobileMenuOpen} setIsMenuOpen={setIsMobileMenuOpen} />
-            <AppRoutes />
-            <InstallPrompt />
-            <OfflineStatus />
-            <ConditionalFooter />
-          </div>
-        </SmoothScroll>
-      </Router>
+      <AuthProvider>
+        <Router>
+          <ScrollToTop />
+          <SmoothScroll>
+            <ConditionalMobileAppBar isMenuOpen={isMobileMenuOpen} />
+            <div className="min-h-screen bg-bg-body font-sans antialiased text-primary selection:bg-accent/20">
+              <ConditionalNavbar isMenuOpen={isMobileMenuOpen} setIsMenuOpen={setIsMobileMenuOpen} />
+              <AppRoutes />
+              <InstallPrompt />
+              <OfflineStatus />
+              <ConditionalFooter />
+            </div>
+          </SmoothScroll>
+        </Router>
+      </AuthProvider>
     </HelmetProvider>
   );
 }

@@ -1,20 +1,11 @@
-import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, LogOut, FileText, Shield, HelpCircle, ChevronRight, Mail, Phone, Settings } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import GlassSurface from '../components/ui/GlassSurface';
+import { useAuth } from '../context/AuthContext';
 
 const ProfilePage = () => {
-    // Mock authentication state - toggle this to test different views
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    // Mock user data
-    const user = {
-        name: "Sarah Johnson",
-        email: "sarah.j@example.com",
-        phone: "+44 7700 900123",
-        avatar: "SJ"
-    };
+    const { user, isLoggedIn, logout } = useAuth();
 
     const resources = [
         { label: 'Privacy Policy', icon: Shield, path: '#' },
@@ -58,7 +49,7 @@ const ProfilePage = () => {
                         className="rounded-[2rem] p-6 relative overflow-hidden"
                         intensity="high"
                     >
-                        {isLoggedIn ? (
+                        {isLoggedIn && user ? (
                             // Logged In View
                             <div className="flex flex-col items-center">
                                 <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-2xl font-bold text-white shadow-xl shadow-blue-500/20 mb-4 border-4 border-white/10">
@@ -68,7 +59,7 @@ const ProfilePage = () => {
                                 <p className="text-white/50 text-sm mb-6">{user.email}</p>
 
                                 <button
-                                    onClick={() => setIsLoggedIn(false)}
+                                    onClick={logout}
                                     className="px-6 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-white/70 hover:text-white text-sm font-medium transition-colors border border-white/5 flex items-center gap-2"
                                 >
                                     <LogOut size={16} />
@@ -84,16 +75,10 @@ const ProfilePage = () => {
                                 <h2 className="text-xl font-bold text-white mb-2">Welcome</h2>
                                 <p className="text-white/50 text-sm mb-6 max-w-[200px]">Sign in to manage your appointments and more</p>
 
-                                <div className="flex gap-3 w-full">
-                                    <Link to="/login" className="flex-1 btn-liquid py-3 rounded-xl text-white font-bold text-sm text-center">
+                                <div className="w-full">
+                                    <Link to="/login" className="block w-full btn-liquid py-3 rounded-xl text-white font-bold text-sm text-center">
                                         Login
                                     </Link>
-                                    <button
-                                        onClick={() => setIsLoggedIn(true)} // Simulate login for demo
-                                        className="flex-1 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-white font-bold text-sm transition-colors border border-white/10"
-                                    >
-                                        Sign Up
-                                    </button>
                                 </div>
                             </div>
                         )}
