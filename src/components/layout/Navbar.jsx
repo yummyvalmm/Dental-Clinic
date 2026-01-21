@@ -105,7 +105,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                                 <button
                                     onClick={() => setIsNotificationOpen(!isNotificationOpen)}
                                     aria-label="Notifications"
-                                    className="relative hidden sm:flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                                    className="relative flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
                                 >
                                     <Bell size={18} />
                                     {unreadCount > 0 && (
@@ -120,19 +120,6 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                                     <span>Book Visit</span>
                                     <ArrowRight size={14} className="hover:translate-x-1 transition-transform" />
                                 </Link>
-
-                                {/* Mobile Toggle */}
-                                <button
-                                    aria-label="Toggle Menu"
-                                    className="lg:hidden p-2 text-white bg-white/10 rounded-full hover:bg-white/20 transition-all"
-                                    onClick={() => setIsMenuOpen(!isMenuOpen)}
-                                >
-                                    <div className="space-y-1.5 w-6 h-6 flex flex-col justify-center items-center">
-                                        <span className={`h-0.5 bg-white rounded-full transition-all duration-300 ${isMenuOpen ? 'w-6 translate-y-2 rotate-45' : 'w-5'}`} />
-                                        <span className={`h-0.5 bg-white rounded-full transition-all duration-300 ${isMenuOpen ? 'opacity-0' : 'w-5'}`} />
-                                        <span className={`h-0.5 bg-white rounded-full transition-all duration-300 ${isMenuOpen ? 'w-6 -translate-y-2 -rotate-45' : 'w-5'}`} />
-                                    </div>
-                                </button>
                             </div>
 
                         </GlassSurface>

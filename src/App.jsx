@@ -8,7 +8,6 @@ import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import SmoothScroll from './components/layout/SmoothScroll';
 import MobileAppBar from './components/layout/MobileAppBar';
-import MobileHeader from './components/layout/MobileHeader';
 import PageTransition from './components/layout/PageTransition';
 import ScrollToTop from './components/layout/ScrollToTop';
 
@@ -116,7 +115,6 @@ function App() {
         <ScrollToTop />
         <SmoothScroll>
           <MobileAppBar isMenuOpen={isMobileMenuOpen} />
-          <MobileHeader />
           <div className="min-h-screen bg-bg-body font-sans antialiased text-primary selection:bg-accent/20">
             <Navbar isMenuOpen={isMobileMenuOpen} setIsMenuOpen={setIsMobileMenuOpen} />
             <AppRoutes />
