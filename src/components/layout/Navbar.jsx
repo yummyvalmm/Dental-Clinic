@@ -24,7 +24,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
 
     return (
         <>
-            <nav className="fixed top-0 left-0 right-0 z-[50] py-4 transition-all duration-500">
+            <nav className="fixed top-0 left-0 right-0 z-[60] py-4 transition-all duration-500">
                 <div className="container mx-auto px-4 md:px-6 max-w-6xl transition-all duration-500 ease-in-out">
                     <GlassSurface className="flex items-center justify-between rounded-full px-6 py-3" intensity="high">
 
@@ -96,7 +96,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-40 lg:hidden flex flex-col justify-center items-center"
+                        className="fixed inset-0 z-[55] lg:hidden flex flex-col justify-center items-center"
                         intensity="high"
                     >
                         <div className="container mx-auto px-6 flex flex-col justify-center w-full max-w-md">
@@ -108,7 +108,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                                     open: { transition: { staggerChildren: 0.1 } },
                                     closed: { transition: { staggerChildren: 0.05, staggerDirection: -1 } }
                                 }}
-                                className="space-y-4 flex-1"
+                                className="space-y-4"
                             >
                                 {[
                                     { label: 'Login / Sign Up', path: '/login', icon: User },
