@@ -108,6 +108,20 @@ const ConditionalFooter = () => {
   return <Footer />;
 };
 
+const ConditionalNavbar = (props) => {
+  const { pathname } = useLocation();
+  const hiddenRoutes = ['/login'];
+  if (hiddenRoutes.includes(pathname)) return null;
+  return <Navbar {...props} />;
+};
+
+const ConditionalMobileAppBar = (props) => {
+  const { pathname } = useLocation();
+  const hiddenRoutes = ['/login'];
+  if (hiddenRoutes.includes(pathname)) return null;
+  return <MobileAppBar {...props} />;
+};
+
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
@@ -116,9 +130,9 @@ function App() {
       <Router>
         <ScrollToTop />
         <SmoothScroll>
-          <MobileAppBar isMenuOpen={isMobileMenuOpen} />
+          <ConditionalMobileAppBar isMenuOpen={isMobileMenuOpen} />
           <div className="min-h-screen bg-bg-body font-sans antialiased text-primary selection:bg-accent/20">
-            <Navbar isMenuOpen={isMobileMenuOpen} setIsMenuOpen={setIsMobileMenuOpen} />
+            <ConditionalNavbar isMenuOpen={isMobileMenuOpen} setIsMenuOpen={setIsMobileMenuOpen} />
             <AppRoutes />
             <InstallPrompt />
             <OfflineStatus />
