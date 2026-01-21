@@ -1,11 +1,49 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { requestForToken } from '../../firebase';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Bell, CheckCheck } from 'lucide-react';
+import { X, Bell, CheckCheck, BellRing } from 'lucide-react';
 import GlassSurface from './GlassSurface';
 import NotificationItem from './NotificationItem';
 
 const NotificationCenter = ({ isOpen, onClose, notifications, onMarkAsRead, onMarkAllAsRead, onClearAll }) => {
     const unreadCount = notifications.filter(n => !n.read).length;
+
+    // Notification Permission State
+    const [permission, setPermission] = useState('default'); // 'default', 'granted', 'denied'
+    const [isRequesting, setIsRequesting] = useState(false);
+
+    const [fcmToken, setFcmToken] = useState(null);
+
+    useEffect(() => {
+        if ('Notification' in window) {
+            setPermission(Notification.permission);
+        }
+    }, []);
+
+    const handleRequestPermission = async () => {
+        if (!('Notification' in window)) return;
+
+        setIsRequesting(true);
+        try {
+            const result = await Notification.requestPermission();
+            setPermission(result);
+            if (result === 'granted') {
+                // REPLACE WITH YOUR FIREBASE VAPID KEY
+                const VAPID_KEY = "BCjWQQeDjgsX_G01LB37TzhAeB9ctflVYFuf_0WcVa34QrZnkIbbk0JXnXQa5gTm1rnT8QiOqBkoNXS9mNNho9s";
+                const token = await requestForToken(VAPID_KEY);
+                if (token) {
+                    setFcmToken(token);
+                    console.log("FCM Token obtained:", token);
+                }
+            }
+        } catch (error) {
+            console.error('Error requesting notification permission:', error);
+        } finally {
+            setIsRequesting(false);
+        }
+    };
+
+
 
     // Close on escape key
     useEffect(() => {
@@ -89,6 +127,30 @@ const NotificationCenter = ({ isOpen, onClose, notifications, onMarkAsRead, onMa
 
                             {/* Notifications List */}
                             <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                                {/* Permission Request Banner */}
+                                {permission === 'default' && (
+                                    <div className="bg-blue-600/20 border border-blue-500/30 rounded-2xl p-4 mb-4 flex flex-col gap-3">
+                                        <div className="flex items-start gap-3">
+                                            <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center shrink-0">
+                                                <BellRing size={16} className="text-blue-400" />
+                                            </div>
+                                            <div>
+                                                <h4 className="text-sm font-bold text-white mb-1">Enable Notifications</h4>
+                                                <p className="text-xs text-white/60 leading-relaxed">
+                                                    Get instant updates about your appointments and test results.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <button
+                                            onClick={handleRequestPermission}
+                                            disabled={isRequesting}
+                                            className="w-full py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold uppercase tracking-wide rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                        >
+                                            {isRequesting ? 'Enabling...' : 'Turn On Notifications'}
+                                        </button>
+                                    </div>
+                                )}
+
                                 {notifications.length === 0 ? (
                                     <div className="flex flex-col items-center justify-center h-full text-center py-12">
                                         <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-4">
