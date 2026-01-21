@@ -133,13 +133,10 @@ const LoginPage = () => {
                             </p>
                         </div>
 
-                        <div className="relative my-8">
-                            <div className="absolute inset-0 flex items-center">
-                                <span className="w-full border-t border-white/10"></span>
-                            </div>
-                            <div className="relative flex justify-center text-xs uppercase">
-                                <span className="bg-[#1e1e2e] px-2 text-white/30 tracking-widest bg-opacity-50 blur-sm rounded-full">Or continue with</span>
-                            </div>
+                        <div className="relative my-8 flex items-center gap-4">
+                            <div className="h-px bg-white/10 flex-1" />
+                            <span className="text-xs uppercase tracking-widest text-white/40 font-medium">Or continue with</span>
+                            <div className="h-px bg-white/10 flex-1" />
                         </div>
 
                         <div className="grid grid-cols-2 gap-4">
