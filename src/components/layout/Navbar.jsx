@@ -26,66 +26,79 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
         <>
             <nav className="fixed top-0 left-0 right-0 z-[60] py-4 transition-all duration-500">
                 <div className="container mx-auto px-4 md:px-6 max-w-6xl transition-all duration-500 ease-in-out">
-                    <GlassSurface className="flex items-center justify-between rounded-full px-6 py-3" intensity="high">
+                    <div className="relative">
+                        {/* Ambient glow behind navbar */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-indigo-500/20 to-purple-500/20 rounded-full blur-xl opacity-50" />
 
-                        {/* Logo Section */}
-                        <div className="flex items-center gap-4">
-                            <Link to="/" className="flex items-center gap-2 group">
-                                <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center text-white font-serif font-bold text-xl shadow-lg group-hover:shadow-blue-500/30 transition-all duration-500">
-                                    D
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="font-serif text-xl tracking-tight text-white leading-none">DentalStudio</span>
-                                    <span className="text-[9px] uppercase tracking-[0.25em] font-sans font-bold text-white/40 leading-none mt-1 group-hover:text-blue-400 transition-colors">London</span>
-                                </div>
-                            </Link>
-                        </div>
+                        <GlassSurface
+                            className="relative flex items-center justify-between rounded-full px-6 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.4),0_0_80px_rgba(59,130,246,0.15)] hover:shadow-[0_12px_48px_rgba(0,0,0,0.5),0_0_100px_rgba(59,130,246,0.25)] transition-all duration-300"
+                            intensity="high"
+                        >
+                            {/* Glossy top highlight */}
+                            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent rounded-full" />
 
-                        {/* Desktop Nav Links */}
-                        <div className="hidden lg:flex items-center gap-10">
-                            {[
-                                { name: 'Home', path: '/', hash: '#hero' },
-                                { name: 'The Studio', path: '/studio', hash: '#about' },
-                                { name: 'Treatments', path: '/services', hash: '#services' },
-                            ].map((link) => (
-                                <a
-                                    key={link.name}
-                                    href={link.hash}
-                                    className="relative text-sm font-medium transition-colors py-2 text-white/70 hover:text-white"
-                                >
-                                    {link.name}
+                            {/* Shine gradient overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent rounded-full pointer-events-none" />
+
+                            {/* Logo Section */}
+                            <div className="flex items-center gap-4">
+                                <Link to="/" className="flex items-center gap-2 group">
+                                    <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center text-white font-serif font-bold text-xl shadow-lg group-hover:shadow-blue-500/30 transition-all duration-500">
+                                        D
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <span className="font-serif text-xl tracking-tight text-white leading-none">DentalStudio</span>
+                                        <span className="text-[9px] uppercase tracking-[0.25em] font-sans font-bold text-white/40 leading-none mt-1 group-hover:text-blue-400 transition-colors">London</span>
+                                    </div>
+                                </Link>
+                            </div>
+
+                            {/* Desktop Nav Links */}
+                            <div className="hidden lg:flex items-center gap-10">
+                                {[
+                                    { name: 'Home', path: '/', hash: '#hero' },
+                                    { name: 'The Studio', path: '/studio', hash: '#about' },
+                                    { name: 'Treatments', path: '/services', hash: '#services' },
+                                ].map((link) => (
+                                    <a
+                                        key={link.name}
+                                        href={link.hash}
+                                        className="relative text-sm font-medium transition-colors py-2 text-white/70 hover:text-white"
+                                    >
+                                        {link.name}
+                                    </a>
+                                ))}
+                            </div>
+
+                            {/* Action Area (UX Easy) */}
+                            <div className="flex items-center gap-4">
+                                {/* Phone Icon - Subtle but handy */}
+                                <a href="tel:+442071234567" aria-label="Call Us" className="hidden xl:flex items-center justify-center w-10 h-10 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors">
+                                    <Phone size={18} />
                                 </a>
-                            ))}
-                        </div>
 
-                        {/* Action Area (UX Easy) */}
-                        <div className="flex items-center gap-4">
-                            {/* Phone Icon - Subtle but handy */}
-                            <a href="tel:+442071234567" aria-label="Call Us" className="hidden xl:flex items-center justify-center w-10 h-10 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors">
-                                <Phone size={18} />
-                            </a>
+                                {/* Primary CTA - Visible & Clear */}
+                                <Link to="/book" className="hidden sm:flex items-center gap-2 text-white px-6 py-3 rounded-full text-xs uppercase tracking-widest font-bold btn-liquid hover:text-white transition-all active:scale-95">
+                                    <span>Book Visit</span>
+                                    <ArrowRight size={14} className="hover:translate-x-1 transition-transform" />
+                                </Link>
 
-                            {/* Primary CTA - Visible & Clear */}
-                            <Link to="/book" className="hidden sm:flex items-center gap-2 text-white px-6 py-3 rounded-full text-xs uppercase tracking-widest font-bold btn-liquid hover:text-white transition-all active:scale-95">
-                                <span>Book Visit</span>
-                                <ArrowRight size={14} className="hover:translate-x-1 transition-transform" />
-                            </Link>
+                                {/* Mobile Toggle */}
+                                <button
+                                    aria-label="Toggle Menu"
+                                    className="lg:hidden p-2 text-white bg-white/10 rounded-full hover:bg-white/20 transition-all"
+                                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                                >
+                                    <div className="space-y-1.5 w-6 h-6 flex flex-col justify-center items-center">
+                                        <span className={`h-0.5 bg-white rounded-full transition-all duration-300 ${isMenuOpen ? 'w-6 translate-y-2 rotate-45' : 'w-5'}`} />
+                                        <span className={`h-0.5 bg-white rounded-full transition-all duration-300 ${isMenuOpen ? 'opacity-0' : 'w-5'}`} />
+                                        <span className={`h-0.5 bg-white rounded-full transition-all duration-300 ${isMenuOpen ? 'w-6 -translate-y-2 -rotate-45' : 'w-5'}`} />
+                                    </div>
+                                </button>
+                            </div>
 
-                            {/* Mobile Toggle */}
-                            <button
-                                aria-label="Toggle Menu"
-                                className="lg:hidden p-2 text-white bg-white/10 rounded-full hover:bg-white/20 transition-all"
-                                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            >
-                                <div className="space-y-1.5 w-6 h-6 flex flex-col justify-center items-center">
-                                    <span className={`h-0.5 bg-white rounded-full transition-all duration-300 ${isMenuOpen ? 'w-6 translate-y-2 rotate-45' : 'w-5'}`} />
-                                    <span className={`h-0.5 bg-white rounded-full transition-all duration-300 ${isMenuOpen ? 'opacity-0' : 'w-5'}`} />
-                                    <span className={`h-0.5 bg-white rounded-full transition-all duration-300 ${isMenuOpen ? 'w-6 -translate-y-2 -rotate-45' : 'w-5'}`} />
-                                </div>
-                            </button>
-                        </div>
-
-                    </GlassSurface>
+                        </GlassSurface>
+                    </div>
                 </div>
             </nav>
 
