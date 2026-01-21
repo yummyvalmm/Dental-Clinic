@@ -6,6 +6,7 @@ import GlassSurface from '../components/ui/GlassSurface';
 
 const LoginPage = () => {
     const [method, setMethod] = useState('email'); // 'email' or 'phone'
+    const [isSignUp, setIsSignUp] = useState(false);
 
     return (
         <div className="min-h-[100dvh] w-full bg-bg-body relative flex flex-col items-center justify-center p-6 overflow-hidden">
@@ -29,8 +30,12 @@ const LoginPage = () => {
                     <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl mx-auto flex items-center justify-center text-3xl font-serif font-bold text-white shadow-xl shadow-blue-500/20 mb-6">
                         D
                     </div>
-                    <h1 className="text-3xl font-serif text-white mb-2">Welcome Back</h1>
-                    <p className="text-white/50">Login to manage your appointments</p>
+                    <h1 className="text-3xl font-serif text-white mb-2">
+                        {isSignUp ? 'Create Account' : 'Welcome Back'}
+                    </h1>
+                    <p className="text-white/50">
+                        {isSignUp ? 'Sign up to get started' : 'Login to manage your appointments'}
+                    </p>
                 </div>
 
                 {/* Glass Card */}
@@ -111,14 +116,21 @@ const LoginPage = () => {
                         </AnimatePresence>
 
                         <button className="w-full btn-liquid rounded-2xl py-4 text-white font-bold tracking-wide flex items-center justify-center gap-2 group mt-4">
-                            <span>Continue</span>
+                            <span>{isSignUp ? 'Sign Up' : 'Continue'}</span>
                             <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                         </button>
                     </div>
 
                     <div className="mt-8 text-center">
                         <p className="text-white/40 text-sm">
-                            Don't have an account? <Link to="/book" className="text-accent hover:text-white transition-colors">Book a visit</Link>
+                            {isSignUp ? 'Already have an account?' : "Don't have an account?"}
+                            {' '}
+                            <button
+                                onClick={() => setIsSignUp(!isSignUp)}
+                                className="text-accent hover:text-white transition-colors font-bold"
+                            >
+                                {isSignUp ? 'Login' : 'Sign up'}
+                            </button>
                         </p>
                     </div>
                 </GlassSurface>
