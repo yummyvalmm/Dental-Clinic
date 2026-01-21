@@ -55,11 +55,8 @@ const MagneticCursor = () => {
     }, []);
 
     // Initial check for non-hover supported devices
-    const [isTouch, setIsTouch] = useState(false);
-
-    useEffect(() => {
-        setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0 || window.matchMedia('(pointer: coarse)').matches);
-    }, []);
+    // Initial check for non-hover supported devices, initialized lazily to avoid effect update
+    const [isTouch] = useState(() => 'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.matchMedia('(pointer: coarse)').matches);
 
     if (isTouch) return null;
 

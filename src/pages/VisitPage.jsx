@@ -30,7 +30,7 @@ const VisitPage = () => {
                     {/* Header Image / Map Highlight (Desktop Only) or nice visual */}
                     <div className="hidden lg:block lg:w-1/2 relative min-h-[400px]">
                         <img
-                            src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                            src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80&fm=webp"
                             className="absolute inset-0 w-full h-full object-cover"
                             alt="London Studio"
                         />

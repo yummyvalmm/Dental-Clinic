@@ -5,7 +5,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 const InstallPrompt = () => {
     const [showPrompt, setShowPrompt] = useState(false);
     const [deferredPrompt, setDeferredPrompt] = useState(null);
-    const [isIOS, setIsIOS] = useState(false);
+
+    // Lazy initialization for iOS check to avoid setState in useEffect (performance)
+    const [isIOS] = useState(() => {
+        const checkIOS = () => /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+        return checkIOS() && !isStandalone;
+    });
 
     useEffect(() => {
         // Prevent default install prompt on Android
@@ -18,19 +24,10 @@ const InstallPrompt = () => {
             }
         };
 
-        // Detect iOS
-        const checkIOS = () => {
-            const userAgent = window.navigator.userAgent.toLowerCase();
-            return /iphone|ipad|ipod/.test(userAgent);
-        };
-
-        // Check standalone mode (is already installed?)
-        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-
-        if (checkIOS() && !isStandalone) {
-            setIsIOS(true);
+        if (isIOS) {
             // Show iOS prompt after a short delay to let site load
-            setTimeout(() => setShowPrompt(true), 3000);
+            const timer = setTimeout(() => setShowPrompt(true), 3000);
+            return () => clearTimeout(timer);
         }
 
         window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
@@ -38,7 +35,7 @@ const InstallPrompt = () => {
         return () => {
             window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
         };
-    }, []);
+    }, [isIOS]);
 
     const handleInstallClick = async () => {
         if (!isIOS && deferredPrompt) {
