@@ -43,26 +43,36 @@ const Services = () => {
                         >
                             <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-8 relative z-30">
                                 {/* ID & Category */}
-                                <div className="flex items-center gap-4 md:gap-8 w-full md:w-1/4">
+                                <div className="flex items-center gap-4 md:gap-8 w-full md:w-1/4 mb-4 md:mb-0">
                                     <span className="text-sm font-bold text-white/40 font-serif italic">#{service.id}</span>
-                                    <span className="text-xs uppercase tracking-[0.2em] font-bold text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-x-2 group-hover:translate-x-0">
+                                    <span className="text-xs uppercase tracking-[0.2em] font-bold text-blue-600 md:opacity-0 md:group-hover:opacity-100 transition-all duration-500 md:translate-x-2 md:group-hover:translate-x-0">
                                         {service.category}
                                     </span>
                                 </div>
 
-                                {/* Title */}
-                                <div className="flex-1 flex items-center gap-4">
-                                    <h3 className="text-3xl md:text-5xl lg:text-6xl font-serif text-white group-hover:translate-x-2 transition-transform duration-500 drop-shadow-md">
-                                        {service.title}
-                                    </h3>
-                                    <ArrowUpRight className="opacity-0 group-hover:opacity-100 transition-all duration-500 text-blue-600" size={32} />
-                                </div>
+                                {/* Title & Features */}
+                                <div className="flex-1 flex flex-col gap-6">
+                                    <div className="flex items-center gap-4">
+                                        <h3 className="text-3xl md:text-5xl lg:text-6xl font-serif text-white group-hover:translate-x-2 transition-transform duration-500 drop-shadow-md">
+                                            {service.title}
+                                        </h3>
+                                        <ArrowUpRight className="hidden md:block opacity-0 group-hover:opacity-100 transition-all duration-500 text-blue-600 shrink-0" size={32} />
+                                    </div>
 
-                                {/* Description - Visible on mobile, hover on desktop */}
-                                <div className="mt-4 md:mt-0 md:w-1/4 opacity-80 md:opacity-0 md:group-hover:opacity-100 md:translate-y-4 md:group-hover:translate-y-0 transition-all duration-500 delay-100 block">
-                                    <p className="text-sm text-white/90 leading-relaxed font-semibold drop-shadow-md">
-                                        {service.description}
-                                    </p>
+                                    {/* Mobile/Tablet: Show Features List clearly with spacing */}
+                                    <div className="flex flex-col gap-3 md:hidden pl-2">
+                                        {service.features.map((feature, i) => (
+                                            <div key={i} className="flex items-center gap-3 text-white/80">
+                                                <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
+                                                <span className="text-sm font-medium tracking-wide">{feature}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {/* Desktop: Hover Description (Keep existing behavior but refined) */}
+                                    <div className="hidden md:block mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                        <p className="text-sm text-white/60 max-w-md leading-relaxed">{service.description}</p>
+                                    </div>
                                 </div>
                             </div>
 

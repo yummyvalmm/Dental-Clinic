@@ -79,23 +79,36 @@ function App() {
         <ScrollToTop />
         <SmoothScroll>
           <MobileAppBar isMenuOpen={isMobileMenuOpen} />
-          <div className="min-h-screen bg-bg-body font-sans antialiased text-primary selection:bg-accent/20">
-            <Navbar isMenuOpen={isMobileMenuOpen} setIsMenuOpen={setIsMobileMenuOpen} />
-            <AppRoutes />
-            <InstallPrompt />
-            <ConditionalFooter />
-          </div>
-        </SmoothScroll>
-      </Router>
-    </HelmetProvider>
-  );
+          import InstallPrompt from './components/ui/InstallPrompt';
+          import BookingFAB from './components/ui/BookingFAB';
+
+          function App() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+
+          return (
+          <HelmetProvider>
+            <Router>
+              <ScrollToTop />
+              <SmoothScroll>
+                <MobileAppBar isMenuOpen={isMobileMenuOpen} />
+                <div className="min-h-screen bg-bg-body font-sans antialiased text-primary selection:bg-accent/20">
+                  <Navbar isMenuOpen={isMobileMenuOpen} setIsMenuOpen={setIsMobileMenuOpen} />
+                  <AppRoutes />
+                  <InstallPrompt />
+                  <BookingFAB />
+                  <ConditionalFooter />
+                </div>
+              </SmoothScroll>
+            </Router>
+          </HelmetProvider>
+          );
 }
 
 
 // Helper to handle Redirects
 const DesktopRedirector = () => {
-  const { pathname } = useLocation();
-  const navigate = useNavigate();
+  const {pathname} = useLocation();
+          const navigate = useNavigate();
 
   React.useEffect(() => {
     const checkRedirect = () => {
@@ -103,28 +116,28 @@ const DesktopRedirector = () => {
       if (window.innerWidth >= 1024) {
         // Routes that exist as "Sections" on Desktop Home Page
         const mobileContextRoutes = ['/visit', '/hotline', '/services', '/studio'];
-        if (mobileContextRoutes.includes(pathname)) {
-          navigate('/');
+          if (mobileContextRoutes.includes(pathname)) {
+            navigate('/');
         }
       }
     };
 
-    checkRedirect(); // Run on mount/path change
-    window.addEventListener('resize', checkRedirect);
+          checkRedirect(); // Run on mount/path change
+          window.addEventListener('resize', checkRedirect);
     return () => window.removeEventListener('resize', checkRedirect);
   }, [pathname, navigate]);
 
-  return null;
+          return null;
 };
 
 const ConditionalFooter = () => {
-  const { pathname } = useLocation();
-  // Hide footer on specific "App-like" pages where native no-scroll is desired
-  const hiddenRoutes = ['/visit', '/hotline', '/book', '/login'];
+  const {pathname} = useLocation();
+          // Hide footer on specific "App-like" pages where native no-scroll is desired
+          const hiddenRoutes = ['/visit', '/hotline', '/book', '/login'];
 
-  if (hiddenRoutes.includes(pathname)) return null;
+          if (hiddenRoutes.includes(pathname)) return null;
 
-  return <Footer />;
+          return <Footer />;
 };
 
-export default App;
+          export default App;
