@@ -87,6 +87,7 @@ const Services = () => {
                                             src={service.image}
                                             alt={service.title}
                                             className="w-full h-full object-cover"
+                                            loading="lazy"
                                         />
                                         <div className="absolute inset-0 bg-black/40 mix-blend-multiply" />
                                         <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-60" />

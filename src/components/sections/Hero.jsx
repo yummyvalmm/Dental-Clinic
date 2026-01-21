@@ -93,9 +93,9 @@ const Hero = () => {
                             className="relative w-full aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-2xl ring-1 ring-white/10"
                         >
                             <img
-                                srcSet="https://images.unsplash.com/photo-1629909613654-28e377c37b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80 800w, https://images.unsplash.com/photo-1629909613654-28e377c37b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=2068&q=80 2000w"
+                                srcSet="https://images.unsplash.com/photo-1629909613654-28e377c37b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80&fm=webp 800w, https://images.unsplash.com/photo-1629909613654-28e377c37b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=2068&q=80&fm=webp 2000w"
                                 sizes="(max-width: 768px) 100vw, 50vw"
-                                src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=2068&q=80"
+                                src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=2068&q=80&fm=webp"
                                 alt="Dr Johnson consulting with patient"
                                 className="w-full h-full object-cover"
                                 loading="eager"
@@ -108,7 +108,7 @@ const Hero = () => {
                             <div className="absolute bottom-6 left-6 right-6 p-5 rounded-3xl flex items-center justify-between glass-liquid backdrop-blur-md border border-white/20">
                                 <div className="flex items-center gap-4">
                                     <div className="relative">
-                                        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" className="w-10 h-10 rounded-full object-cover border border-white/50 shadow-sm" alt="Doctor" />
+                                        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80&fm=webp" className="w-10 h-10 rounded-full object-cover border border-white/50 shadow-sm" alt="Doctor" />
                                         <div className="absolute -bottom-1 -right-1 bg-green-500 w-3 h-3 rounded-full border border-white" />
                                     </div>
                                     <div className="text-left">
