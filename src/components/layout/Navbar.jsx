@@ -1,12 +1,36 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, ArrowRight, ChevronRight, Phone, User, Settings, Globe, Shield, LifeBuoy } from 'lucide-react';
+import { Menu, X, ArrowRight, ChevronRight, Phone, User, Settings, Globe, Shield, LifeBuoy, Bell } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import GlassSurface from '../ui/GlassSurface';
+import NotificationCenter from '../ui/NotificationCenter';
+import { mockNotifications } from '../../data/notifications';
 
 const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
     const [isScrolled, setIsScrolled] = useState(false);
+    const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+    const [notifications, setNotifications] = useState(mockNotifications);
     const location = useLocation();
+
+    const unreadCount = notifications.filter(n => !n.read).length;
+
+    const handleMarkAsRead = (id) => {
+        setNotifications(prev =>
+            prev.map(notif =>
+                notif.id === id ? { ...notif, read: true } : notif
+            )
+        );
+    };
+
+    const handleMarkAllAsRead = () => {
+        setNotifications(prev =>
+            prev.map(notif => ({ ...notif, read: true }))
+        );
+    };
+
+    const handleClearAll = () => {
+        setNotifications([]);
+    };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -76,6 +100,20 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                                 <a href="tel:+442071234567" aria-label="Call Us" className="hidden xl:flex items-center justify-center w-10 h-10 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors">
                                     <Phone size={18} />
                                 </a>
+
+                                {/* Notification Bell */}
+                                <button
+                                    onClick={() => setIsNotificationOpen(!isNotificationOpen)}
+                                    aria-label="Notifications"
+                                    className="relative hidden sm:flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                                >
+                                    <Bell size={18} />
+                                    {unreadCount > 0 && (
+                                        <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-[10px] font-bold text-white border-2 border-bg-body">
+                                            {unreadCount > 9 ? '9+' : unreadCount}
+                                        </span>
+                                    )}
+                                </button>
 
                                 {/* Primary CTA - Visible & Clear */}
                                 <Link to="/book" className="hidden sm:flex items-center gap-2 text-white px-6 py-3 rounded-full text-xs uppercase tracking-widest font-bold btn-liquid hover:text-white transition-all active:scale-95">
@@ -163,6 +201,16 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                     </motion.div>
                 )}
             </AnimatePresence>
+
+            {/* Notification Center */}
+            <NotificationCenter
+                isOpen={isNotificationOpen}
+                onClose={() => setIsNotificationOpen(false)}
+                notifications={notifications}
+                onMarkAsRead={handleMarkAsRead}
+                onMarkAllAsRead={handleMarkAllAsRead}
+                onClearAll={handleClearAll}
+            />
         </>
     );
 };

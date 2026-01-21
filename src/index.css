@@ -1,9 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: 'Manrope', system-ui, sans-serif;
   --font-serif: 'Playfair Display', serif;
+
+  /* PWA-Specific Professional Fonts */
+  --font-heading-pwa: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-body-pwa: 'DM Sans', system-ui, -apple-system, sans-serif;
 
   --color-primary: #111827;
   /* Premium Deep Navy */
@@ -79,6 +82,85 @@ body {
     -webkit-user-select: none;
     touch-action: manipulation;
     /* Disables double-tap zoom for instant response */
+
+    /* PWA Typography: Professional, trustworthy fonts */
+    font-family: var(--font-body-pwa);
+    font-weight: 500;
+    /* Medium weight for better readability */
+  }
+
+  /* PWA Typography System - Bold, Trustworthy, Professional */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading-pwa) !important;
+    font-weight: 700;
+    /* Bold by default for authority */
+    letter-spacing: -0.02em;
+    /* Tighter tracking for impact */
+  }
+
+  h1 {
+    font-weight: 800;
+    /* Extra bold for main headings */
+    letter-spacing: -0.03em;
+  }
+
+  h2 {
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+
+  h3,
+  h4 {
+    font-weight: 700;
+  }
+
+  h5,
+  h6 {
+    font-weight: 600;
+  }
+
+  /* Body text with improved readability */
+  p,
+  span,
+  div,
+  a,
+  button,
+  input,
+  textarea,
+  label {
+    font-family: var(--font-body-pwa);
+  }
+
+  /* Override serif font on mobile for consistency */
+  .font-serif {
+    font-family: var(--font-heading-pwa) !important;
+    font-weight: 700 !important;
+  }
+
+  /* Strengthen font weights across the board */
+  .font-medium {
+    font-weight: 600 !important;
+    /* Upgrade medium to semibold */
+  }
+
+  .font-semibold {
+    font-weight: 700 !important;
+    /* Upgrade semibold to bold */
+  }
+
+  .font-bold {
+    font-weight: 800 !important;
+    /* Upgrade bold to extrabold */
+  }
+
+  .font-extrabold {
+    font-weight: 900 !important;
+    /* Maximum weight for emphasis */
   }
 }
 

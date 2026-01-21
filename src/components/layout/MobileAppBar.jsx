@@ -52,23 +52,21 @@ const MobileAppBar = ({ isMenuOpen }) => {
                                 <motion.div
                                     whileTap={{ scale: 0.9 }}
                                     onTapStart={handleTap}
-                                    className="flex flex-col items-center"
+                                    className="relative flex items-center justify-center"
                                 >
-                                    <div className="relative">
-                                        {isActive && (
-                                            <motion.div
-                                                layoutId="activeTab"
-                                                className="absolute inset-0 bg-accent/80 rounded-full blur-[8px]"
-                                                transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                                            />
-                                        )}
-                                        <div className={`relative w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${isActive ? 'bg-accent text-white shadow-[0_0_20px_rgba(37,99,235,0.5)]' : 'text-white/40 hover:text-white hover:bg-white/5'}`}>
-                                            <item.icon size={18} />
-                                        </div>
+                                    {/* Glass pill background - elongated pill shape (length > width) */}
+                                    {isActive && (
+                                        <motion.div
+                                            layoutId="activeTab"
+                                            className="absolute -inset-x-5 -inset-y-3 bg-white/15 backdrop-blur-xl border border-white/20 rounded-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_4px_12px_rgba(0,0,0,0.3)]"
+                                            transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                                        />
+                                    )}
+
+                                    {/* Icon only - no text label */}
+                                    <div className={`relative w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${isActive ? 'text-white' : 'text-white/40 hover:text-white hover:bg-white/5'}`}>
+                                        <item.icon size={20} strokeWidth={2.5} />
                                     </div>
-                                    <span className={`text-[9px] font-bold uppercase tracking-wider transition-colors duration-300 ${isActive ? 'text-white' : 'text-white/40'}`}>
-                                        {item.label}
-                                    </span>
                                 </motion.div>
                             )}
                         </NavLink>
