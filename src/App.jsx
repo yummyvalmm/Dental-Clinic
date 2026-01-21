@@ -68,6 +68,8 @@ function AppRoutes() {
   );
 }
 
+import InstallPrompt from './components/ui/InstallPrompt';
+
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
@@ -80,6 +82,7 @@ function App() {
           <div className="min-h-screen bg-bg-body font-sans antialiased text-primary selection:bg-accent/20">
             <Navbar isMenuOpen={isMobileMenuOpen} setIsMenuOpen={setIsMobileMenuOpen} />
             <AppRoutes />
+            <InstallPrompt />
             <ConditionalFooter />
           </div>
         </SmoothScroll>
