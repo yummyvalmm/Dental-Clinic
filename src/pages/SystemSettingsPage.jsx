@@ -127,26 +127,26 @@ const SystemSettingsPage = () => {
                                 {section.items.map((item, itemIndex) => (
                                     <GlassSurface
                                         key={itemIndex}
-                                        className={`p-4 rounded-xl flex items-center justify-between group hover:bg-[var(--glass-bg-medium)] transition-colors ${item.type === 'action' ? 'cursor-pointer' : ''}`}
+                                        className={`p-4 rounded-xl ${item.type === 'action' ? 'cursor-pointer' : ''}`}
                                         intensity="low"
                                         onClick={item.onClick}
                                     >
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 rounded-full bg-[var(--glass-bg-low)] flex items-center justify-center text-[var(--color-text-muted)] group-hover:text-[var(--color-text-main)] transition-colors">
-                                                <item.icon size={20} />
+                                        <div className="flex items-center justify-between gap-3">
+                                            <div className="flex items-center gap-3 flex-1 min-w-0">
+                                                <div className="w-10 h-10 rounded-full bg-[var(--glass-bg-low)] flex items-center justify-center text-[var(--color-text-muted)] shrink-0">
+                                                    <item.icon size={18} />
+                                                </div>
+                                                <span className="text-[var(--color-text-main)] font-medium">{item.label}</span>
                                             </div>
-                                            <div>
-                                                <span className="text-[var(--color-text-main)] font-medium block">{item.label}</span>
-                                            </div>
-                                        </div>
 
-                                        <div className="flex items-center gap-3">
-                                            {item.value && (
-                                                <span className="text-[var(--color-text-muted)] text-sm">{item.value}</span>
-                                            )}
-                                            {(item.type === 'link' || item.type === 'select') && (
-                                                <ChevronRight size={18} className="text-[var(--color-text-muted)]/50" />
-                                            )}
+                                            <div className="flex items-center gap-2 shrink-0">
+                                                {item.value && (
+                                                    <span className="text-[var(--color-text-muted)] text-sm">{item.value}</span>
+                                                )}
+                                                {(item.type === 'link' || item.type === 'select') && (
+                                                    <ChevronRight size={18} className="text-[var(--color-text-muted)]/50" />
+                                                )}
+                                            </div>
                                         </div>
                                     </GlassSurface>
                                 ))}
