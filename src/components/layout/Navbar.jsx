@@ -67,12 +67,13 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                             {/* Logo Section */}
                             <div className="flex items-center gap-4">
                                 <Link to="/" className="flex items-center gap-2 group">
-                                    <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center text-white font-serif font-bold text-xl shadow-lg group-hover:shadow-blue-500/30 transition-all duration-500">
-                                        D
+                                    <div className="relative w-10 h-10 rounded-xl flex items-center justify-center text-white font-serif font-bold text-xl shadow-lg overflow-hidden group-hover:shadow-blue-500/30 transition-all duration-500">
+                                        <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-600"></div>
+                                        <span className="relative z-10">N</span>
                                     </div>
                                     <div className="flex flex-col">
-                                        <span className="font-serif text-xl tracking-tight text-white leading-none">DentalStudio</span>
-                                        <span className="text-[9px] uppercase tracking-[0.25em] font-sans font-bold text-white/40 leading-none mt-1 group-hover:text-blue-400 transition-colors">London</span>
+                                        <span className="font-serif text-xl tracking-tight text-white leading-none">Nova</span>
+                                        <span className="text-[9px] uppercase tracking-[0.25em] font-sans font-bold text-white/40 leading-none mt-1 group-hover:text-blue-400 transition-colors">Dental</span>
                                     </div>
                                 </Link>
                             </div>

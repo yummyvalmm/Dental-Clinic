@@ -5,7 +5,7 @@ const Footer = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-24 mb-24">
                     {/* Brand/Philosophy */}
                     <div className="lg:col-span-1 space-y-12">
-                        <h2 className="font-serif text-3xl tracking-tight">Dental Studio<span className="italic text-accent ml-0.5">.</span></h2>
+                        <h2 className="font-serif text-3xl tracking-tight">Nova<span className="italic text-accent ml-0.5">.</span></h2>
                         <p className="text-sm font-light leading-relaxed opacity-60 max-w-xs">
                             Redefining the boundaries of clinical excellence and aesthetic artistry. A multidisciplinary studio for the modern age.
                         </p>
@@ -32,7 +32,7 @@ const Footer = () => {
                         <span className="text-[10px] uppercase tracking-[0.5em] font-bold opacity-30 block">Concierge</span>
                         <ul className="space-y-4 text-sm font-light opacity-60">
                             <li><a href="tel:+442071234567" className="hover:opacity-100 transition-opacity">+44 (0) 20 7123 4567</a></li>
-                            <li><a href="mailto:studio@dentalstudiolondon.com" className="hover:opacity-100 transition-opacity">studio@dentalstudiolondon.com</a></li>
+                            <li><a href="mailto:studio@novadental.com" className="hover:opacity-100 transition-opacity">studio@novadental.com</a></li>
                             <li><a href="#" className="hover:opacity-100 transition-opacity">124 Baker St, London</a></li>
                         </ul>
                     </div>
@@ -77,7 +77,7 @@ const Footer = () => {
                     </div>
 
                     <div className="flex flex-col md:flex-row justify-between items-center w-full gap-8 opacity-30 mt-8">
-                        <p>© {new Date().getFullYear()} Dental Studio London — All Rights Reserved.</p>
+                        <p>© {new Date().getFullYear()} Nova Dental — All Rights Reserved.</p>
                         <div className="flex gap-12">
                             <a href="#" className="hover:text-white transition-colors">Privacy</a>
                             <a href="#" className="hover:text-white transition-colors">Terms</a>

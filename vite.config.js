@@ -18,9 +18,9 @@ export default defineConfig({
       filename: 'sw.js',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'pwa-192x192.png', 'pwa-512x512.png'],
       manifest: {
-        name: 'Dental Studio London',
-        short_name: 'DentalStudio',
-        description: 'Premium Dental Care Experience in London',
+        name: 'Nova Dental',
+        short_name: 'Nova',
+        description: 'Premium Dental Care Experience',
         theme_color: '#0F172A',
         background_color: '#0F172A',
         display: 'standalone',
