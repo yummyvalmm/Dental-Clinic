@@ -24,7 +24,7 @@ const MobileAppBar = ({ isMenuOpen }) => {
     ];
 
     return (
-        <div className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-8 right-8 md:left-1/2 md:-translate-x-1/2 md:w-full md:max-w-md z-50 lg:hidden pointer-events-none">
+        <div className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-full md:max-w-md z-50 lg:hidden pointer-events-none">
             <div className="relative">
                 {/* Ambient glow behind menu bar */}
                 <div className="absolute inset-0 bg-gradient-to-t from-blue-500/30 via-indigo-500/20 to-purple-500/10 rounded-full blur-2xl opacity-60" />
