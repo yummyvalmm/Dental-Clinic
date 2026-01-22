@@ -22,6 +22,7 @@ import ScrollToTop from './components/layout/ScrollToTop';
 import LoadingSpinner from './components/ui/LoadingSpinner';
 import InstallPrompt from './components/ui/InstallPrompt';
 import OfflineStatus from './components/ui/OfflineStatus';
+import BackgroundGradient from './components/ui/BackgroundGradient';
 import { Toaster } from 'sonner';
 
 // Pages - Direct Imports for Performance
@@ -118,6 +119,7 @@ function App() {
               <Router>
                 <Toaster richColors closeButton />
                 <ScrollToTop />
+                <BackgroundGradient />
                 <SmoothScroll>
                   <ConditionalMobileAppBar isMenuOpen={isMobileMenuOpen} />
                   <div className="min-h-screen bg-bg-body font-sans antialiased text-primary selection:bg-accent/20">

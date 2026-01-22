@@ -36,26 +36,21 @@
   --color-primary: #F1F5F9;
   /* Slate-100 */
 
-  /* Light Mode "Liquid Glass" Tokens (Apple-Style) */
-  --glass-bg-low: rgba(255, 255, 255, 0.4);
-  /* High transparency for layering */
-  --glass-bg-medium: rgba(255, 255, 255, 0.6);
-  --glass-bg-high: rgba(255, 255, 255, 0.75);
+  /* Glassmorphism - Proper Implementation */
+  --glass-bg-low: rgba(255, 255, 255, 0.08);
+  --glass-bg-medium: rgba(255, 255, 255, 0.1);
+  --glass-bg-high: rgba(255, 255, 255, 0.15);
 
-  --glass-border: rgba(255, 255, 255, 0.6);
-  /* Stronger reflective border */
-  --glass-border-hover: rgba(255, 255, 255, 0.8);
+  /* Tint layer for legibility */
+  --glass-tint: rgba(255, 255, 255, 0.1);
 
-  /* Soft, colored shadow spread for depth without harshness */
-  --glass-shadow:
-    0 4px 6px -1px rgba(0, 0, 0, 0.02),
-    0 12px 32px -4px rgba(0, 0, 0, 0.04),
-    inset 0 0 20px 0 rgba(255, 255, 255, 0.5);
-  /* Inner volume glow */
+  /* Borders */
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-border-hover: rgba(255, 255, 255, 0.3);
 
-  --glass-shadow-hover:
-    0 20px 40px -4px rgba(0, 0, 0, 0.08),
-    inset 0 0 30px 0 rgba(255, 255, 255, 0.6);
+  /* Shadows */
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --glass-shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.15);
 
   /* Clarity & Deference - Subtle Surface Tokens */
   --surface-bg: rgba(0, 0, 0, 0.02);
@@ -96,19 +91,21 @@
   /* Apple gray for muted text */
   --color-primary: #000000;
 
-  /* Dark Mode Liquid Glass Tokens - Enhanced for black background */
-  --glass-bg-low: rgba(255, 255, 255, 0.05);
-  --glass-bg-medium: rgba(255, 255, 255, 0.10);
-  --glass-bg-high: rgba(255, 255, 255, 0.15);
+  /* Glassmorphism - Dark Mode */
+  --glass-bg-low: rgba(0, 0, 0, 0.2);
+  --glass-bg-medium: rgba(0, 0, 0, 0.3);
+  --glass-bg-high: rgba(0, 0, 0, 0.4);
 
-  --glass-border: rgba(255, 255, 255, 0.12);
-  /* Stronger border for black background */
-  --glass-border-hover: rgba(255, 255, 255, 0.25);
+  /* Tint layer for legibility */
+  --glass-tint: rgba(0, 0, 0, 0.2);
 
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-  /* Deeper shadows on black */
-  --glass-shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.1);
-  /* Subtle glow on hover */
+  /* Borders */
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-border-hover: rgba(255, 255, 255, 0.15);
+
+  /* Shadows */
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --glass-shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.5);
 
   /* Clarity & Deference - Subtle Surface Tokens (Dark Mode) */
   --surface-bg: rgba(255, 255, 255, 0.03);
@@ -529,6 +526,44 @@ textarea {
     inset 0 1px 0 0 rgba(255, 255, 255, 0.6),
     0 4px 8px rgba(37, 99, 235, 0.1);
   transition-duration: 0.2s;
+}
+
+/* Hardware Acceleration for Glass Components */
+.translate-z-0 {
+  transform: translateZ(0);
+}
+
+.will-change-transform {
+  will-change: transform;
+}
+
+/* Reduced Motion Support - Mobile UI Standards 2026 */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  /* Disable heavy blur effects for performance */
+  .backdrop-blur-\[10px\],
+  .backdrop-blur-\[20px\],
+  .backdrop-blur-\[30px\] {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+/* Active State Standards - 0.95 scale on press */
+.active\:scale-95:active {
+  transform: scale(0.95);
+}
+
+.active\:scale-\[0\.95\]:active {
+  transform: scale(0.95);
 }
 
 

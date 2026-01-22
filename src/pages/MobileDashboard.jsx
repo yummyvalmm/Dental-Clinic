@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Calendar, Clock, Phone, FileText } from 'lucide-react';
+import { Calendar, Clock, Phone, FileText, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import GlassSurface from '../components/ui/GlassSurface';
 
@@ -32,7 +32,7 @@ const MobileDashboard = () => {
     ];
 
     return (
-        <div className="w-full min-h-[100dvh] bg-bg-body relative overflow-hidden flex flex-col pt-24 pb-32 overscroll-none">
+        <div className="w-full min-h-[100dvh] bg-bg-body relative overflow-hidden flex flex-col pt-24 pb-[100px] overscroll-none">
 
             <div className="container mx-auto px-6 relative z-10 flex-1 flex flex-col justify-center max-w-md">
 
@@ -56,7 +56,7 @@ const MobileDashboard = () => {
                 </div>
 
                 {/* Quick Actions */}
-                <div className="space-y-6">
+                <div className="space-y-3">
                     {quickActions.map((action, index) => (
                         <motion.div
                             key={index}
@@ -66,15 +66,13 @@ const MobileDashboard = () => {
                         >
                             <Link to={action.path}>
                                 <GlassSurface
-                                    variant="card"
-                                    blur="lg"
-                                    shadow="medium"
-                                    hoverEffect={true}
-                                    className="group"
+                                    blur="medium"
+                                    tint={true}
+                                    className="p-4"
                                 >
-                                    <div className="flex items-center gap-4">
-                                        <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${action.color} flex items-center justify-center shadow-lg shrink-0`}>
-                                            <action.icon className="text-white" size={24} strokeWidth={2} />
+                                    <div className="flex items-center gap-3">
+                                        <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${action.color} flex items-center justify-center shadow-lg shrink-0`}>
+                                            <action.icon className="text-white" size={20} strokeWidth={2} />
                                         </div>
                                         <div className="flex-1">
                                             <h3 className="text-lg font-bold text-[var(--color-text-main)] mb-1 group-hover:translate-x-1 transition-transform">
@@ -84,9 +82,7 @@ const MobileDashboard = () => {
                                                 {action.description}
                                             </p>
                                         </div>
-                                        <div className="w-8 h-8 rounded-full bg-[var(--glass-bg-low)] flex items-center justify-center group-hover:bg-[var(--glass-bg-medium)] transition-colors">
-                                            <span className="text-[var(--color-text-muted)] group-hover:text-[var(--color-text-main)] group-hover:translate-x-0.5 transition-all">→</span>
-                                        </div>
+                                        <ChevronRight size={20} className="text-[var(--color-text-muted)] shrink-0" />
                                     </div>
                                 </GlassSurface>
                             </Link>

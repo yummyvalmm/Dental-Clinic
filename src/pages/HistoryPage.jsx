@@ -100,7 +100,7 @@ const HistoryPage = () => {
     }
 
     return (
-        <div className="w-full min-h-[100dvh] bg-bg-body relative overflow-hidden flex flex-col pt-24 pb-32 overscroll-none">
+        <div className="w-full min-h-[100dvh] bg-bg-body relative overflow-hidden flex flex-col pt-24 pb-[100px] overscroll-none">
             <div className="container mx-auto px-6 relative z-10 flex-1 max-w-md w-full self-center">
 
                 {/* Header */}
@@ -151,14 +151,14 @@ const HistoryPage = () => {
                                 </GlassSurface>
                             </motion.div>
                         ) : filteredAppointments.length > 0 ? (
-                            <div className="space-y-6 relative z-10">
+                            <div className="space-y-3 relative z-10">
                                 {filteredAppointments.map((apt, index) => (
                                     <motion.div
                                         key={apt.id}
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: index * 0.1 }}
-                                        className="relative pl-12"
+                                        className="relative pl-10"
                                     >
                                         {/* Timeline Dot */}
                                         <div className="absolute left-0 top-6 w-10 h-10 rounded-full bg-bg-body border-4 border-bg-body flex items-center justify-center z-20">
@@ -174,7 +174,7 @@ const HistoryPage = () => {
                                             className={`overflow-hidden ${expandedId === apt.id ? 'bg-[var(--glass-bg-high)]' : ''}`}
                                             onClick={() => setExpandedId(expandedId === apt.id ? null : apt.id)}
                                         >
-                                            <div className="p-5">
+                                            <div className="p-4">
                                                 <div className="flex justify-between items-start mb-2">
                                                     <div>
                                                         <h3 className="text-[var(--color-text-main)] font-bold text-lg leading-tight">{apt.treatment}</h3>
