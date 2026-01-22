@@ -127,7 +127,7 @@ const SystemSettingsPage = () => {
                                 {section.items.map((item, itemIndex) => (
                                     <GlassSurface
                                         key={itemIndex}
-                                        className={`p-4 rounded-xl ${item.type === 'action' ? 'cursor-pointer' : ''}`}
+                                        className={`p-4 rounded-[2rem] ${item.type === 'action' ? 'cursor-pointer' : ''}`}
                                         intensity="low"
                                         onClick={item.onClick}
                                     >

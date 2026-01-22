@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { requestForToken, onMessageListener } from '../firebase';
+import { requestForToken, onMessageListener } from '../lib/firebase';
 import { toast } from 'sonner';
 
 /**
@@ -28,13 +28,12 @@ export const usePushNotifications = () => {
     // 2. Listen for Foreground Messages
     useEffect(() => {
         const unsubscribe = onMessageListener().then((payload) => {
-            console.log('Foreground push notification received:', payload);
             toast.info(payload.notification.title || 'New Notification', {
                 description: payload.notification.body,
                 duration: 5000,
                 position: 'top-center' // Or 'bottom-center' for mobile friendliness
             });
-        }).catch((err) => console.log('failed: ', err));
+        }).catch((err) => { });
 
         // Note: The current onMessageListener implementation returns a Promise, 
         // effectively a one-time listener. ideally it should return an unsubscribe 
@@ -48,9 +47,6 @@ export const usePushNotifications = () => {
             const token = await requestForToken(VAPID_KEY);
             if (token) {
                 setFcmToken(token);
-                // Pretty log for devs
-                console.log("%c FCM Token:", "color: #00ff00; font-weight: bold; font-size: 14px;", token);
-                console.log("%c (Copy the token string above)", "color: #888;");
             }
         } catch (error) {
             console.error("Error fetching token:", error);

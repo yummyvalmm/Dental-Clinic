@@ -78,7 +78,7 @@ const ProfilePage = () => {
                                 <p className="text-[var(--color-text-muted)] text-sm mb-6 max-w-[200px]">Sign in to manage your appointments and more</p>
 
                                 <div className="w-full">
-                                    <Link to="/login" className="block w-full btn-liquid py-3 rounded-xl text-white font-bold text-sm text-center">
+                                    <Link to="/login" className="block w-full btn-liquid py-3 rounded-xl text-[var(--color-text-main)] font-bold text-sm text-center">
                                         Login
                                     </Link>
                                 </div>
@@ -98,7 +98,7 @@ const ProfilePage = () => {
                         <h3 className="text-xs uppercase tracking-widest text-[var(--color-text-muted)] pl-4 font-bold">Account</h3>
                         {menuItems.map((item, index) => (
                             <Link to={item.path} key={index} className="block">
-                                <GlassSurface className="p-4" intensity="low">
+                                <GlassSurface className="p-4 rounded-[2rem]" intensity="low">
                                     <div className="flex items-center justify-between gap-3">
                                         <div className="flex items-center gap-3 flex-1 min-w-0">
                                             <div className="w-10 h-10 rounded-full bg-[var(--glass-bg-low)] flex items-center justify-center text-[var(--color-text-muted)] group-hover:text-[var(--color-text-main)] transition-colors shrink-0">
@@ -125,7 +125,7 @@ const ProfilePage = () => {
                     <h3 className="text-xs uppercase tracking-widest text-[var(--color-text-muted)] pl-4 font-bold">Resources</h3>
                     {resources.map((item, index) => (
                         <Link to={item.path} key={index} className="block">
-                            <GlassSurface className="p-4" intensity="low">
+                            <GlassSurface className="p-4 rounded-[2rem]" intensity="low">
                                 <div className="flex items-center justify-between gap-3">
                                     <div className="flex items-center gap-3 flex-1 min-w-0">
                                         <div className="w-10 h-10 rounded-full bg-[var(--glass-bg-low)] flex items-center justify-center text-[var(--color-text-muted)] group-hover:text-[var(--color-text-main)] transition-colors shrink-0">

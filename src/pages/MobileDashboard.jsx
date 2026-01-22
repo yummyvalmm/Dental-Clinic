@@ -68,7 +68,7 @@ const MobileDashboard = () => {
                                 <GlassSurface
                                     blur="medium"
                                     tint={true}
-                                    className="p-4"
+                                    className="p-4 rounded-[2rem]"
                                 >
                                     <div className="flex items-center gap-3">
                                         <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${action.color} flex items-center justify-center shadow-lg shrink-0`}>
@@ -101,7 +101,7 @@ const MobileDashboard = () => {
                         variant="panel"
                         blur="md"
                         shadow="low"
-                        className="p-5"
+                        className="p-5 rounded-[2rem]"
                     >
                         <div className="flex items-center gap-3 mb-3">
                             <Clock className="text-accent" size={18} />

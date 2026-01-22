@@ -6,6 +6,8 @@ import SkeletonLoader from '../components/ui/LoadingSpinner'; // Refactored to S
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
+import { appointmentService } from '../services/appointmentService';
+
 const HistoryPage = () => {
     const { user, isLoggedIn } = useAuth();
     const navigate = useNavigate();
@@ -19,7 +21,7 @@ const HistoryPage = () => {
 
     const filters = ['All', 'Checkup', 'Cleaning', 'Surgery', 'Whitening'];
 
-    // Simulate secure data fetching
+    // Secure data fetching via Service
     useEffect(() => {
         if (!isLoggedIn) {
             setIsLoading(false);
@@ -30,43 +32,13 @@ const HistoryPage = () => {
             setIsLoading(true);
             setError(null);
             try {
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                const mockData = [
-                    {
-                        id: 1,
-                        date: "Jan 15, 2026",
-                        time: "10:00 AM",
-                        treatment: "General Checkup",
-                        type: "Checkup",
-                        dentist: "Dr. Sarah Johnson",
-                        status: "completed",
-                        notes: "Teeth are healthy. Recommended daily flossing.",
-                        prescription: "Fluoride rinse"
-                    },
-                    {
-                        id: 2,
-                        date: "Dec 10, 2025",
-                        time: "2:30 PM",
-                        treatment: "Deep Cleaning",
-                        type: "Cleaning",
-                        dentist: "Dr. Sarah Johnson",
-                        status: "completed",
-                        notes: "Plaque removal successful. Minor gum sensitivity.",
-                        prescription: "Sensitivity toothpaste"
-                    },
-                    {
-                        id: 3,
-                        date: "Nov 05, 2025",
-                        time: "11:00 AM",
-                        treatment: "Whitening Session",
-                        type: "Whitening",
-                        dentist: "Dr. Michael Chen",
-                        status: "completed",
-                        notes: "Shade improved by 2 levels.",
-                        prescription: "None"
-                    }
-                ];
-                setAppointments(mockData);
+                // Fetch filtered data directly from service
+                // Note: In real app, we might fetch all and filter locally, or filter API side.
+                // Here we fetch all then filter locally for UI reactivity, or assume service handles it.
+                // Let's rely on service filtering for cleaner component code, or just fetch all.
+                // Based on service impl, it accepts filter.
+                const data = await appointmentService.getHistory(user.uid, 'All');
+                setAppointments(data);
             } catch (err) {
                 console.error("Error fetching history:", err);
                 setError("Unable to load treatment history.");
@@ -76,7 +48,7 @@ const HistoryPage = () => {
         };
 
         fetchHistory();
-    }, [isLoggedIn, navigate]);
+    }, [isLoggedIn, navigate, user]);
 
     const filteredAppointments = filter === 'All'
         ? appointments
@@ -171,7 +143,7 @@ const HistoryPage = () => {
                                             variant="card"
                                             blur="lg"
                                             hoverEffect={true}
-                                            className={`overflow-hidden ${expandedId === apt.id ? 'bg-[var(--glass-bg-high)]' : ''}`}
+                                            className={`overflow-hidden rounded-[2rem] ${expandedId === apt.id ? 'bg-[var(--glass-bg-high)]' : ''}`}
                                             onClick={() => setExpandedId(expandedId === apt.id ? null : apt.id)}
                                         >
                                             <div className="p-4">

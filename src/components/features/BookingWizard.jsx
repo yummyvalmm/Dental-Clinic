@@ -109,7 +109,7 @@ const BookingWizard = () => {
                                         }}
                                         variant="card"
                                         blur="md"
-                                        className={`p-4 text-left transition-all duration-300 group relative overflow-hidden active:scale-[0.98] cursor-pointer
+                                        className={`p-4 rounded-[2rem] text-left transition-all duration-300 group relative overflow-hidden active:scale-[0.98] cursor-pointer
                                             ${formData.service === service.id
                                                 ? 'bg-accent/10 border-accent/50 ring-1 ring-accent/50'
                                                 : ''}`}
@@ -140,8 +140,8 @@ const BookingWizard = () => {
                             className="space-y-8"
                         >
                             <div>
-                                <h2 className="text-3xl font-serif text-white mb-2">When?</h2>
-                                <p className="text-white/40 text-sm">Pick a convenient time slot.</p>
+                                <h2 className="text-3xl font-serif text-[var(--color-text-main)] mb-2">When?</h2>
+                                <p className="text-[var(--color-text-muted)] text-sm">Pick a convenient time slot.</p>
                             </div>
 
                             <div className="space-y-6">
@@ -154,7 +154,7 @@ const BookingWizard = () => {
 
                                     <div className="grid grid-cols-7 gap-2">
                                         {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(d => (
-                                            <div key={d} className="text-center text-[10px] font-bold text-white/20 uppercase mb-2">{d}</div>
+                                            <div key={d} className="text-center text-[10px] font-bold text-[var(--color-text-muted)]/60 uppercase mb-2">{d}</div>
                                         ))}
                                         {Array.from({ length: 28 }).map((_, i) => (
                                             <button
@@ -174,7 +174,7 @@ const BookingWizard = () => {
                                 {/* Time Slots Selection */}
                                 <div className="space-y-3">
                                     <div className="flex justify-between items-end">
-                                        <span className="text-xs text-white/40 uppercase font-bold tracking-wider px-2">Available Slots</span>
+                                        <span className="text-xs text-[var(--color-text-muted)] uppercase font-bold tracking-wider px-2">Available Slots</span>
                                     </div>
                                     <div className="grid grid-cols-3 gap-3">
                                         {timeSlots.map(time => (
@@ -213,18 +213,18 @@ const BookingWizard = () => {
                             </div>
 
                             <GlassSurface className="p-6 mb-6" intensity="low">
-                                <div className="flex items-start gap-4 mb-4 pb-4 border-b border-white/10">
+                                <div className="flex items-start gap-4 mb-4 pb-4 border-b border-[var(--color-text-muted)]/10">
                                     <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center text-accent">
                                         <Calendar size={24} />
                                     </div>
                                     <div>
-                                        <h4 className="text-white font-bold">{formData.service || 'Treatment'}</h4>
-                                        <p className="text-white/60 text-sm">Feb {formData.date}, {formData.time}</p>
+                                        <h4 className="text-[var(--color-text-main)] font-bold">{formData.service || 'Treatment'}</h4>
+                                        <p className="text-[var(--color-text-muted)] text-sm">Feb {formData.date}, {formData.time}</p>
                                     </div>
                                 </div>
                                 <div className="space-y-4">
                                     <div className="relative group">
-                                        <User className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" size={18} />
+                                        <User className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--color-text-muted)]/50" size={18} />
                                         <input
                                             type="text"
                                             placeholder="Full Name"
@@ -232,7 +232,7 @@ const BookingWizard = () => {
                                         />
                                     </div>
                                     <div className="relative group">
-                                        <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" size={18} />
+                                        <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--color-text-muted)]/50" size={18} />
                                         <input
                                             type="tel"
                                             placeholder="Phone Number"
@@ -255,13 +255,13 @@ const BookingWizard = () => {
                             <div className="w-32 h-32 rounded-full bg-accent/10 flex items-center justify-center mb-8 shadow-[0_0_60px_rgba(37,99,235,0.3)] border border-accent/20">
                                 <Check size={64} className="text-accent" />
                             </div>
-                            <h2 className="text-4xl font-serif text-white mb-4">Confirmed!</h2>
-                            <p className="text-white/60 mb-8 max-w-xs mx-auto">
+                            <h2 className="text-4xl font-serif text-[var(--color-text-main)] mb-4">Confirmed!</h2>
+                            <p className="text-[var(--color-text-muted)] mb-8 max-w-xs mx-auto">
                                 See you in February. A confirmation has been sent to your phone.
                             </p>
                             <button
                                 onClick={() => window.location.href = '/'}
-                                className="w-full py-4 rounded-2xl bg-white/10 text-white font-bold uppercase tracking-widest text-sm hover:bg-white hover:text-bg-body transition-colors"
+                                className="w-full py-4 rounded-2xl bg-accent text-white font-bold uppercase tracking-widest text-sm hover:scale-[1.02] transition-transform"
                             >
                                 Back to Home
                             </button>
@@ -277,7 +277,7 @@ const BookingWizard = () => {
                         {step > 1 && (
                             <button
                                 onClick={handleBack}
-                                className="w-14 h-14 rounded-full bg-white/5 flex items-center justify-center text-white/60 hover:bg-white/10 hover:text-white transition-colors shrink-0"
+                                className="w-14 h-14 rounded-full bg-[var(--glass-bg-low)] flex items-center justify-center text-[var(--color-text-muted)] hover:bg-[var(--glass-bg-medium)] hover:text-[var(--color-text-main)] transition-colors shrink-0"
                             >
                                 <ChevronLeft size={24} />
                             </button>
@@ -287,7 +287,7 @@ const BookingWizard = () => {
                             disabled={step === 2 && (!formData.date || !formData.time)}
                             className={`flex-1 h-14 rounded-full font-bold uppercase tracking-widest text-sm flex items-center justify-center gap-2 transition-all shadow-glow
                                 ${step === 2 && (!formData.date || !formData.time)
-                                    ? 'bg-white/10 text-white/20 cursor-not-allowed'
+                                    ? 'bg-[var(--glass-bg-low)] text-[var(--color-text-muted)]/50 cursor-not-allowed border border-[var(--glass-border)]'
                                     : 'bg-accent text-white hover:scale-[1.02] active:scale-[0.98] cursor-pointer'}`}
                         >
                             {step === 3 ? 'Confirm Booking' : 'Continue'}

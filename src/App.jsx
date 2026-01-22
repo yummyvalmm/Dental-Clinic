@@ -25,18 +25,22 @@ import OfflineStatus from './components/ui/OfflineStatus';
 import BackgroundGradient from './components/ui/BackgroundGradient';
 import { Toaster } from 'sonner';
 
-// Pages - Direct Imports for Performance
+// Auth Guards
+import ProtectedRoute from './components/auth/ProtectedRoute';
+import PublicRoute from './components/auth/PublicRoute';
+
+// Pages - Direct Imports for Performance (Core Landing Pages)
 import HomePage from './pages/HomePage';
 import MobileDashboard from './pages/MobileDashboard';
-import ServicesPage from './pages/ServicesPage';
-import StudioPage from './pages/StudioPage';
-import BookingPage from './pages/BookingPage';
-import HistoryPage from './pages/HistoryPage';
-import HotlinePage from './pages/HotlinePage';
-import ProfilePage from './pages/ProfilePage';
-import SystemSettingsPage from './pages/SystemSettingsPage';
 
 // Lazy Load Non-Critical Pages
+const ServicesPage = React.lazy(() => import('./pages/ServicesPage'));
+const StudioPage = React.lazy(() => import('./pages/StudioPage'));
+const BookingPage = React.lazy(() => import('./pages/BookingPage'));
+const HistoryPage = React.lazy(() => import('./pages/HistoryPage'));
+const HotlinePage = React.lazy(() => import('./pages/HotlinePage'));
+const ProfilePage = React.lazy(() => import('./pages/ProfilePage'));
+const SystemSettingsPage = React.lazy(() => import('./pages/SystemSettingsPage'));
 const LoginPage = React.lazy(() => import('./pages/LoginPage'));
 
 function AppRoutes() {
@@ -55,30 +59,65 @@ function AppRoutes() {
         } />
 
         {/* Utility Routes (Mobile + Desktop) */}
-        <Route path="/book" element={<PageTransition><BookingPage /></PageTransition>} />
-        <Route path="/history" element={<PageTransition><HistoryPage /></PageTransition>} />
-        <Route path="/profile" element={<PageTransition><ProfilePage /></PageTransition>} />
-        <Route path="/hotline" element={<PageTransition><HotlinePage /></PageTransition>} />
-        <Route path="/login" element={
+        <Route path="/book" element={
           <React.Suspense fallback={<LoadingSpinner />}>
-            <PageTransition><LoginPage /></PageTransition>
+            <PageTransition><BookingPage /></PageTransition>
           </React.Suspense>
+        } />
+
+        {/* Protected Routes */}
+        <Route path="/history" element={
+          <ProtectedRoute>
+            <React.Suspense fallback={<LoadingSpinner />}>
+              <PageTransition><HistoryPage /></PageTransition>
+            </React.Suspense>
+          </ProtectedRoute>
+        } />
+        <Route path="/profile" element={
+          <React.Suspense fallback={<LoadingSpinner />}>
+            <PageTransition><ProfilePage /></PageTransition>
+          </React.Suspense>
+        } />
+
+        <Route path="/hotline" element={
+          <React.Suspense fallback={<LoadingSpinner />}>
+            <PageTransition><HotlinePage /></PageTransition>
+          </React.Suspense>
+        } />
+
+        {/* Public Route (Login) */}
+        <Route path="/login" element={
+          <PublicRoute>
+            <React.Suspense fallback={<LoadingSpinner />}>
+              <PageTransition><LoginPage /></PageTransition>
+            </React.Suspense>
+          </PublicRoute>
         } />
 
         {/* Desktop-Only Routes */}
         <Route path="/services" element={
-          <PageTransition>
-            {isMobileView ? <MobileDashboard /> : <ServicesPage />}
-          </PageTransition>
+          <React.Suspense fallback={<LoadingSpinner />}>
+            <PageTransition>
+              {isMobileView ? <MobileDashboard /> : <ServicesPage />}
+            </PageTransition>
+          </React.Suspense>
         } />
         <Route path="/studio" element={
-          <PageTransition>
-            {isMobileView ? <MobileDashboard /> : <StudioPage />}
-          </PageTransition>
+          <React.Suspense fallback={<LoadingSpinner />}>
+            <PageTransition>
+              {isMobileView ? <MobileDashboard /> : <StudioPage />}
+            </PageTransition>
+          </React.Suspense>
         } />
 
         {/* Settings Route */}
-        <Route path="/settings" element={<PageTransition><SystemSettingsPage /></PageTransition>} />
+        <Route path="/settings" element={
+          <ProtectedRoute>
+            <React.Suspense fallback={<LoadingSpinner />}>
+              <PageTransition><SystemSettingsPage /></PageTransition>
+            </React.Suspense>
+          </ProtectedRoute>
+        } />
       </Routes>
     </div>
   );

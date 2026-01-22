@@ -1,12 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import {
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    signInWithPopup,
-    signOut,
-    onAuthStateChanged
-} from 'firebase/auth';
-import { auth, googleProvider } from '../firebase';
+import { authService } from '../services/authService';
 
 const AuthContext = createContext(null);
 
@@ -16,29 +9,18 @@ export const AuthProvider = ({ children }) => {
 
     // Listen for auth state changes
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+        const unsubscribe = authService.onAuthStateChanged((currentUser) => {
             setUser(currentUser);
             setLoading(false);
         });
         return () => unsubscribe();
     }, []);
 
-    // Auth Actions
-    const signup = (email, password) => {
-        return createUserWithEmailAndPassword(auth, email, password);
-    };
-
-    const login = (email, password) => {
-        return signInWithEmailAndPassword(auth, email, password);
-    };
-
-    const loginWithGoogle = () => {
-        return signInWithPopup(auth, googleProvider);
-    };
-
-    const logout = () => {
-        return signOut(auth);
-    };
+    // Auth Actions - Delegated to Service
+    const signup = (email, password) => authService.signup(email, password);
+    const login = (email, password) => authService.login(email, password);
+    const loginWithGoogle = () => authService.loginWithGoogle();
+    const logout = () => authService.logout();
 
     return (
         <AuthContext.Provider value={{ user, isLoggedIn: !!user && !loading, loading, signup, login, loginWithGoogle, logout }}>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, Phone, Mail, ArrowRight, ArrowLeft, Lock, Eye, EyeOff, AlertCircle } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import GlassSurface from '../components/ui/GlassSurface';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'sonner';
@@ -18,10 +18,25 @@ const LoginPage = () => {
 
     const { login, signup, loginWithGoogle } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
+
+    // Get the page they were trying to visit, or default to home
+    const from = location.state?.from?.pathname || "/";
+
+    const validateEmail = (email) => {
+        const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return re.test(String(email).toLowerCase());
+    };
 
     const handleAuth = async (e) => {
         e.preventDefault();
         setError('');
+
+        if (!validateEmail(email)) {
+            setError('Please enter a valid email address.');
+            return;
+        }
+
         setLoading(true);
 
         try {
@@ -32,12 +47,12 @@ const LoginPage = () => {
                 await login(email, password);
                 toast.success('Welcome back!');
             }
-            navigate('/profile');
+            navigate(from, { replace: true });
         } catch (err) {
             console.error(err);
             // Friendly error messages
-            if (err.code === 'auth/wrong-password') setError('Incorrect password.');
-            else if (err.code === 'auth/user-not-found') setError('No account found with this email.');
+            if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') setError('Incorrect password.');
+            else if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-email') setError('Account not found. Please sign up or check your email.');
             else if (err.code === 'auth/email-already-in-use') setError('Email already in use.');
             else if (err.code === 'auth/weak-password') setError('Password should be at least 6 characters.');
             else setError('Failed to authenticate. Please try again.');
@@ -51,7 +66,7 @@ const LoginPage = () => {
             setLoading(true);
             await loginWithGoogle();
             toast.success('Signed in with Google');
-            navigate('/profile');
+            navigate(from, { replace: true });
         } catch (err) {
             console.error(err);
             setError('Google sign-in failed.');
@@ -121,7 +136,10 @@ const LoginPage = () => {
                                 <input
                                     type="email"
                                     value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    onChange={(e) => {
+                                        setEmail(e.target.value);
+                                        setError(''); // Clear error on change
+                                    }}
                                     placeholder="hello@example.com"
                                     required
                                     className="w-full bg-[var(--glass-bg-low)] border border-[var(--glass-border)] rounded-2xl px-6 py-4 text-[var(--color-text-main)] placeholder-[var(--color-text-muted)] focus:outline-none focus:border-accent/50 focus:bg-[var(--glass-bg-medium)] transition-all font-medium pl-12"

@@ -46,14 +46,11 @@ export const requestForToken = async (vapidKey) => {
     try {
         const currentToken = await getToken(messaging, { vapidKey });
         if (currentToken) {
-            console.log('Use this token to send notifications:', currentToken);
             return currentToken;
         } else {
-            console.log('No registration token available. Request permission to generate one.');
             return null;
         }
     } catch (err) {
-        console.log('An error occurred while retrieving token. ', err);
         return null;
     }
 };
@@ -69,7 +66,6 @@ export const requestForToken = async (vapidKey) => {
 export const onMessageListener = () =>
     new Promise((resolve) => {
         onMessage(messaging, (payload) => {
-            console.log("Foreground message received:", payload);
             resolve(payload);
         });
     });

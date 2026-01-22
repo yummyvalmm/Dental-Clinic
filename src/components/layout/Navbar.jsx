@@ -165,7 +165,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                                             onClick={() => setIsMenuOpen(false)}
                                         >
                                             <GlassSurface
-                                                className="group flex items-center justify-between p-6 rounded-3xl transition-all duration-300 active:scale-[0.98] cursor-pointer"
+                                                className="group flex items-center justify-between p-6 rounded-[2rem] transition-all duration-300 active:scale-[0.98] cursor-pointer"
                                                 intensity="medium"
                                             >
                                                 <div className="flex items-center gap-5">
