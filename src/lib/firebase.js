@@ -46,7 +46,6 @@ export const saveTokenToFirestore = async (token) => {
     const tokenRef = doc(db, "user_push_tokens", token);
 
     try {
-        console.log("🔥 [DEBUG] Attempting to save token to Firestore:", token);
         await setDoc(tokenRef, {
             token: token,
             platform: navigator.platform,
@@ -54,9 +53,8 @@ export const saveTokenToFirestore = async (token) => {
             lastSeen: serverTimestamp(),
             createdAt: serverTimestamp()
         }, { merge: true });
-        console.log("✅ [DEBUG] SUCCESS: Token saved to Firestore!");
     } catch (error) {
-        console.error("❌ [DEBUG] FAILED to save token to Firestore:", error);
+        console.error("Error saving token to Firestore:", error);
     }
 };
 
@@ -73,11 +71,9 @@ export const saveTokenToFirestore = async (token) => {
  * @returns {Promise<string|null>} The FCM registration token if successful, or null if denied/failed.
  */
 export const requestForToken = async (vapidKey) => {
-    console.log("🚀 [DEBUG] requestForToken called with VAPID:", vapidKey);
     try {
         let currentToken = null;
         if ('serviceWorker' in navigator) {
-            console.log("🔍 [DEBUG] Waiting for Service Worker ready...");
 
             // Helper to timeout a promise
             const timeout = (ms) => new Promise(resolve => setTimeout(() => resolve('TIMEOUT'), ms));
@@ -89,35 +85,29 @@ export const requestForToken = async (vapidKey) => {
             ]);
 
             if (registration === 'TIMEOUT') {
-                console.warn("⚠️ [DEBUG] Service Worker ready timed out. Trying fallback...");
+                console.warn("Service Worker ready timed out. Falling back to standard retrieval.");
                 // Fallback: Try getting token without visible SW registration 
                 currentToken = await getToken(messaging, { vapidKey });
             } else {
-                console.log("✅ [DEBUG] Service Worker ready:", registration.scope);
-                console.log("⏳ [DEBUG] Calling getToken...");
                 currentToken = await getToken(messaging, {
                     vapidKey,
                     serviceWorkerRegistration: registration
                 });
             }
-
-            console.log("🎟️ [DEBUG] getToken Result:", currentToken ? "Token Found" : "Token is NULL");
         } else {
-            console.log("⚠️ [DEBUG] No Service Worker found in navigator");
             currentToken = await getToken(messaging, { vapidKey });
         }
 
         if (currentToken) {
-            console.log("💾 [DEBUG] Saving to Firestore...");
             await saveTokenToFirestore(currentToken);
             return currentToken;
         } else {
-            console.warn("⚠️ [DEBUG] No registration token available. Request permission to generate one.");
+            console.warn("No registration token available. Request permission to generate one.");
             return null;
         }
 
     } catch (err) {
-        console.error('❌ [DEBUG] An error occurred while retrieving token: ', err);
+        console.error('An error occurred while retrieving token: ', err);
         return null;
     }
 };
