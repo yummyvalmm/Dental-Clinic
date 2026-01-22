@@ -24,7 +24,7 @@ const MobileAppBar = ({ isMenuOpen }) => {
     ];
 
     return (
-        <div className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-4 right-4 z-50 lg:hidden pointer-events-none">
+        <div className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-8 right-8 md:left-1/2 md:-translate-x-1/2 md:w-full md:max-w-md z-50 lg:hidden pointer-events-none">
             <div className="relative">
                 {/* Ambient glow behind menu bar */}
                 <div className="absolute inset-0 bg-gradient-to-t from-blue-500/30 via-indigo-500/20 to-purple-500/10 rounded-full blur-2xl opacity-60" />
@@ -58,7 +58,7 @@ const MobileAppBar = ({ isMenuOpen }) => {
                                     {isActive && (
                                         <motion.div
                                             layoutId="activeTab"
-                                            className="absolute -inset-x-5 -inset-y-3 bg-white/15 backdrop-blur-xl border border-white/20 rounded-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_4px_12px_rgba(0,0,0,0.3)]"
+                                            className="absolute -inset-x-1 -inset-y-3 bg-white/15 backdrop-blur-xl border border-white/20 rounded-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_4px_12px_rgba(0,0,0,0.3)]"
                                             transition={{ type: "spring", stiffness: 400, damping: 30 }}
                                         />
                                     )}
