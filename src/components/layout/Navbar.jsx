@@ -5,6 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 import GlassSurface from '../ui/GlassSurface';
 import Surface from '../ui/Surface';
 import NotificationCenter from '../ui/NotificationCenter';
+import ThemeToggle from '../ui/ThemeToggle';
 import { mockNotifications } from '../../data/notifications';
 import { useLayout } from '../../context/LayoutContext';
 
@@ -93,18 +94,21 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
 
                         {/* Action Area (UX Easy) */}
                         <div className="flex items-center gap-4">
-                            {/* Phone Icon - Subtle but handy */}
-                            <a href="tel:+442071234567" aria-label="Call Us" className="hidden xl:flex items-center justify-center w-10 h-10 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors">
-                                <Phone size={18} />
+                            {/* Phone Icon - Subtle but handy - Touch Target 44px */}
+                            <a href="tel:+442071234567" aria-label="Call Us" className="hidden xl:flex items-center justify-center w-11 h-11 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors">
+                                <Phone size={20} />
                             </a>
 
-                            {/* Notification Bell */}
+                            {/* Theme Toggle */}
+                            <ThemeToggle />
+
+                            {/* Notification Bell - Touch Target 44px */}
                             <button
                                 onClick={() => setIsNotificationOpen(!isNotificationOpen)}
                                 aria-label="Notifications"
-                                className="relative flex items-center justify-center w-10 h-10 rounded-full bg-[var(--glass-bg-low)] hover:bg-[var(--glass-bg-medium)] text-[var(--color-text-main)] transition-colors"
+                                className="relative flex items-center justify-center w-11 h-11 rounded-full bg-[var(--glass-bg-low)] hover:bg-[var(--glass-bg-medium)] text-[var(--color-text-main)] transition-colors"
                             >
-                                <Bell size={18} />
+                                <Bell size={20} />
                                 {unreadCount > 0 && (
                                     <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-[10px] font-bold text-white border-2 border-bg-body">
                                         {unreadCount > 9 ? '9+' : unreadCount}

@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 /**
  * Firebase Configuration Object
@@ -21,6 +22,10 @@ const firebaseConfig = {
 
 // Initialize the Firebase app instance
 const app = initializeApp(firebaseConfig);
+
+// Initialize Firebase Authentication
+const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
 
 // Initialize Firebase Cloud Messaging (FCM) service
 const messaging = getMessaging(app);
@@ -69,4 +74,4 @@ export const onMessageListener = () =>
         });
     });
 
-export { messaging };
+export { messaging, auth, googleProvider };

@@ -49,8 +49,15 @@
   --glass-border-hover: rgba(255, 255, 255, 0.3);
 
   /* Shadows */
+  /* Shadows */
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   --glass-shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.15);
+  --glass-shadow-deep: 0 20px 60px -10px rgba(0, 0, 0, 0.3);
+
+  /* Depth & Shine */
+  --glass-highlight: rgba(255, 255, 255, 0.4);
+  --glass-shine: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 40%);
+  --glass-noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
 
   /* Clarity & Deference - Subtle Surface Tokens */
   --surface-bg: rgba(0, 0, 0, 0.02);
@@ -104,8 +111,14 @@
   --glass-border-hover: rgba(255, 255, 255, 0.15);
 
   /* Shadows */
+  /* Shadows */
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   --glass-shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.5);
+  --glass-shadow-deep: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+
+  /* Depth & Shine - Dark Mode */
+  --glass-highlight: rgba(255, 255, 255, 0.15);
+  --glass-shine: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 40%);
 
   /* Clarity & Deference - Subtle Surface Tokens (Dark Mode) */
   --surface-bg: rgba(255, 255, 255, 0.03);
@@ -300,6 +313,16 @@ textarea {
 @layer utilities {
   .text-shadow {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .bg-noise {
+    background-image: var(--glass-noise);
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+    mix-blend-mode: overlay;
   }
 
   .glass-panel {

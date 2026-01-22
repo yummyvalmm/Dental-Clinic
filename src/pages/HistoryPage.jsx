@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, CheckCircle, Clock, AlertCircle, Loader2, FileDown, ChevronDown, Stethoscope, Pill } from 'lucide-react';
 import GlassSurface from '../components/ui/GlassSurface';
+import SkeletonLoader from '../components/ui/LoadingSpinner'; // Refactored to SkeletonLoader
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -139,10 +140,9 @@ const HistoryPage = () => {
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
-                                className="flex flex-col items-center justify-center py-12"
+                                className="py-4"
                             >
-                                <Loader2 className="w-8 h-8 text-white/40 animate-spin mb-4" />
-                                <p className="text-white/40 text-sm">Loading records...</p>
+                                <SkeletonLoader count={3} />
                             </motion.div>
                         ) : error ? (
                             <motion.div key="error" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
@@ -234,7 +234,7 @@ const HistoryPage = () => {
                     </AnimatePresence>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

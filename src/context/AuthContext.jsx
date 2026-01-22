@@ -1,28 +1,48 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
+import {
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signInWithPopup,
+    signOut,
+    onAuthStateChanged
+} from 'firebase/auth';
+import { auth, googleProvider } from '../firebase';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    const login = (userData) => {
-        // In a real app, this would come from an API
-        setUser({
-            name: "Sarah Johnson",
-            email: "sarah.j@example.com",
-            phone: "+44 7700 900123",
-            avatar: "SJ",
-            ...userData // overwrite with any provided data
+    // Listen for auth state changes
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+            setLoading(false);
         });
+        return () => unsubscribe();
+    }, []);
+
+    // Auth Actions
+    const signup = (email, password) => {
+        return createUserWithEmailAndPassword(auth, email, password);
+    };
+
+    const login = (email, password) => {
+        return signInWithEmailAndPassword(auth, email, password);
+    };
+
+    const loginWithGoogle = () => {
+        return signInWithPopup(auth, googleProvider);
     };
 
     const logout = () => {
-        setUser(null);
+        return signOut(auth);
     };
 
     return (
-        <AuthContext.Provider value={{ user, isLoggedIn: !!user, login, logout }}>
-            {children}
+        <AuthContext.Provider value={{ user, isLoggedIn: !!user && !loading, loading, signup, login, loginWithGoogle, logout }}>
+            {!loading && children}
         </AuthContext.Provider>
     );
 };
