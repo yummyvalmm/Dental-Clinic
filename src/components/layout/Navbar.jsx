@@ -57,7 +57,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                     <Surface
                         elevation="low"
                         background="subtle"
-                        className="flex items-center justify-between rounded-full px-6 py-3"
+                        className="flex items-center justify-between rounded-full px-6 py-3 backdrop-blur-xl"
                     >
 
                         {/* Logo Section */}
