@@ -3,8 +3,9 @@ import Lenis from 'lenis';
 
 const SmoothScroll = ({ children }) => {
     useEffect(() => {
-        // Disable Lenis on mobile to prefer native "Page-by-Page" feel
-        if (window.innerWidth < 768) return;
+        // Disable Lenis on ANY touch device to prefer native 120Hz/ProMotion scrolling
+        const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        if (isTouch) return;
 
         const lenis = new Lenis({
             duration: 1.5,
