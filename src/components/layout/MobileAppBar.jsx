@@ -33,7 +33,7 @@ const MobileAppBar = ({ isMenuOpen }) => {
                     initial={{ y: 100 }}
                     animate={{ y: shouldHide ? 200 : 0 }}
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    className="relative rounded-full px-6 py-4 flex justify-between items-center w-full pointer-events-auto min-h-[80px] shadow-[0_-8px_32px_rgba(0,0,0,0.4),0_0_60px_rgba(59,130,246,0.2)] hover:shadow-[0_-12px_48px_rgba(0,0,0,0.5),0_0_80px_rgba(59,130,246,0.3)] transition-all duration-300"
+                    className="relative rounded-full px-6 py-2 flex justify-between items-center w-full pointer-events-auto min-h-[60px] shadow-[0_-8px_32px_rgba(0,0,0,0.4),0_0_60px_rgba(59,130,246,0.2)] hover:shadow-[0_-12px_48px_rgba(0,0,0,0.5),0_0_80px_rgba(59,130,246,0.3)] transition-all duration-300"
                     intensity="high"
                 >
                     {/* Top glossy highlight */}
@@ -58,7 +58,7 @@ const MobileAppBar = ({ isMenuOpen }) => {
                                     {isActive && (
                                         <motion.div
                                             layoutId="activeTab"
-                                            className="absolute -inset-x-1 -inset-y-3 bg-white/15 backdrop-blur-xl border border-white/20 rounded-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_4px_12px_rgba(0,0,0,0.3)]"
+                                            className="absolute -inset-x-6 -inset-y-1.5 bg-white/15 backdrop-blur-xl border border-white/20 rounded-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_4px_12px_rgba(0,0,0,0.3)]"
                                             transition={{ type: "spring", stiffness: 400, damping: 30 }}
                                         />
                                     )}
