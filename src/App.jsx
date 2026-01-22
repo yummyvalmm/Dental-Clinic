@@ -1,8 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
-import { useDrag } from 'react-use-gesture';
 import { AuthProvider } from './context/AuthContext';
+import { NotificationProvider } from './context/NotificationContext';
+
+// Hooks
+import { useMobileView } from './hooks/useMobileView';
+import { useMobileSwipe } from './hooks/useMobileSwipe';
 
 // Layout Components
 import Navbar from './components/layout/Navbar';
@@ -16,6 +20,7 @@ import ScrollToTop from './components/layout/ScrollToTop';
 import LoadingSpinner from './components/ui/LoadingSpinner';
 import InstallPrompt from './components/ui/InstallPrompt';
 import OfflineStatus from './components/ui/OfflineStatus';
+import { Toaster } from 'sonner';
 
 // Pages - Direct Imports for Performance
 import HomePage from './pages/HomePage';
@@ -30,41 +35,13 @@ import ProfilePage from './pages/ProfilePage';
 // Lazy Load Non-Critical Pages
 const LoginPage = React.lazy(() => import('./pages/LoginPage'));
 
-// Helper to detect mobile
-const isMobile = () => window.innerWidth < 1024;
-
 function AppRoutes() {
   const location = useLocation();
-  const navigate = useNavigate();
-  const [isMobileView, setIsMobileView] = React.useState(isMobile());
-
-  React.useEffect(() => {
-    const handleResize = () => setIsMobileView(isMobile());
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Swipe Logic for Mobile
-  const swipeOrder = ['/', '/book', '/history', '/profile'];
-
-  const bind = useDrag(({ swipe: [swipeX] }) => {
-    if (!isMobileView) return;
-
-    const currentIndex = swipeOrder.indexOf(location.pathname);
-    if (currentIndex === -1) return;
-
-    if (swipeX === -1 && currentIndex < swipeOrder.length - 1) {
-      navigate(swipeOrder[currentIndex + 1]);
-    } else if (swipeX === 1 && currentIndex > 0) {
-      navigate(swipeOrder[currentIndex - 1]);
-    }
-  }, {
-    axis: 'x',
-    filterTaps: true,
-  });
+  const isMobileView = useMobileView();
+  const bindSwipe = useMobileSwipe(isMobileView);
 
   return (
-    <div {...bind()} className="relative w-full min-h-screen overflow-x-hidden touch-pan-y">
+    <div {...bindSwipe()} className="relative w-full min-h-screen overflow-x-hidden touch-pan-y">
       <Routes location={location} key={location.pathname}>
         {/* Mobile gets Dashboard, Desktop gets HomePage */}
         <Route path="/" element={
@@ -123,44 +100,28 @@ const ConditionalMobileAppBar = (props) => {
   return <MobileAppBar {...props} />;
 };
 
-// Notification
-import { Toaster, toast } from 'sonner';
-import { onMessageListener } from './firebase';
-
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-
-  React.useEffect(() => {
-    onMessageListener()
-      .then((payload) => {
-        console.log('Foreground push notification received:', payload);
-        toast.info(payload.notification.title || 'New Notification', {
-          description: payload.notification.body,
-          duration: 5000,
-          position: 'top-center'
-        });
-      })
-      .catch((err) => console.log('failed: ', err));
-  }, []);
 
   return (
     <HelmetProvider>
       <AuthProvider>
-        <Router>
-          <Toaster richColors closeButton />
-          <ScrollToTop />
-          <SmoothScroll>
-            {/* ... rest of app ... */}
-            <ConditionalMobileAppBar isMenuOpen={isMobileMenuOpen} />
-            <div className="min-h-screen bg-bg-body font-sans antialiased text-primary selection:bg-accent/20">
-              <ConditionalNavbar isMenuOpen={isMobileMenuOpen} setIsMenuOpen={setIsMobileMenuOpen} />
-              <AppRoutes />
-              <InstallPrompt />
-              <OfflineStatus />
-              <ConditionalFooter />
-            </div>
-          </SmoothScroll>
-        </Router>
+        <NotificationProvider>
+          <Router>
+            <Toaster richColors closeButton />
+            <ScrollToTop />
+            <SmoothScroll>
+              <ConditionalMobileAppBar isMenuOpen={isMobileMenuOpen} />
+              <div className="min-h-screen bg-bg-body font-sans antialiased text-primary selection:bg-accent/20">
+                <ConditionalNavbar isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />
+                <AppRoutes />
+                <InstallPrompt />
+                <OfflineStatus />
+                <ConditionalFooter />
+              </div>
+            </SmoothScroll>
+          </Router>
+        </NotificationProvider>
       </AuthProvider>
     </HelmetProvider>
   );

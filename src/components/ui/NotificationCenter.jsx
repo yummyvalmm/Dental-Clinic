@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { requestForToken } from '../../firebase';
+import { useEffect } from 'react';
+import { useNotificationContext } from '../../context/NotificationContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Bell, CheckCheck, BellRing, Settings } from 'lucide-react';
 import GlassSurface from './GlassSurface';
@@ -8,54 +8,8 @@ import NotificationItem from './NotificationItem';
 const NotificationCenter = ({ isOpen, onClose, notifications, onMarkAsRead, onMarkAllAsRead, onClearAll }) => {
     const unreadCount = notifications.filter(n => !n.read).length;
 
-    // Notification Permission State
-    const [permission, setPermission] = useState('default'); // 'default', 'granted', 'denied'
-    const [isRequesting, setIsRequesting] = useState(false);
-
-    const [fcmToken, setFcmToken] = useState(null);
-
-    useEffect(() => {
-        if ('Notification' in window) {
-            setPermission(Notification.permission);
-
-            // If already granted, fetch token immediately so user can test
-            if (Notification.permission === 'granted') {
-                const VAPID_KEY = "BK3XYkH9i6fTttyp9jRNv0khvF5W5dakjIzGlbkW9B7VQPrtr8VauY6IdBcSNeq2aoaMqFT6uHAOXnYjkRhWb-0";
-                requestForToken(VAPID_KEY).then(token => {
-                    if (token) {
-                        setFcmToken(token);
-                        console.log("%c FCM Token:", "color: #00ff00; font-weight: bold; font-size: 14px;", token);
-                        console.log("%c (Copy the token string above)", "color: #888;");
-                    }
-                });
-            }
-        }
-    }, []);
-
-    const handleRequestPermission = async () => {
-        if (!('Notification' in window)) return;
-
-        setIsRequesting(true);
-        try {
-            const result = await Notification.requestPermission();
-            setPermission(result);
-            if (result === 'granted') {
-                // REPLACE WITH YOUR FIREBASE VAPID KEY
-                const VAPID_KEY = "BK3XYkH9i6fTttyp9jRNv0khvF5W5dakjIzGlbkW9B7VQPrtr8VauY6IdBcSNeq2aoaMqFT6uHAOXnYjkRhWb-0";
-                const token = await requestForToken(VAPID_KEY);
-                if (token) {
-                    setFcmToken(token);
-                    console.log("%c FCM Token:", "color: #00ff00; font-weight: bold; font-size: 14px;", token);
-                }
-            }
-        } catch (error) {
-            console.error('Error requesting notification permission:', error);
-        } finally {
-            setIsRequesting(false);
-        }
-    };
-
-
+    // Use the custom hook context
+    const { permission, isRequesting, fcmToken, requestPermission } = useNotificationContext();
 
     // Close on escape key
     useEffect(() => {
@@ -154,7 +108,7 @@ const NotificationCenter = ({ isOpen, onClose, notifications, onMarkAsRead, onMa
                                             </div>
                                         </div>
                                         <button
-                                            onClick={handleRequestPermission}
+                                            onClick={requestPermission}
                                             disabled={isRequesting}
                                             className="w-full py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold uppercase tracking-wide rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                         >
