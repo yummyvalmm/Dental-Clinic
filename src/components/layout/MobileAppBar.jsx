@@ -58,7 +58,7 @@ const MobileAppBar = ({ isMenuOpen }) => {
                                     {isActive && (
                                         <motion.div
                                             layoutId="activeTab"
-                                            className="absolute -inset-x-6 -inset-y-1.5 bg-white/15 backdrop-blur-xl border border-white/20 rounded-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_4px_12px_rgba(0,0,0,0.3)]"
+                                            className="absolute -inset-x-6 -inset-y-0.5 bg-white/15 backdrop-blur-xl border border-white/20 rounded-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_4px_12px_rgba(0,0,0,0.3)]"
                                             transition={{ type: "spring", stiffness: 400, damping: 30 }}
                                         />
                                     )}
