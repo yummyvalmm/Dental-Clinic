@@ -5,8 +5,10 @@ import { Link, useLocation } from 'react-router-dom';
 import GlassSurface from '../ui/GlassSurface';
 import NotificationCenter from '../ui/NotificationCenter';
 import { mockNotifications } from '../../data/notifications';
+import { useLayout } from '../../context/LayoutContext';
 
 const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
+    const { isNavbarHidden } = useLayout();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isNotificationOpen, setIsNotificationOpen] = useState(false);
     const [notifications, setNotifications] = useState(mockNotifications);
@@ -48,7 +50,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
 
     return (
         <>
-            <nav className="fixed top-0 left-0 right-0 z-[60] py-4 transition-all duration-500">
+            <nav className={`fixed top-0 left-0 right-0 z-[60] py-4 transition-all duration-500 ${isNavbarHidden ? '-translate-y-full opacity-0 pointer-events-none' : 'translate-y-0 opacity-100 pointer-events-auto'}`}>
                 <div className="container mx-auto px-4 md:px-6 max-w-6xl transition-all duration-500 ease-in-out">
                     <div className="relative">
                         {/* Ambient glow behind navbar */}
@@ -72,8 +74,8 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                                         <span className="relative z-10">N</span>
                                     </div>
                                     <div className="flex flex-col">
-                                        <span className="font-serif text-xl tracking-tight text-white leading-none">Nova</span>
-                                        <span className="text-[9px] uppercase tracking-[0.25em] font-sans font-bold text-white/40 leading-none mt-1 group-hover:text-blue-400 transition-colors">Dental</span>
+                                        <span className="font-serif text-xl tracking-tight text-[var(--color-text-main)] leading-none">Nova</span>
+                                        <span className="text-[9px] uppercase tracking-[0.25em] font-sans font-bold text-[var(--color-text-muted)] leading-none mt-1 group-hover:text-blue-400 transition-colors">Dental</span>
                                     </div>
                                 </Link>
                             </div>
@@ -88,7 +90,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                                     <a
                                         key={link.name}
                                         href={link.hash}
-                                        className="relative text-sm font-medium transition-colors py-2 text-white/70 hover:text-white"
+                                        className="relative text-sm font-medium transition-colors py-2 text-[var(--color-text-muted)] hover:text-[var(--color-text-main)]"
                                     >
                                         {link.name}
                                     </a>
@@ -106,7 +108,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                                 <button
                                     onClick={() => setIsNotificationOpen(!isNotificationOpen)}
                                     aria-label="Notifications"
-                                    className="relative flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                                    className="relative flex items-center justify-center w-10 h-10 rounded-full bg-[var(--glass-bg-low)] hover:bg-[var(--glass-bg-medium)] text-[var(--color-text-main)] transition-colors"
                                 >
                                     <Bell size={18} />
                                     {unreadCount > 0 && (
@@ -117,7 +119,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                                 </button>
 
                                 {/* Primary CTA - Visible & Clear */}
-                                <Link to="/book" className="hidden sm:flex items-center gap-2 text-white px-6 py-3 rounded-full text-xs uppercase tracking-widest font-bold btn-liquid hover:text-white transition-all active:scale-95">
+                                <Link to="/book" className="hidden sm:flex items-center gap-2 text-blue-900 border border-white/40 px-6 py-3 rounded-full text-xs uppercase tracking-widest font-bold btn-liquid hover:text-blue-700 transition-all active:scale-95">
                                     <span>Book Visit</span>
                                     <ArrowRight size={14} className="hover:translate-x-1 transition-transform" />
                                 </Link>
@@ -170,15 +172,15 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                                                 intensity="medium"
                                             >
                                                 <div className="flex items-center gap-5">
-                                                    <div className="w-14 h-14 rounded-full bg-white/5 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white transition-colors duration-300 shadow-inner">
+                                                    <div className="w-14 h-14 rounded-full bg-[var(--glass-bg-low)] flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white transition-colors duration-300 shadow-inner">
                                                         <item.icon size={24} strokeWidth={1.5} />
                                                     </div>
-                                                    <span className="text-xl font-semibold tracking-tight text-white/90 group-hover:text-white transition-colors">{item.label}</span>
+                                                    <span className="text-xl font-semibold tracking-tight text-[var(--color-text-main)] group-hover:text-[var(--color-text-main)] transition-colors">{item.label}</span>
                                                 </div>
                                                 {item.value ? (
-                                                    <span className="text-xs font-bold text-white/40 bg-white/5 px-3 py-1.5 rounded-full border border-white/5">{item.value}</span>
+                                                    <span className="text-xs font-bold text-[var(--color-text-muted)] bg-[var(--glass-bg-low)] px-3 py-1.5 rounded-full border border-[var(--glass-border)]">{item.value}</span>
                                                 ) : (
-                                                    <ChevronRight size={20} className="text-white/30 group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
+                                                    <ChevronRight size={20} className="text-[var(--color-text-muted)] group-hover:text-[var(--color-text-main)] group-hover:translate-x-1 transition-all duration-300" />
                                                 )}
                                             </GlassSurface>
                                         </Link>

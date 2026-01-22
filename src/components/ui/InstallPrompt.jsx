@@ -61,11 +61,11 @@ const InstallPrompt = () => {
                 exit={{ opacity: 0, y: 50 }}
                 className="fixed bottom-4 left-4 right-4 z-50 md:bottom-8 md:right-8 md:left-auto md:w-96"
             >
-                <div className="glass-liquid-dark p-6 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden backdrop-blur-xl bg-slate-900/80">
+                <div className="p-6 rounded-3xl border border-[var(--glass-border)] shadow-2xl relative overflow-hidden backdrop-blur-xl bg-[var(--glass-bg-high)] backdrop-saturate-[180%]">
                     {/* Close Button */}
                     <button
                         onClick={() => setShowPrompt(false)}
-                        className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors"
+                        className="absolute top-4 right-4 text-[var(--color-text-muted)] hover:text-[var(--color-text-main)] transition-colors"
                     >
                         <X size={20} />
                     </button>
@@ -75,8 +75,8 @@ const InstallPrompt = () => {
                             <Download className="text-white" size={24} />
                         </div>
                         <div>
-                            <h3 className="text-lg font-bold text-white mb-1">Install App</h3>
-                            <p className="text-sm text-white/60 leading-relaxed">
+                            <h3 className="text-lg font-bold text-[var(--color-text-main)] mb-1">Install App</h3>
+                            <p className="text-sm text-[var(--color-text-muted)] leading-relaxed">
                                 {isIOS
                                     ? "Install on your home screen for the best full-screen experience."
                                     : "Add to Home Screen for instant access and a better experience."}
@@ -86,14 +86,14 @@ const InstallPrompt = () => {
 
                     {isIOS ? (
                         <div className="mt-6 space-y-3">
-                            <div className="flex items-center gap-3 text-sm text-white/80 bg-white/5 p-3 rounded-xl">
-                                <span className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                            <div className="flex items-center gap-3 text-sm text-[var(--color-text-main)] bg-[var(--glass-bg-low)] p-3 rounded-xl border border-[var(--glass-border)]">
+                                <span className="w-8 h-8 rounded-full bg-[var(--glass-bg-medium)] flex items-center justify-center shrink-0">
                                     <Share size={16} />
                                 </span>
                                 <span>Tap the <strong>Share</strong> button below</span>
                             </div>
-                            <div className="flex items-center gap-3 text-sm text-white/80 bg-white/5 p-3 rounded-xl">
-                                <span className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                            <div className="flex items-center gap-3 text-sm text-[var(--color-text-main)] bg-[var(--glass-bg-low)] p-3 rounded-xl border border-[var(--glass-border)]">
+                                <span className="w-8 h-8 rounded-full bg-[var(--glass-bg-medium)] flex items-center justify-center shrink-0">
                                     <span className="font-bold text-xs">＋</span>
                                 </span>
                                 <span>Select <strong>Add to Home Screen</strong></span>

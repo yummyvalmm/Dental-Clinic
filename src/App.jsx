@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider } from './context/AuthContext';
 import { NotificationProvider } from './context/NotificationContext';
+import { LayoutProvider } from './context/LayoutContext';
+import { ThemeProvider } from './context/ThemeContext';
 
 // Hooks
 import { useMobileView } from './hooks/useMobileView';
@@ -31,6 +33,7 @@ import BookingPage from './pages/BookingPage';
 import HistoryPage from './pages/HistoryPage';
 import HotlinePage from './pages/HotlinePage';
 import ProfilePage from './pages/ProfilePage';
+import SystemSettingsPage from './pages/SystemSettingsPage';
 
 // Lazy Load Non-Critical Pages
 const LoginPage = React.lazy(() => import('./pages/LoginPage'));
@@ -72,6 +75,9 @@ function AppRoutes() {
             {isMobileView ? <MobileDashboard /> : <StudioPage />}
           </PageTransition>
         } />
+
+        {/* Settings Route */}
+        <Route path="/settings" element={<PageTransition><SystemSettingsPage /></PageTransition>} />
       </Routes>
     </div>
   );
@@ -79,7 +85,7 @@ function AppRoutes() {
 
 const ConditionalFooter = () => {
   const { pathname } = useLocation();
-  const hiddenRoutes = ['/', '/book', '/history', '/hotline', '/login', '/profile'];
+  const hiddenRoutes = ['/', '/book', '/history', '/hotline', '/login', '/profile', '/settings'];
 
   if (hiddenRoutes.includes(pathname)) return null;
 
@@ -106,22 +112,26 @@ function App() {
   return (
     <HelmetProvider>
       <AuthProvider>
-        <NotificationProvider>
-          <Router>
-            <Toaster richColors closeButton />
-            <ScrollToTop />
-            <SmoothScroll>
-              <ConditionalMobileAppBar isMenuOpen={isMobileMenuOpen} />
-              <div className="min-h-screen bg-bg-body font-sans antialiased text-primary selection:bg-accent/20">
-                <ConditionalNavbar isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />
-                <AppRoutes />
-                <InstallPrompt />
-                <OfflineStatus />
-                <ConditionalFooter />
-              </div>
-            </SmoothScroll>
-          </Router>
-        </NotificationProvider>
+        <ThemeProvider>
+          <LayoutProvider>
+            <NotificationProvider>
+              <Router>
+                <Toaster richColors closeButton />
+                <ScrollToTop />
+                <SmoothScroll>
+                  <ConditionalMobileAppBar isMenuOpen={isMobileMenuOpen} />
+                  <div className="min-h-screen bg-bg-body font-sans antialiased text-primary selection:bg-accent/20">
+                    <ConditionalNavbar isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />
+                    <AppRoutes />
+                    <InstallPrompt />
+                    <OfflineStatus />
+                    <ConditionalFooter />
+                  </div>
+                </SmoothScroll>
+              </Router>
+            </NotificationProvider>
+          </LayoutProvider>
+        </ThemeProvider>
       </AuthProvider>
     </HelmetProvider>
   );

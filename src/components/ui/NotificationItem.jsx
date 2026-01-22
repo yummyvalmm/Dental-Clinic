@@ -14,7 +14,7 @@ const NotificationItem = ({ notification, onMarkAsRead }) => {
             case notificationTypes.UPDATE:
                 return <Info size={20} className="text-purple-400" />;
             default:
-                return <Info size={20} className="text-white/60" />;
+                return <Info size={20} className="text-[var(--color-text-muted)]" />;
         }
     };
 
@@ -29,7 +29,7 @@ const NotificationItem = ({ notification, onMarkAsRead }) => {
             case notificationTypes.UPDATE:
                 return 'bg-purple-500/20';
             default:
-                return 'bg-white/10';
+                return 'bg-[var(--glass-bg-low)]';
         }
     };
 
@@ -40,8 +40,8 @@ const NotificationItem = ({ notification, onMarkAsRead }) => {
             exit={{ opacity: 0, x: -20 }}
             onClick={() => !notification.read && onMarkAsRead(notification.id)}
             className={`p-4 rounded-2xl cursor-pointer transition-all duration-300 ${notification.read
-                    ? 'bg-white/5 hover:bg-white/10'
-                    : 'bg-white/10 hover:bg-white/15 border border-accent/30'
+                ? 'bg-[var(--glass-bg-low)] hover:bg-[var(--glass-bg-medium)]'
+                : 'bg-[var(--glass-bg-low)] hover:bg-[var(--glass-bg-medium)] border border-accent/30'
                 }`}
         >
             <div className="flex gap-3">
@@ -53,17 +53,17 @@ const NotificationItem = ({ notification, onMarkAsRead }) => {
                 {/* Content */}
                 <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2 mb-1">
-                        <h4 className={`font-semibold text-sm ${notification.read ? 'text-white/80' : 'text-white'}`}>
+                        <h4 className={`font-semibold text-sm ${notification.read ? 'text-[var(--color-text-muted)]' : 'text-[var(--color-text-main)]'}`}>
                             {notification.title}
                         </h4>
                         {!notification.read && (
                             <div className="w-2 h-2 rounded-full bg-accent shrink-0 mt-1" />
                         )}
                     </div>
-                    <p className={`text-xs leading-relaxed mb-2 ${notification.read ? 'text-white/50' : 'text-white/70'}`}>
+                    <p className={`text-xs leading-relaxed mb-2 ${notification.read ? 'text-[var(--color-text-muted)]/50' : 'text-[var(--color-text-muted)]'}`}>
                         {notification.message}
                     </p>
-                    <span className="text-xs text-white/40">
+                    <span className="text-xs text-[var(--color-text-muted)]/40">
                         {formatNotificationTime(notification.timestamp)}
                     </span>
                 </div>

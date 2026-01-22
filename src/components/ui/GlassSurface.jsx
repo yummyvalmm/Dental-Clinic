@@ -12,21 +12,22 @@ const GlassSurface = ({
     onClick,
     ...props
 }) => {
-    // Define intensity levels for the glass effect
+    // Define intensity using new adaptive CSS variables
+    // Added 'backdrop-saturate-[180%]' for that premium Apple liquid glass feel
     const intensityClasses = {
-        low: 'bg-white/5 backdrop-blur-sm border border-white/5',
-        medium: 'bg-white/10 backdrop-blur-md border border-white/10',
-        high: 'bg-white/15 backdrop-blur-xl border border-white/20 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)]',
+        low: 'bg-[var(--glass-bg-low)] backdrop-blur-xl backdrop-saturate-[180%] border border-[var(--glass-border)] shadow-[var(--glass-shadow)]',
+        medium: 'bg-[var(--glass-bg-medium)] backdrop-blur-2xl backdrop-saturate-[180%] border border-[var(--glass-border)] shadow-[var(--glass-shadow)]',
+        high: 'bg-[var(--glass-bg-high)] backdrop-blur-3xl backdrop-saturate-[180%] border border-[var(--glass-border)] shadow-[var(--glass-shadow)]',
     };
 
     // Hover effect classes
     const hoverClasses = hoverEffect
-        ? 'hover:bg-white/20 hover:border-white/20 hover:shadow-[0_8px_32px_rgba(255,255,255,0.1)]'
+        ? 'hover:bg-[var(--glass-bg-medium)] hover:border-[var(--glass-border-hover)] hover:shadow-[var(--glass-shadow-hover)] cursor-pointer'
         : '';
 
     return (
         <div
-            className={`${intensityClasses[intensity]} ${hoverClasses} ${className} transition-all duration-300`}
+            className={`${intensityClasses[intensity]} ${hoverClasses} ${className} transition-all duration-300 text-[var(--color-text-main)]`}
             onClick={onClick}
             {...props}
         >

@@ -20,7 +20,7 @@ const Hero = () => {
                             transition={{ duration: 0.6 }}
                             className="inline-flex items-center gap-3 border-l-2 border-accent pl-4"
                         >
-                            <span className="text-[10px] font-bold text-white/60 uppercase tracking-widest">Est. 2008 • London</span>
+                            <span className="text-[10px] font-bold text-[var(--color-text-muted)] uppercase tracking-widest">Est. 2008 • London</span>
                             <span className="w-1 h-1 rounded-full bg-primary/20" />
                             <span className="text-[10px] font-bold text-accent uppercase tracking-widest">GDC Accredited</span>
                         </motion.div>
@@ -30,10 +30,10 @@ const Hero = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.1 }}
-                            className="text-4xl md:text-5xl lg:text-6xl font-serif text-white leading-[1.1] tracking-tight"
+                            className="text-4xl md:text-5xl lg:text-6xl font-serif text-[var(--color-text-main)] leading-[1.1] tracking-tight"
                         >
                             Mastery in <br />
-                            <span className="italic text-white/90">Restorative</span> & <br />
+                            <span className="italic text-[var(--color-text-muted)]">Restorative</span> & <br />
                             <span className="text-accent relative inline-block">
                                 Implant Dentistry.
                                 <svg className="absolute w-full h-3 -bottom-1 left-0 text-accent opacity-40" viewBox="0 0 200 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.00025 6.99997C25.7501 2.99991 63.8122 1.63861 106.002 2.99997C146.969 4.32174 183.003 6.99997 198.003 6.99997" stroke="currentColor" strokeWidth="3" strokeLinecap="round" /></svg>
@@ -44,9 +44,9 @@ const Hero = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.2 }}
-                            className="text-base text-white/70 leading-relaxed max-w-lg mx-auto lg:mx-0 font-medium"
+                            className="text-base text-[var(--color-text-muted)] leading-relaxed max-w-lg mx-auto lg:mx-0 font-medium"
                         >
-                            Led by <strong className="text-white">Dr. Sarah Johnson</strong>. We specialize in complex case rehabilitation using minimally invasive microsurgery and digital smile design.
+                            Led by <strong className="text-[var(--color-text-main)]">Dr. Sarah Johnson</strong>. We specialize in complex case rehabilitation using minimally invasive microsurgery and digital smile design.
                         </motion.p>
 
                         {/* Actions */}
@@ -60,10 +60,10 @@ const Hero = () => {
                                 Request Consultation <ArrowRight size={16} />
                             </button>
                             <div className="flex items-center gap-4 group cursor-pointer">
-                                <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-primary transition-all duration-300">
+                                <div className="w-12 h-12 rounded-full border border-[var(--glass-border)] flex items-center justify-center group-hover:bg-[var(--glass-bg-medium)] group-hover:text-primary transition-all duration-300">
                                     <Play size={16} fill="currentColor" />
                                 </div>
-                                <span className="text-xs font-bold text-white/80 group-hover:text-white transition-colors">See Patient Stories</span>
+                                <span className="text-xs font-bold text-[var(--color-text-muted)] group-hover:text-[var(--color-text-main)] transition-colors">See Patient Stories</span>
                             </div>
                         </motion.div>
 
@@ -72,9 +72,9 @@ const Hero = () => {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ duration: 1, delay: 0.5 }}
-                            className="pt-10 border-t border-white/5 mt-4"
+                            className="pt-10 border-t border-[var(--glass-border)] mt-4"
                         >
-                            <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold mb-4">Recognized Excellence</p>
+                            <p className="text-[10px] uppercase tracking-widest text-[var(--color-text-muted)]/50 font-bold mb-4">Recognized Excellence</p>
                             <div className="flex justify-center lg:justify-start gap-8 opacity-40 grayscale hover:grayscale-0 transition-all duration-500">
                                 <span className="font-serif text-lg font-bold italic">Vogue</span>
                                 <span className="font-sans text-base font-black tracking-tighter">GQ</span>

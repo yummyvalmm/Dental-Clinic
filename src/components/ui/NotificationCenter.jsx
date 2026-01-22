@@ -48,24 +48,24 @@ const NotificationCenter = ({ isOpen, onClose, notifications, onMarkAsRead, onMa
                             intensity="high"
                         >
                             {/* Header */}
-                            <div className="px-6 pb-6 pt-28 border-b border-white/10">
+                            <div className="px-6 pb-6 pt-28 border-b border-[var(--glass-border)]">
                                 <div className="flex items-center justify-between mb-4">
                                     <div className="flex items-center gap-3">
                                         <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
                                             <Bell size={20} className="text-accent" />
                                         </div>
                                         <div>
-                                            <h2 className="text-xl font-bold text-white">Notifications</h2>
+                                            <h2 className="text-xl font-bold text-[var(--color-text-main)]">Notifications</h2>
                                             {unreadCount > 0 && (
-                                                <p className="text-xs text-white/60">{unreadCount} unread</p>
+                                                <p className="text-xs text-[var(--color-text-muted)]">{unreadCount} unread</p>
                                             )}
                                         </div>
                                     </div>
                                     <button
                                         onClick={onClose}
-                                        className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                                        className="w-8 h-8 rounded-full bg-[var(--glass-bg-low)] hover:bg-[var(--glass-bg-medium)] flex items-center justify-center transition-colors"
                                     >
-                                        <X size={18} className="text-white" />
+                                        <X size={18} className="text-[var(--color-text-main)]" />
                                     </button>
                                 </div>
 
@@ -75,7 +75,7 @@ const NotificationCenter = ({ isOpen, onClose, notifications, onMarkAsRead, onMa
                                         {unreadCount > 0 && (
                                             <button
                                                 onClick={onMarkAllAsRead}
-                                                className="flex-1 px-3 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-white transition-colors flex items-center justify-center gap-2"
+                                                className="flex-1 px-3 py-2 rounded-xl bg-[var(--glass-bg-low)] hover:bg-[var(--glass-bg-medium)] text-xs font-semibold text-[var(--color-text-main)] transition-colors flex items-center justify-center gap-2"
                                             >
                                                 <CheckCheck size={14} />
                                                 Mark all read
@@ -83,7 +83,7 @@ const NotificationCenter = ({ isOpen, onClose, notifications, onMarkAsRead, onMa
                                         )}
                                         <button
                                             onClick={onClearAll}
-                                            className="flex-1 px-3 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-white transition-colors"
+                                            className="flex-1 px-3 py-2 rounded-xl bg-[var(--glass-bg-low)] hover:bg-[var(--glass-bg-medium)] text-xs font-semibold text-[var(--color-text-main)] transition-colors"
                                         >
                                             Clear all
                                         </button>
@@ -157,11 +157,11 @@ const NotificationCenter = ({ isOpen, onClose, notifications, onMarkAsRead, onMa
 
                                 {notifications.length === 0 ? (
                                     <div className="flex flex-col items-center justify-center h-full text-center py-12">
-                                        <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-4">
-                                            <Bell size={24} className="text-white/40" />
+                                        <div className="w-16 h-16 rounded-full bg-[var(--glass-bg-low)] flex items-center justify-center mb-4">
+                                            <Bell size={24} className="text-[var(--color-text-muted)]" />
                                         </div>
-                                        <h3 className="text-lg font-semibold text-white/80 mb-2">No notifications</h3>
-                                        <p className="text-sm text-white/50">You're all caught up!</p>
+                                        <h3 className="text-lg font-semibold text-[var(--color-text-main)] mb-2">No notifications</h3>
+                                        <p className="text-sm text-[var(--color-text-muted)]">You're all caught up!</p>
                                     </div>
                                 ) : (
                                     <AnimatePresence>
