@@ -57,6 +57,19 @@
     0 20px 40px -4px rgba(0, 0, 0, 0.08),
     inset 0 0 30px 0 rgba(255, 255, 255, 0.6);
 
+  /* Clarity & Deference - Subtle Surface Tokens */
+  --surface-bg: rgba(0, 0, 0, 0.02);
+  --surface-bg-medium: rgba(0, 0, 0, 0.04);
+  --surface-bg-solid: rgba(0, 0, 0, 0.06);
+  --surface-bg-hover: rgba(0, 0, 0, 0.04);
+  --surface-bg-active: rgba(0, 0, 0, 0.06);
+
+  --border-subtle: rgba(0, 0, 0, 0.08);
+
+  --shadow-low: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-medium: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-high: 0 4px 16px rgba(0, 0, 0, 0.10);
+
   font-family: var(--font-sans);
   line-height: 1.6;
   font-weight: 400;
@@ -96,6 +109,19 @@
   /* Deeper shadows on black */
   --glass-shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.1);
   /* Subtle glow on hover */
+
+  /* Clarity & Deference - Subtle Surface Tokens (Dark Mode) */
+  --surface-bg: rgba(255, 255, 255, 0.03);
+  --surface-bg-medium: rgba(255, 255, 255, 0.05);
+  --surface-bg-solid: rgba(255, 255, 255, 0.08);
+  --surface-bg-hover: rgba(255, 255, 255, 0.05);
+  --surface-bg-active: rgba(255, 255, 255, 0.08);
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+
+  --shadow-low: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-medium: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-high: 0 4px 16px rgba(0, 0, 0, 0.5);
 
   color-scheme: dark;
 }
