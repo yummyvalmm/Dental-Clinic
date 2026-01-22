@@ -98,7 +98,7 @@ const ProfilePage = () => {
                         <h3 className="text-xs uppercase tracking-widest text-[var(--color-text-muted)] pl-4 font-bold">Account</h3>
                         {menuItems.map((item, index) => (
                             <Link to={item.path} key={index} className="block">
-                                <GlassSurface className="p-4 rounded-2xl flex items-center justify-between group hover:bg-[var(--glass-bg-medium)] transition-colors" intensity="low">
+                                <GlassSurface className="p-4 flex items-center justify-between group hover:bg-[var(--glass-bg-medium)] transition-colors" intensity="low">
                                     <div className="flex items-center gap-4">
                                         <div className="w-10 h-10 rounded-full bg-[var(--glass-bg-low)] flex items-center justify-center text-[var(--color-text-muted)] group-hover:text-[var(--color-text-main)] transition-colors">
                                             <item.icon size={20} />
@@ -123,7 +123,7 @@ const ProfilePage = () => {
                     <h3 className="text-xs uppercase tracking-widest text-[var(--color-text-muted)] pl-4 font-bold">Resources</h3>
                     {resources.map((item, index) => (
                         <Link to={item.path} key={index} className="block">
-                            <GlassSurface className="p-4 rounded-2xl flex items-center justify-between group hover:bg-[var(--glass-bg-medium)] transition-colors" intensity="low">
+                            <GlassSurface className="p-4 flex items-center justify-between group hover:bg-[var(--glass-bg-medium)] transition-colors" intensity="low">
                                 <div className="flex items-center gap-4">
                                     <div className="w-10 h-10 rounded-full bg-[var(--glass-bg-low)] flex items-center justify-center text-[var(--color-text-muted)] group-hover:text-[var(--color-text-main)] transition-colors">
                                         <item.icon size={20} />

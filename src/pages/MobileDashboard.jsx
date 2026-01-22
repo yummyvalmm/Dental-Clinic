@@ -66,8 +66,11 @@ const MobileDashboard = () => {
                         >
                             <Link to={action.path}>
                                 <GlassSurface
-                                    className={`group p-6 rounded-3xl transition-all duration-300 active:scale-[0.98] hover:shadow-2xl ${action.shadowColor}`}
-                                    intensity="medium"
+                                    variant="card"
+                                    blur="lg"
+                                    shadow="medium"
+                                    hoverEffect={true}
+                                    className="group"
                                 >
                                     <div className="flex items-center gap-4">
                                         <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${action.color} flex items-center justify-center shadow-lg shrink-0`}>
@@ -98,7 +101,12 @@ const MobileDashboard = () => {
                     transition={{ delay: 0.5 }}
                     className="mt-8"
                 >
-                    <GlassSurface className="p-5 rounded-3xl border border-[var(--glass-border)]" intensity="low">
+                    <GlassSurface
+                        variant="panel"
+                        blur="md"
+                        shadow="low"
+                        className="p-5"
+                    >
                         <div className="flex items-center gap-3 mb-3">
                             <Clock className="text-accent" size={18} />
                             <span className="text-xs uppercase tracking-wider font-bold text-[var(--color-text-muted)]">Next Appointment</span>

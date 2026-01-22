@@ -33,6 +33,11 @@ const MobileAppBar = ({ isMenuOpen }) => {
 
                 {!shouldHide && (
                     <GlassSurface
+                        variant="navbar"
+                        blur="xl"
+                        border="glow"
+                        shadow="floating"
+                        animated={true}
                         initial={{ y: 100, opacity: 0 }}
                         animate={{
                             y: 0,
@@ -40,14 +45,8 @@ const MobileAppBar = ({ isMenuOpen }) => {
                         }}
                         exit={{ y: 100, opacity: 0 }}
                         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                        className="relative rounded-full px-6 py-2 flex justify-between items-center w-full pointer-events-auto min-h-[60px] shadow-[0_-8px_32px_rgba(0,0,0,0.4),0_0_60px_rgba(59,130,246,0.2)] hover:shadow-[0_-12px_48px_rgba(0,0,0,0.5),0_0_80px_rgba(59,130,246,0.3)] transition-all duration-300"
-                        intensity="high"
+                        className="relative px-6 py-2 flex flex-row justify-between items-center w-full pointer-events-auto min-h-[60px] group"
                     >
-                        {/* Top glossy highlight */}
-                        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--glass-border)] to-transparent rounded-full" />
-
-                        {/* Shine gradient overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-white/5 via-white/10 to-transparent rounded-full pointer-events-none" />
                         {navItems.map((item) => (
                             <NavLink
                                 key={item.path}

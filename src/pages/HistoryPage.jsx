@@ -84,7 +84,7 @@ const HistoryPage = () => {
     if (!isLoading && !isLoggedIn) {
         return (
             <div className="w-full min-h-[100dvh] bg-bg-body relative overflow-hidden flex flex-col pt-24 pb-32 items-center justify-center px-6">
-                <GlassSurface className="p-8 rounded-3xl text-center max-w-md w-full" intensity="medium">
+                <GlassSurface className="p-8 text-center max-w-md w-full" intensity="medium">
                     <AlertCircle className="w-12 h-12 text-[var(--color-text-muted)] mx-auto mb-4" />
                     <h2 className="text-xl text-[var(--color-text-main)] font-serif mb-2">Access Restricted</h2>
                     <p className="text-[var(--color-text-muted)] mb-6">Please log in to view your treatment history.</p>
@@ -146,7 +146,7 @@ const HistoryPage = () => {
                             </motion.div>
                         ) : error ? (
                             <motion.div key="error" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                                <GlassSurface className="p-6 rounded-3xl border-red-500/20" intensity="low">
+                                <GlassSurface className="p-6 border-red-500/20" intensity="low">
                                     <p className="text-red-200 flex items-center gap-2"><AlertCircle size={18} /> {error}</p>
                                 </GlassSurface>
                             </motion.div>
@@ -168,8 +168,10 @@ const HistoryPage = () => {
                                         </div>
 
                                         <GlassSurface
-                                            className={`rounded-3xl hover:bg-white/10 transition-colors overflow-hidden ${expandedId === apt.id ? 'bg-white/10' : ''}`}
-                                            intensity="medium"
+                                            variant="card"
+                                            blur="lg"
+                                            hoverEffect={true}
+                                            className={`overflow-hidden ${expandedId === apt.id ? 'bg-[var(--glass-bg-high)]' : ''}`}
                                             onClick={() => setExpandedId(expandedId === apt.id ? null : apt.id)}
                                         >
                                             <div className="p-5">
@@ -224,7 +226,7 @@ const HistoryPage = () => {
                             </div>
                         ) : (
                             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                                <GlassSurface className="p-8 rounded-3xl text-center" intensity="low">
+                                <GlassSurface className="p-8 text-center" intensity="low">
                                     <p className="text-[var(--color-text-muted)]">No records found for this filter.</p>
                                 </GlassSurface>
                             </motion.div>

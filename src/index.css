@@ -29,8 +29,8 @@
   /* Slate-50 */
   --color-bg-surface: #FFFFFF;
   /* White */
-  --color-text-main: #0F172A;
-  /* Slate-900 */
+  --color-text-main: #1A1A1A;
+  /* Neutral dark gray instead of blue-tinted slate */
   --color-text-muted: #64748B;
   /* Slate-500 */
   --color-primary: #F1F5F9;
@@ -71,34 +71,57 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Dark Mode Overrides */
+/* Dark Mode Overrides - Pure Black (Apple Style) */
 .dark {
-  --color-bg-body: #0F172A;
-  /* Deepest Navy (Slate-900) */
-  --color-bg-surface: #1E293B;
-  /* Slightly lighter Navy (Slate-800) */
-  --color-text-main: #F8FAFC;
-  /* Off-white */
-  --color-text-muted: #94A3B8;
-  /* Muted text */
-  --color-primary: #111827;
+  --color-bg-body: #000000;
+  /* Pure black for maximum glass UI contrast */
+  --color-bg-surface: #0A0A0A;
+  /* Slightly lighter black for surfaces */
+  --color-text-main: #FFFFFF;
+  /* Pure white text */
+  --color-text-muted: #8E8E93;
+  /* Apple gray for muted text */
+  --color-primary: #000000;
 
-  /* Dark Mode Liquid Glass Tokens */
-  --glass-bg-low: rgba(255, 255, 255, 0.03);
-  --glass-bg-medium: rgba(255, 255, 255, 0.08);
-  --glass-bg-high: rgba(255, 255, 255, 0.12);
+  /* Dark Mode Liquid Glass Tokens - Enhanced for black background */
+  --glass-bg-low: rgba(255, 255, 255, 0.05);
+  --glass-bg-medium: rgba(255, 255, 255, 0.10);
+  --glass-bg-high: rgba(255, 255, 255, 0.15);
 
-  --glass-border: rgba(255, 255, 255, 0.08);
-  /* 0.1 -> 0.08 for subtler look */
-  --glass-border-hover: rgba(255, 255, 255, 0.2);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  /* Stronger border for black background */
+  --glass-border-hover: rgba(255, 255, 255, 0.25);
 
-  --glass-shadow: none;
-  /* Dark mode usually doesn't need heavy shadows for depth */
-  --glass-shadow-hover: 0 0 20px rgba(255, 255, 255, 0.05);
-  /* Subtle glow */
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  /* Deeper shadows on black */
+  --glass-shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.1);
+  /* Subtle glow on hover */
 
   color-scheme: dark;
 }
+
+/* Shimmer animation for enhanced glass surfaces */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .animate-shimmer {
+    animation: none;
+  }
+}
+
 
 /* Smooth Scrolling */
 html.lenis,

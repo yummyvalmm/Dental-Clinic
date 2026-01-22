@@ -57,14 +57,12 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                         <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-indigo-500/20 to-purple-500/20 rounded-full blur-xl opacity-50" />
 
                         <GlassSurface
-                            className="relative flex items-center justify-between rounded-full px-6 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.4),0_0_80px_rgba(59,130,246,0.15)] hover:shadow-[0_12px_48px_rgba(0,0,0,0.5),0_0_100px_rgba(59,130,246,0.25)] transition-all duration-300"
-                            intensity="high"
+                            variant="navbar"
+                            blur="xl"
+                            border="glow"
+                            shadow="medium"
+                            className="relative flex items-center justify-between group"
                         >
-                            {/* Glossy top highlight */}
-                            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent rounded-full" />
-
-                            {/* Shine gradient overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent rounded-full pointer-events-none" />
 
                             {/* Logo Section */}
                             <div className="flex items-center gap-4">

@@ -97,7 +97,7 @@ const BookingWizard = () => {
                                 <p className="text-[var(--color-text-muted)] text-sm">Choose the service you'd like to book.</p>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 {services.map((service) => (
                                     <GlassSurface
                                         key={service.id}
@@ -107,21 +107,23 @@ const BookingWizard = () => {
                                             setFormData({ ...formData, service: service.id });
                                             handleNext();
                                         }}
-                                        className={`p-5 rounded-3xl text-left transition-all duration-300 group relative overflow-hidden active:scale-[0.98] cursor-pointer
+                                        variant="card"
+                                        blur="md"
+                                        className={`p-4 text-left transition-all duration-300 group relative overflow-hidden active:scale-[0.98] cursor-pointer
                                             ${formData.service === service.id
                                                 ? 'bg-accent/10 border-accent/50 ring-1 ring-accent/50'
                                                 : ''}`}
-                                        intensity="medium"
                                         hoverEffect={true}
                                     >
-                                        <div className="flex justify-between items-center mb-4">
-                                            <div className={`p-3 rounded-2xl transition-colors ${formData.service === service.id ? 'bg-accent text-white shadow-glow' : 'bg-[var(--glass-bg-low)] text-[var(--color-text-muted)]'}`}>
-                                                <service.icon size={24} strokeWidth={1.5} />
+                                        <div className="flex items-center gap-3">
+                                            <div className={`p-2.5 rounded-xl transition-colors shrink-0 ${formData.service === service.id ? 'bg-accent text-white shadow-glow' : 'bg-[var(--glass-bg-low)] text-[var(--color-text-muted)]'}`}>
+                                                <service.icon size={20} strokeWidth={2} />
                                             </div>
-                                            {/* Checkbox removed as requested for direct navigation */}
+                                            <div className="flex-1 min-w-0">
+                                                <h3 className="text-base font-bold text-[var(--color-text-main)] leading-tight">{service.title}</h3>
+                                                <p className="text-xs text-[var(--color-text-muted)] mt-0.5">{service.price} • 30-60 min</p>
+                                            </div>
                                         </div>
-                                        <h3 className="text-lg font-bold text-[var(--color-text-main)] mb-1">{service.title}</h3>
-                                        <p className="text-xs text-[var(--color-text-muted)]">{service.price} • 30-60 min</p>
                                     </GlassSurface>
                                 ))}
                             </div>
@@ -144,7 +146,7 @@ const BookingWizard = () => {
 
                             <div className="space-y-6">
                                 {/* Calendar Panel Visualizer */}
-                                <GlassSurface className="rounded-[2rem] p-6" intensity="medium">
+                                <GlassSurface className="p-6" intensity="medium">
                                     <div className="flex justify-between items-end mb-6">
                                         <span className="text-lg font-bold text-[var(--color-text-main)]">February 2026</span>
                                         <span className="text-xs text-[var(--color-text-muted)] uppercase font-bold tracking-wider">Select Day</span>
@@ -180,7 +182,7 @@ const BookingWizard = () => {
                                                 key={time}
                                                 as="button"
                                                 onClick={() => setFormData({ ...formData, time })}
-                                                className={`py-3 px-2 rounded-2xl flex items-center justify-center text-sm font-bold transition-all duration-300 active:scale-95 cursor-pointer
+                                                className={`py-3 px-2 flex items-center justify-center text-sm font-bold transition-all duration-300 active:scale-95 cursor-pointer
                                                     ${formData.time === time
                                                         ? 'bg-accent/20 border-accent/50 text-[var(--color-text-main)] shadow-glow ring-1 ring-accent/50'
                                                         : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-main)]'}`}
@@ -210,7 +212,7 @@ const BookingWizard = () => {
                                 <p className="text-[var(--color-text-muted)] text-sm">Review and confirm.</p>
                             </div>
 
-                            <GlassSurface className="p-6 rounded-3xl mb-6" intensity="low">
+                            <GlassSurface className="p-6 mb-6" intensity="low">
                                 <div className="flex items-start gap-4 mb-4 pb-4 border-b border-white/10">
                                     <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center text-accent">
                                         <Calendar size={24} />
@@ -226,7 +228,7 @@ const BookingWizard = () => {
                                         <input
                                             type="text"
                                             placeholder="Full Name"
-                                            className="w-full bg-[var(--glass-bg-low)] border border-[var(--glass-border)] rounded-2xl py-4 pl-12 pr-4 text-[var(--color-text-main)] placeholder-[var(--color-text-muted)] focus:outline-none focus:border-accent/50 focus:bg-[var(--glass-bg-medium)] transition-all font-medium"
+                                            className="w-full bg-[var(--glass-bg-low)] border border-[var(--glass-border)] py-4 pl-12 pr-4 text-[var(--color-text-main)] placeholder-[var(--color-text-muted)] focus:outline-none focus:border-accent/50 focus:bg-[var(--glass-bg-medium)] transition-all font-medium"
                                         />
                                     </div>
                                     <div className="relative group">
@@ -234,7 +236,7 @@ const BookingWizard = () => {
                                         <input
                                             type="tel"
                                             placeholder="Phone Number"
-                                            className="w-full bg-[var(--glass-bg-low)] border border-[var(--glass-border)] rounded-2xl py-4 pl-12 pr-4 text-[var(--color-text-main)] placeholder-[var(--color-text-muted)] focus:outline-none focus:border-accent/50 focus:bg-[var(--glass-bg-medium)] transition-all font-medium"
+                                            className="w-full bg-[var(--glass-bg-low)] border border-[var(--glass-border)] py-4 pl-12 pr-4 text-[var(--color-text-main)] placeholder-[var(--color-text-muted)] focus:outline-none focus:border-accent/50 focus:bg-[var(--glass-bg-medium)] transition-all font-medium"
                                         />
                                     </div>
                                 </div>
