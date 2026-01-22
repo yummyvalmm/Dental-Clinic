@@ -5,16 +5,40 @@ import { Link, useNavigate } from 'react-router-dom';
 import GlassSurface from '../components/ui/GlassSurface';
 
 import { useTheme } from '../context/ThemeContext';
+import { useNotificationContext } from '../context/NotificationContext';
+import { toast } from 'sonner';
 
 const SystemSettingsPage = () => {
     const navigate = useNavigate();
     const { theme, setTheme } = useTheme();
+    const { permission, requestPermission, fcmToken } = useNotificationContext();
 
     const handleThemeChange = () => {
         const themes = ['light', 'dark', 'system'];
         const currentIndex = themes.indexOf(theme);
         const nextIndex = (currentIndex + 1) % themes.length;
         setTheme(themes[nextIndex]);
+    };
+
+    const handleNotificationToggle = async () => {
+        if (permission === 'granted') {
+            toast.info("Notifications are already enabled");
+            console.log("FCM Token:", fcmToken);
+            return;
+        }
+
+        if (permission === 'denied') {
+            toast.error("Notifications are blocked. Please enable them in your browser settings.");
+            return;
+        }
+
+        await requestPermission();
+    };
+
+    const getNotificationStatus = () => {
+        if (permission === 'granted') return 'On';
+        if (permission === 'denied') return 'Blocked';
+        return 'Enable';
     };
 
     const settingSections = [
@@ -41,9 +65,10 @@ const SystemSettingsPage = () => {
             items: [
                 {
                     label: 'Push Notifications',
-                    value: 'On',
+                    value: getNotificationStatus(),
                     icon: Bell,
-                    type: 'toggle'
+                    type: 'action', // Changed from 'toggle' to 'action' to handle click
+                    onClick: handleNotificationToggle
                 },
                 {
                     label: 'Email Updates',
@@ -127,7 +152,7 @@ const SystemSettingsPage = () => {
                                 {section.items.map((item, itemIndex) => (
                                     <GlassSurface
                                         key={itemIndex}
-                                        className={`p-4 rounded-[2rem] ${item.type === 'action' ? 'cursor-pointer' : ''}`}
+                                        className={`p-4 rounded-[2rem] ${item.onClick ? 'cursor-pointer hover:bg-[var(--glass-bg-high)] hover:scale-[1.02] transition-all' : ''}`}
                                         intensity="low"
                                         onClick={item.onClick}
                                     >
@@ -141,9 +166,11 @@ const SystemSettingsPage = () => {
 
                                             <div className="flex items-center gap-2 shrink-0">
                                                 {item.value && (
-                                                    <span className="text-[var(--color-text-muted)] text-sm">{item.value}</span>
+                                                    <span className={`text-sm ${item.value === 'On' ? 'text-green-500 font-medium' : 'text-[var(--color-text-muted)]'}`}>
+                                                        {item.value}
+                                                    </span>
                                                 )}
-                                                {(item.type === 'link' || item.type === 'select') && (
+                                                {(item.type === 'link' || item.type === 'select' || item.type === 'action') && (
                                                     <ChevronRight size={18} className="text-[var(--color-text-muted)]/50" />
                                                 )}
                                             </div>

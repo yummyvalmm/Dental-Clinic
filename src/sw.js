@@ -80,64 +80,65 @@ registerRoute(
     })
 )
 
-// --- PUSH NOTIFICATION & NOTIFICATION CLICK (User Requested Step 3) ---
+// --- FIREBASE MESSAGING & NOTIFICATIONS ---
 
-/**
- * Listener for 'push' events.
- * Triggered when the server sends a push notification to this client.
- * 
- * @param {PushEvent} event - The push event containing the data payload.
- */
-self.addEventListener('push', (event) => {
-    let data = { title: 'Dental Studio', body: 'New update available!', url: '/' };
+// Import Firebase Compat Scripts (Standard for Service Workers)
+importScripts('https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js');
 
-    // Parse Payload
-    if (event.data) {
-        try {
-            data = event.data.json();
-        } catch (err) {
-            console.warn('Push data is not JSON, falling back to text.', err);
-            // Fallback for text-only payloads
-            data = { ...data, body: event.data.text() };
-        }
-    }
+const firebaseConfig = {
+    apiKey: "AIzaSyD-d1G_3ts544fPuOYrqviGNZttiDhJmAQ",
+    authDomain: "dental-notification-17c35.firebaseapp.com",
+    projectId: "dental-notification-17c35",
+    storageBucket: "dental-notification-17c35.firebasestorage.app",
+    messagingSenderId: "506732300361",
+    appId: "1:506732300361:web:4c491545eea9ef39b19798",
+    measurementId: "G-MY3Z2XX5FV"
+};
 
-    const options = {
-        body: data.body,
-        icon: '/pwa-192x192.png',
-        badge: '/pwa-192x192.png',
-        data: { url: data.url || '/' } // Pass URL in data to handle click
-    };
+// Initialize Firebase
+try {
+    firebase.initializeApp(firebaseConfig);
+    const messaging = firebase.messaging();
 
-    // Keep the service worker alive until the notification is shown
-    event.waitUntil(
-        self.registration.showNotification(data.title || 'Dental Studio', options)
-    );
-});
+    // Handle Background Messages
+    messaging.onBackgroundMessage((payload) => {
+        console.log('[Service Worker] Received background message ', payload);
+        const notificationTitle = payload.notification?.title || 'Dental Studio';
+        const notificationOptions = {
+            body: payload.notification?.body || 'New update available',
+            icon: '/pwa-192x192.png',
+            badge: '/pwa-192x192.png',
+            data: { url: payload.data?.url || '/' }
+        };
+
+        self.registration.showNotification(notificationTitle, notificationOptions);
+    });
+} catch (error) {
+    console.error("Firebase init failed in SW:", error);
+}
 
 /**
  * Listener for 'notificationclick' events.
  * Triggered when a user clicks on a displayed system notification.
- * 
- * Handles opening the app or focusing an existing window.
- * 
- * @param {NotificationEvent} event - The notification click event.
  */
 self.addEventListener('notificationclick', (event) => {
     event.notification.close(); // Close the notification immediately
+
+    const urlToOpen = event.notification.data?.url || '/';
 
     event.waitUntil(
         clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
             // Check if there is already a window/tab open for this URL
             for (let i = 0; i < windowClients.length; i++) {
                 const client = windowClients[i];
-                if (client.url === event.notification.data.url && 'focus' in client) {
-                    return client.focus(); // Focus existing window
+                if (client.url.includes(urlToOpen) && 'focus' in client) {
+                    return client.focus();
                 }
             }
             // If no window is open, open a new one
             if (clients.openWindow) {
-                return clients.openWindow(event.notification.data.url);
+                return clients.openWindow(urlToOpen);
             }
         })
     );
