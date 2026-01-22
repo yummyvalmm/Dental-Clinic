@@ -46,7 +46,7 @@ const MobileAppBar = ({ isMenuOpen }) => {
                     }}
                     exit={{ y: 100, opacity: 0 }}
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    className="px-6 py-2 flex flex-row justify-between items-center w-full pointer-events-auto min-h-[60px] rounded-full"
+                    className="px-6 py-2 flex flex-row justify-between items-center w-full pointer-events-auto min-h-[60px] rounded-full backdrop-blur-xl"
                 >
                     {navItems.map((item) => (
                         <NavLink
