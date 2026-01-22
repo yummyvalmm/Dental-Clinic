@@ -28,6 +28,11 @@ const MobileAppBar = ({ isMenuOpen }) => {
 
     return (
         <div className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-full md:max-w-md z-50 lg:hidden pointer-events-none">
+            {/* Blur backdrop for content underneath */}
+            {!shouldHide && (
+                <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/20 to-transparent backdrop-blur-md pointer-events-none -z-10" />
+            )}
+
             {/* Clean, subtle mobile app bar */}
             {!shouldHide && (
                 <Surface
