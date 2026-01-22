@@ -98,14 +98,16 @@ const ProfilePage = () => {
                         <h3 className="text-xs uppercase tracking-widest text-[var(--color-text-muted)] pl-4 font-bold">Account</h3>
                         {menuItems.map((item, index) => (
                             <Link to={item.path} key={index} className="block">
-                                <GlassSurface className="p-4 flex items-center justify-between group hover:bg-[var(--glass-bg-medium)] transition-colors" intensity="low">
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-full bg-[var(--glass-bg-low)] flex items-center justify-center text-[var(--color-text-muted)] group-hover:text-[var(--color-text-main)] transition-colors">
-                                            <item.icon size={20} />
+                                <GlassSurface className="p-4" intensity="low">
+                                    <div className="flex items-center justify-between gap-3">
+                                        <div className="flex items-center gap-3 flex-1 min-w-0">
+                                            <div className="w-10 h-10 rounded-full bg-[var(--glass-bg-low)] flex items-center justify-center text-[var(--color-text-muted)] group-hover:text-[var(--color-text-main)] transition-colors shrink-0">
+                                                <item.icon size={18} />
+                                            </div>
+                                            <span className="text-[var(--color-text-main)]/80 group-hover:text-[var(--color-text-main)] font-medium">{item.label}</span>
                                         </div>
-                                        <span className="text-[var(--color-text-main)]/80 group-hover:text-[var(--color-text-main)] font-medium">{item.label}</span>
+                                        <ChevronRight size={18} className="text-[var(--color-text-muted)] group-hover:text-[var(--color-text-main)] transition-colors shrink-0" />
                                     </div>
-                                    <ChevronRight size={18} className="text-[var(--color-text-muted)] group-hover:text-[var(--color-text-main)] transition-colors" />
                                 </GlassSurface>
                             </Link>
                         ))}
@@ -123,14 +125,16 @@ const ProfilePage = () => {
                     <h3 className="text-xs uppercase tracking-widest text-[var(--color-text-muted)] pl-4 font-bold">Resources</h3>
                     {resources.map((item, index) => (
                         <Link to={item.path} key={index} className="block">
-                            <GlassSurface className="p-4 flex items-center justify-between group hover:bg-[var(--glass-bg-medium)] transition-colors" intensity="low">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 rounded-full bg-[var(--glass-bg-low)] flex items-center justify-center text-[var(--color-text-muted)] group-hover:text-[var(--color-text-main)] transition-colors">
-                                        <item.icon size={20} />
+                            <GlassSurface className="p-4" intensity="low">
+                                <div className="flex items-center justify-between gap-3">
+                                    <div className="flex items-center gap-3 flex-1 min-w-0">
+                                        <div className="w-10 h-10 rounded-full bg-[var(--glass-bg-low)] flex items-center justify-center text-[var(--color-text-muted)] group-hover:text-[var(--color-text-main)] transition-colors shrink-0">
+                                            <item.icon size={18} />
+                                        </div>
+                                        <span className="text-[var(--color-text-main)]/80 group-hover:text-[var(--color-text-main)] font-medium">{item.label}</span>
                                     </div>
-                                    <span className="text-[var(--color-text-main)]/80 group-hover:text-[var(--color-text-main)] font-medium">{item.label}</span>
+                                    <ChevronRight size={18} className="text-[var(--color-text-muted)] group-hover:text-[var(--color-text-main)] transition-colors shrink-0" />
                                 </div>
-                                <ChevronRight size={18} className="text-[var(--color-text-muted)] group-hover:text-[var(--color-text-main)] transition-colors" />
                             </GlassSurface>
                         </Link>
                     ))}
