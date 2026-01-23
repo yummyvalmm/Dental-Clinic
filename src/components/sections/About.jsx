@@ -12,7 +12,7 @@ const About = () => {
                             className="relative aspect-[3/4] rounded-[2rem] overflow-hidden group"
                         >
                             <img
-                                src="https://images.unsplash.com/photo-1542884841-33167f225301?auto=format&fit=crop&q=80&w=1974&fm=webp"
+                                src="https://images.unsplash.com/photo-1542884841-33167f225301?auto=format&fit=crop&q=80&w=1200&fm=webp"
                                 alt="Clinic Environment"
                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[3s] ease-linear"
                                 loading="lazy"

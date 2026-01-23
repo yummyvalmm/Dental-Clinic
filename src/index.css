@@ -378,13 +378,12 @@ textarea {
   /* Mobile Optimization: High Performance Mode */
   @media (max-width: 768px) {
     .glass-liquid-dark {
-      /* Disable expensive filters for max fps */
-      backdrop-filter: none;
-      /* minimal blur */
-      -webkit-backdrop-filter: none;
+      /* Disable expensive filters for max fps - Reduce blur significantly */
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
 
       /* Use nearly opaque background to hide lack of blur */
-      background: rgba(15, 23, 42, 0.92);
+      background: rgba(15, 23, 42, 0.85);
 
       /* Simple border & shadow */
       border: 1px solid rgba(255, 255, 255, 0.1);

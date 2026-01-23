@@ -62,9 +62,9 @@ const Hero = () => {
                     <div className="relative order-1 lg:order-2 h-full flex items-center">
                         <div className="relative w-full aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-2xl ring-1 ring-white/10">
                             <img
-                                srcSet="https://images.unsplash.com/photo-1629909613654-28e377c37b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80&fm=webp 800w, https://images.unsplash.com/photo-1629909613654-28e377c37b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=2068&q=80&fm=webp 2000w"
+                                srcSet="https://images.unsplash.com/photo-1629909613654-28e377c37b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80&fm=webp 600w, https://images.unsplash.com/photo-1629909613654-28e377c37b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80&fm=webp 1200w"
                                 sizes="(max-width: 768px) 100vw, 50vw"
-                                src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=2068&q=80&fm=webp"
+                                src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80&fm=webp"
                                 alt="Dr Johnson consulting with patient"
                                 className="w-full h-full object-cover"
                                 loading="eager"
