@@ -106,14 +106,23 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                             <button
                                 onClick={() => setIsNotificationOpen(!isNotificationOpen)}
                                 aria-label="Notifications"
-                                className="relative flex items-center justify-center w-11 h-11 rounded-full bg-[var(--glass-bg-low)] hover:bg-[var(--glass-bg-medium)] text-[var(--color-text-main)] transition-colors"
+                                className="relative flex items-center justify-center w-11 h-11 rounded-full glass-dense text-white transition-all active:scale-95"
                             >
                                 <Bell size={20} />
                                 {unreadCount > 0 && (
-                                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-[10px] font-bold text-white border-2 border-bg-body">
+                                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-[10px] font-bold text-white border-2 border-[#0F172A]">
                                         {unreadCount > 9 ? '9+' : unreadCount}
                                     </span>
                                 )}
+                            </button>
+
+                            {/* Mobile Menu Toggle - High Contrast Dense Glass */}
+                            <button
+                                onClick={() => setIsMenuOpen(true)}
+                                aria-label="Open Menu"
+                                className="lg:hidden flex items-center justify-center w-11 h-11 rounded-full glass-dense text-white transition-all active:scale-95"
+                            >
+                                <Menu size={20} />
                             </button>
 
                             {/* Primary CTA - Visible & Clear */}
