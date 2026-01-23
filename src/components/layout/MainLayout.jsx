@@ -36,7 +36,7 @@ const MainLayout = () => {
                     <MobileAppBar isMenuOpen={isMobileMenuOpen} />
                 )}
 
-                <div className={`min-h-screen bg-bg-body font-sans antialiased text-primary selection:bg-accent/20 ${showMobileAppBar ? 'pb-[calc(80px+env(safe-area-inset-bottom))]' : ''}`}>
+                <div className={`min-h-[calc(100vh+1px)] bg-bg-body font-sans antialiased text-primary selection:bg-accent/20 ${showMobileAppBar ? 'pb-[calc(80px+env(safe-area-inset-bottom))]' : ''}`}>
                     {showNavbar && (
                         <Navbar
                             isMobileMenuOpen={isMobileMenuOpen}
