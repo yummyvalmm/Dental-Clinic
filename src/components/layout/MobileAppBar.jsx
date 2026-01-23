@@ -30,18 +30,12 @@ const MobileAppBar = ({ isMenuOpen }) => {
         <div className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-full md:max-w-md z-50 lg:hidden pointer-events-none">
             {/* Clean menu bar with blur effect */}
             {!shouldHide && (
-                <Surface
-                    elevation="low"
-                    background="subtle"
-                    animated={true}
+                <motion.nav
                     initial={{ y: 100, opacity: 0 }}
-                    animate={{
-                        y: 0,
-                        opacity: 1
-                    }}
+                    animate={{ y: 0, opacity: 1 }}
                     exit={{ y: 100, opacity: 0 }}
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    className="px-6 py-2 flex flex-row justify-between items-center w-full pointer-events-auto min-h-[60px] rounded-full backdrop-blur-xl"
+                    className="glass-dense px-6 py-3 flex flex-row justify-between items-center w-full pointer-events-auto min-h-[68px] rounded-[2.5rem]"
                 >
                     {navItems.map((item) => (
                         <NavLink
@@ -54,28 +48,37 @@ const MobileAppBar = ({ isMenuOpen }) => {
                                 <motion.div
                                     whileTap={{ scale: 0.9 }}
                                     onTapStart={handleTap}
-                                    className="relative flex items-center justify-center"
+                                    className="relative flex flex-col items-center justify-center gap-1"
                                 >
-                                    {/* Glass pill background - NO layoutId to prevent persistence */}
+                                    {/* Icon */}
+                                    <div className={`relative p-2 rounded-xl transition-all duration-300 ${isActive ? 'text-white' : 'text-gray-400 hover:text-white'}`}>
+                                        <item.icon size={24} strokeWidth={isActive ? 2.5 : 2} />
+
+                                        {/* Active Glow Effect behind icon */}
+                                        {isActive && (
+                                            <motion.div
+                                                layoutId="navGlow"
+                                                className="absolute inset-0 bg-white/20 rounded-xl blur-md -z-10"
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                transition={{ duration: 0.3 }}
+                                            />
+                                        )}
+                                    </div>
+
+                                    {/* Active Indicator Dot */}
                                     {isActive && (
                                         <motion.div
-                                            className="absolute -inset-x-6 -inset-y-0.5 bg-[var(--glass-bg-medium)] backdrop-blur-xl border border-[var(--glass-border)] rounded-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_4px_12px_rgba(0,0,0,0.3)]"
-                                            initial={{ opacity: 0, scale: 0.8 }}
-                                            animate={{ opacity: 1, scale: 1 }}
-                                            exit={{ opacity: 0, scale: 0.8 }}
-                                            transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                                            layoutId="navDot"
+                                            className="absolute -bottom-2 w-1 h-1 bg-white rounded-full shadow-[0_0_8px_rgba(255,255,255,0.8)]"
+                                            transition={{ type: "spring", stiffness: 500, damping: 30 }}
                                         />
                                     )}
-
-                                    {/* Icon only - no text label */}
-                                    <div className={`relative w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${isActive ? 'text-[var(--color-text-main)]' : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-main)] hover:bg-[var(--glass-bg-low)]'}`}>
-                                        <item.icon size={20} strokeWidth={2.5} />
-                                    </div>
                                 </motion.div>
                             )}
                         </NavLink>
                     ))}
-                </Surface>
+                </motion.nav>
             )}
         </div>
     );
