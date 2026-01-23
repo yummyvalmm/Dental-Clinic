@@ -202,12 +202,13 @@ body {
 
   html,
   body {
-    /* Restore vertical bounce for native feel */
-    overscroll-behavior-y: auto;
-    /* Strictly Lock Horizontal Scroll */
-    overscroll-behavior-x: none;
-    overflow-x: hidden;
+    /* Container Scroll Strict Mode */
+    overscroll-behavior: none;
+    overflow: hidden;
+    height: 100%;
     width: 100%;
+    position: fixed;
+    /* Fix body to prevent any viewport movement */
     max-width: 100vw;
   }
 

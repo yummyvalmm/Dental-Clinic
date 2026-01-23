@@ -36,7 +36,10 @@ const MainLayout = () => {
                     <MobileAppBar isMenuOpen={isMobileMenuOpen} />
                 )}
 
-                <div className={`min-h-screen bg-bg-body font-sans antialiased text-primary selection:bg-accent/20 ${showMobileAppBar ? 'pb-[calc(80px+env(safe-area-inset-bottom))]' : ''}`}>
+                <div
+                    id="scroll-container"
+                    className={`h-screen overflow-y-auto overscroll-y-auto bg-bg-body font-sans antialiased text-primary selection:bg-accent/20 ${showMobileAppBar ? 'pb-[calc(80px+env(safe-area-inset-bottom))]' : ''}`}
+                >
                     {showNavbar && (
                         <Navbar
                             isMobileMenuOpen={isMobileMenuOpen}
