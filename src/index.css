@@ -448,48 +448,6 @@ textarea {
     border-color: #ffffff !important;
     transition: all 0.1s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
-
-  /* High Contrast Dense Glass (User Requested) */
-  .glass-dense {
-    /* Dark, rich base with noise texture hint */
-    background:
-      linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%),
-      rgba(2, 6, 23, 0.85);
-
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-
-    /* Distinct light border for separation */
-    border: 1px solid rgba(255, 255, 255, 0.2);
-
-    /* Deep shadows for density */
-    box-shadow:
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
-      0 4px 20px rgba(0, 0, 0, 0.5);
-
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  }
-
-  .glass-dense:hover {
-    background:
-      linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%),
-      rgba(15, 23, 42, 0.95);
-
-    border-color: rgba(255, 255, 255, 0.4);
-    transform: translateY(-1px);
-
-    box-shadow:
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.2),
-      0 0 20px rgba(255, 255, 255, 0.15),
-      /* Subtle glow */
-      0 8px 30px rgba(0, 0, 0, 0.6);
-  }
-
-  .glass-dense:active {
-    transform: translateY(1px);
-    background: rgba(2, 6, 23, 0.95);
-    border-color: rgba(255, 255, 255, 0.1);
-  }
 }
 
 /* Glass Utilities */
