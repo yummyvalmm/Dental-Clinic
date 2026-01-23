@@ -9,7 +9,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "push:test": "node scripts/send-notification.js",
-    "push:broadcast": "node scripts/send-broadcast.js"
+    "push:broadcast": "node scripts/send-broadcast.js",
+    "mcp:firebase": "node .mcp/servers/firebase-server.js",
+    "mcp:filesystem": "node .mcp/servers/filesystem-server.js"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
@@ -29,10 +31,12 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@modelcontextprotocol/sdk": "^1.25.3",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
     "autoprefixer": "^10.4.23",
+    "dotenv": "^17.2.3",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",

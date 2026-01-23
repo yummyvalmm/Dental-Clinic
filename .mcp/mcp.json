@@ -1,0 +1,22 @@
+{
+    "mcpServers": {
+        "firebase-dental": {
+            "command": "node",
+            "args": [
+                ".mcp/servers/firebase-server.js"
+            ],
+            "env": {
+                "NODE_ENV": "development"
+            }
+        },
+        "filesystem-dental": {
+            "command": "node",
+            "args": [
+                ".mcp/servers/filesystem-server.js"
+            ],
+            "env": {
+                "NODE_ENV": "development"
+            }
+        }
+    }
+}

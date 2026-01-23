@@ -82,3 +82,21 @@ The service worker (`src/sw.js`) handles:
 3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4.  Push to the Branch (`git push origin feature/AmazingFeature`)
 5.  Open a Pull Request
+
+## 🔧 MCP Integration (Development)
+
+This project includes **Model Context Protocol (MCP)** servers for enhanced development workflow:
+
+- **Firebase MCP Server**: Direct Firestore/FCM operations from your AI assistant
+- **Filesystem MCP Server**: Smart code navigation and component analysis
+
+**Quick Start:**
+```bash
+# Firebase operations
+npm run mcp:firebase
+
+# Filesystem navigation
+npm run mcp:filesystem
+```
+
+For detailed setup and usage, see [.mcp/MCP_GUIDE.md](.mcp/MCP_GUIDE.md).

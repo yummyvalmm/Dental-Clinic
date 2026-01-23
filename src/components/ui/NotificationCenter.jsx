@@ -134,27 +134,6 @@ const NotificationCenter = ({ isOpen, onClose, notifications, onMarkAsRead, onMa
                                     </div>
                                 )}
 
-                                {/* Debugging: Display Token for Mobile Users */}
-                                {permission === 'granted' && fcmToken && (
-                                    <div className="mb-4 p-3 bg-white/5 rounded-xl border border-white/10">
-                                        <p className="text-[10px] text-white/40 mb-2 font-mono">Device Token (Debug):</p>
-                                        <div className="flex gap-2">
-                                            <code className="text-[10px] text-white/60 bg-black/20 p-2 rounded flex-1 overflow-hidden whitespace-nowrap text-ellipsis">
-                                                {fcmToken.slice(0, 20)}...
-                                            </code>
-                                            <button
-                                                onClick={() => {
-                                                    navigator.clipboard.writeText(fcmToken);
-                                                    alert('Token copied!');
-                                                }}
-                                                className="px-3 py-1 bg-white/10 hover:bg-white/20 text-white text-[10px] font-bold rounded-lg transition-colors"
-                                            >
-                                                COPY
-                                            </button>
-                                        </div>
-                                    </div>
-                                )}
-
                                 {notifications.length === 0 ? (
                                     <div className="flex flex-col items-center justify-center h-full text-center py-12">
                                         <div className="w-16 h-16 rounded-full bg-[var(--glass-bg-low)] flex items-center justify-center mb-4">
