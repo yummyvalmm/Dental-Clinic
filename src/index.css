@@ -199,14 +199,24 @@ body {
 
 /* Mobile PWA Optimization */
 @media (max-width: 1024px) {
+
+  html,
   body {
-    /* PWA: Prevent rubber-banding and text selection for app-like feel on touch devices */
+    /* PWA LOCK: Prevent rubber-banding on the viewport itself */
+    overscroll-behavior: none;
     overscroll-behavior-y: none;
+    width: 100%;
+    /* Ensure no horizontal scroll leakage */
+    max-width: 100vw;
+  }
+
+  body {
+    /* PWA: Prevent text selection for app-like feel */
     -webkit-tap-highlight-color: transparent;
     user-select: none;
     -webkit-user-select: none;
-    touch-action: manipulation;
-    /* Disables double-tap zoom for instant response */
+    touch-action: pan-y;
+    /* Disable pinch-zoom, allow vertical scroll */
 
     /* PWA Typography: Professional, trustworthy fonts */
     font-family: var(--font-body-pwa);
