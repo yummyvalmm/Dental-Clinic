@@ -42,7 +42,7 @@ function AppRoutes() {
 
   return (
     <div className="relative w-full h-full touch-pan-y">
-      <Routes location={location} key={location.pathname}>
+      <Routes location={location}>
         <Route element={<MainLayout />}>
           {/* Mobile gets Dashboard, Desktop gets HomePage */}
           <Route path="/" element={
