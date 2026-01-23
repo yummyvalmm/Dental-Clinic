@@ -73,7 +73,7 @@ const HistoryPage = () => {
     }
 
     return (
-        <div className="w-full min-h-[100dvh] bg-bg-body relative overflow-hidden flex flex-col pt-24 pb-[100px] overscroll-none">
+        <div className="w-full min-h-[100dvh] bg-bg-body relative overflow-hidden flex flex-col pt-32 pb-[100px] overscroll-none">
             <div className="container mx-auto px-6 relative z-10 flex-1 max-w-md w-full self-center">
 
                 {/* Header */}
