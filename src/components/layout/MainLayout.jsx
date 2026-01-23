@@ -6,7 +6,7 @@ import MobileAppBar from './MobileAppBar';
 import SmoothScroll from './SmoothScroll';
 import InstallPrompt from '../ui/InstallPrompt';
 import OfflineStatus from '../ui/OfflineStatus';
-import BackgroundGradient from '../ui/BackgroundGradient';
+
 import ScrollToTop from './ScrollToTop';
 import { Toaster } from 'sonner';
 
@@ -28,7 +28,8 @@ const MainLayout = () => {
         <>
             <Toaster richColors closeButton />
             <ScrollToTop />
-            <BackgroundGradient />
+
+
 
             <SmoothScroll>
                 {showMobileAppBar && (
