@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+
 
 import { specialists } from '../../data/team';
 
@@ -27,12 +27,8 @@ const Team = () => {
                 {/* Team Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
                     {specialists.map((member, index) => (
-                        <motion.div
+                        <div
                             key={index}
-                            initial={{ opacity: 0, y: 40 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: index * 0.2 }}
-                            viewport={{ once: true }}
                             className="group"
                         >
                             <div className="relative aspect-[3/4] overflow-hidden rounded-[2.5rem] bg-accent-soft mb-8">
@@ -56,7 +52,7 @@ const Team = () => {
                                 <h3 className="text-2xl font-serif text-white">{member.name}</h3>
                                 <p className="text-[10px] uppercase tracking-[0.4em] font-bold text-white/40">{member.role}</p>
                             </div>
-                        </motion.div>
+                        </div>
                     ))}
                 </div>
             </div>

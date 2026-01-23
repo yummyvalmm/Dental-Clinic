@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+
 import { Calendar, Clock, Phone, FileText, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import GlassSurface from '../components/ui/GlassSurface';
@@ -38,32 +38,18 @@ const MobileDashboard = () => {
 
                 {/* Header */}
                 <div className="mb-8">
-                    <motion.h1
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="text-3xl font-bold text-[var(--color-text-main)] leading-tight mb-2"
-                    >
+                    <h1 className="text-3xl font-bold text-[var(--color-text-main)] leading-tight mb-2">
                         Welcome back
-                    </motion.h1>
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.1 }}
-                        className="text-[var(--color-text-muted)] text-sm"
-                    >
+                    </h1>
+                    <p className="text-[var(--color-text-muted)] text-sm">
                         Manage your dental care
-                    </motion.p>
+                    </p>
                 </div>
 
                 {/* Quick Actions */}
                 <div className="space-y-3">
                     {quickActions.map((action, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.1 + 0.2 }}
-                        >
+                        <div key={index}>
                             <Link to={action.path}>
                                 <GlassSurface
                                     blur="medium"
@@ -86,17 +72,12 @@ const MobileDashboard = () => {
                                     </div>
                                 </GlassSurface>
                             </Link>
-                        </motion.div>
+                        </div>
                     ))}
                 </div>
 
                 {/* Next Appointment Card (if exists) */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                    className="mt-8"
-                >
+                <div className="mt-8">
                     <GlassSurface
                         variant="panel"
                         blur="md"
@@ -114,7 +95,7 @@ const MobileDashboard = () => {
                             Schedule now →
                         </Link>
                     </GlassSurface>
-                </motion.div>
+                </div>
 
             </div>
         </div>

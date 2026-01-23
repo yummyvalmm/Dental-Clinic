@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+
 
 const About = () => {
     return (
@@ -8,11 +8,7 @@ const About = () => {
 
                     {/* Image Side - Big & Dramatic */}
                     <div className="flex-1 w-full relative">
-                        <motion.div
-                            initial={{ opacity: 0, clipPath: 'inset(100% 0 0 0)' }}
-                            whileInView={{ opacity: 1, clipPath: 'inset(0% 0 0 0)' }}
-                            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-                            viewport={{ once: true }}
+                        <div
                             className="relative aspect-[3/4] rounded-[2rem] overflow-hidden group"
                         >
                             <img
@@ -24,7 +20,7 @@ const About = () => {
                             <div className="absolute inset-x-0 bottom-0 p-12 bg-gradient-to-t from-primary/40 to-transparent">
                                 <span className="text-white text-xs uppercase tracking-[0.4em] font-medium">Inside the Studio</span>
                             </div>
-                        </motion.div>
+                        </div>
 
                         {/* Background Texture */}
                         <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-accent-soft/30 rounded-full blur-3xl -z-10" />

@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { Star, ArrowRight, Play } from 'lucide-react';
 
 const Hero = () => {
@@ -14,48 +13,28 @@ const Hero = () => {
                     <div className="space-y-8 lg:space-y-10 text-center lg:text-left order-2 lg:order-1">
 
                         {/* Badge */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6 }}
-                            className="inline-flex items-center gap-3 border-l-2 border-accent pl-4"
-                        >
+                        <div className="inline-flex items-center gap-3 border-l-2 border-accent pl-4">
                             <span className="text-[10px] font-bold text-[var(--color-text-muted)] uppercase tracking-widest">Est. 2008 • London</span>
                             <span className="w-1 h-1 rounded-full bg-primary/20" />
                             <span className="text-[10px] font-bold text-accent uppercase tracking-widest">GDC Accredited</span>
-                        </motion.div>
+                        </div>
 
                         {/* Title - Compact & Powerful */}
-                        <motion.h1
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.1 }}
-                            className="text-4xl md:text-5xl lg:text-6xl font-serif text-[var(--color-text-main)] leading-[1.1] tracking-tight"
-                        >
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-[var(--color-text-main)] leading-[1.1] tracking-tight">
                             Mastery in <br />
                             <span className="italic text-[var(--color-text-muted)]">Restorative</span> & <br />
                             <span className="text-accent relative inline-block">
                                 Implant Dentistry.
                                 <svg className="absolute w-full h-3 -bottom-1 left-0 text-accent opacity-40" viewBox="0 0 200 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.00025 6.99997C25.7501 2.99991 63.8122 1.63861 106.002 2.99997C146.969 4.32174 183.003 6.99997 198.003 6.99997" stroke="currentColor" strokeWidth="3" strokeLinecap="round" /></svg>
                             </span>
-                        </motion.h1>
+                        </h1>
 
-                        <motion.p
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.2 }}
-                            className="text-base text-[var(--color-text-muted)] leading-relaxed max-w-lg mx-auto lg:mx-0 font-medium"
-                        >
+                        <p className="text-base text-[var(--color-text-muted)] leading-relaxed max-w-lg mx-auto lg:mx-0 font-medium">
                             Led by <strong className="text-[var(--color-text-main)]">Dr. Sarah Johnson</strong>. We specialize in complex case rehabilitation using minimally invasive microsurgery and digital smile design.
-                        </motion.p>
+                        </p>
 
                         {/* Actions */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.3 }}
-                            className="flex flex-col sm:flex-row items-center gap-6 justify-center lg:justify-start pt-2"
-                        >
+                        <div className="flex flex-col sm:flex-row items-center gap-6 justify-center lg:justify-start pt-2">
                             <button className="px-8 py-3.5 text-white rounded-full font-bold text-xs uppercase tracking-widest btn-liquid hover:text-white flex items-center gap-3 shadow-lg shadow-blue-900/20">
                                 Request Consultation <ArrowRight size={16} />
                             </button>
@@ -65,15 +44,10 @@ const Hero = () => {
                                 </div>
                                 <span className="text-xs font-bold text-[var(--color-text-muted)] group-hover:text-[var(--color-text-main)] transition-colors">See Patient Stories</span>
                             </div>
-                        </motion.div>
+                        </div>
 
                         {/* Trust Logos */}
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 1, delay: 0.5 }}
-                            className="pt-10 border-t border-[var(--glass-border)] mt-4"
-                        >
+                        <div className="pt-10 border-t border-[var(--glass-border)] mt-4">
                             <p className="text-[10px] uppercase tracking-widest text-[var(--color-text-muted)]/50 font-bold mb-4">Recognized Excellence</p>
                             <div className="flex justify-center lg:justify-start gap-8 opacity-40 grayscale hover:grayscale-0 transition-all duration-500">
                                 <span className="font-serif text-lg font-bold italic">Vogue</span>
@@ -81,17 +55,12 @@ const Hero = () => {
                                 <span className="font-serif text-base font-bold">Harrods</span>
                                 <span className="font-sans text-base font-bold tracking-widest">FORBES</span>
                             </div>
-                        </motion.div>
+                        </div>
                     </div>
 
                     {/* Right: Visual Story */}
                     <div className="relative order-1 lg:order-2 h-full flex items-center">
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 1, delay: 0.4 }}
-                            className="relative w-full aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-2xl ring-1 ring-white/10"
-                        >
+                        <div className="relative w-full aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-2xl ring-1 ring-white/10">
                             <img
                                 srcSet="https://images.unsplash.com/photo-1629909613654-28e377c37b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80&fm=webp 800w, https://images.unsplash.com/photo-1629909613654-28e377c37b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=2068&q=80&fm=webp 2000w"
                                 sizes="(max-width: 768px) 100vw, 50vw"
@@ -120,10 +89,10 @@ const Hero = () => {
                                     {[1, 2, 3, 4, 5].map(i => <Star key={i} size={12} className="fill-accent text-accent" />)}
                                 </div>
                             </div>
-                        </motion.div>
+                        </div>
 
-                        {/* Decorative Graphic */}
-                        <div className="absolute -z-10 top-10 -right-10 w-40 h-40 border border-white/5 rounded-full flex items-center justify-center animate-spin-slow opacity-60">
+                        {/* Decorative Graphic - Static */}
+                        <div className="absolute -z-10 top-10 -right-10 w-40 h-40 border border-white/5 rounded-full flex items-center justify-center opacity-60">
                             <div className="w-2 h-2 bg-accent rounded-full absolute top-0 left-1/2 -translate-x-1/2" />
                         </div>
                     </div>
