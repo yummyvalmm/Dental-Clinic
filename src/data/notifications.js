@@ -46,6 +46,62 @@ export const mockNotifications = [
         message: 'Your payment for the last visit is due. Please settle your account.',
         timestamp: new Date('2026-01-08T10:00:00'),
         read: true
+    },
+    {
+        id: '6',
+        type: notificationTypes.CONFIRMATION,
+        title: 'Test Results Ready',
+        message: 'Your dental X-ray results are now available. Please check your patient portal.',
+        timestamp: new Date('2026-01-07T15:30:00'),
+        read: true
+    },
+    {
+        id: '7',
+        type: notificationTypes.REMINDER,
+        title: 'Annual Checkup Due',
+        message: 'It\'s time for your annual dental checkup. Schedule your appointment today!',
+        timestamp: new Date('2026-01-06T09:00:00'),
+        read: false
+    },
+    {
+        id: '8',
+        type: notificationTypes.UPDATE,
+        title: 'New Office Hours',
+        message: 'We\'re now open on Saturdays from 9 AM to 2 PM for your convenience.',
+        timestamp: new Date('2026-01-05T12:00:00'),
+        read: true
+    },
+    {
+        id: '9',
+        type: notificationTypes.APPOINTMENT,
+        title: 'Follow-up Required',
+        message: 'Dr. Johnson recommends a follow-up visit in 2 weeks. Please schedule soon.',
+        timestamp: new Date('2026-01-04T14:20:00'),
+        read: false
+    },
+    {
+        id: '10',
+        type: notificationTypes.REMINDER,
+        title: 'Prescription Ready',
+        message: 'Your prescribed mouthwash is ready for pickup at the front desk.',
+        timestamp: new Date('2026-01-03T11:00:00'),
+        read: true
+    },
+    {
+        id: '11',
+        type: notificationTypes.UPDATE,
+        title: 'Insurance Update',
+        message: 'We now accept Delta Dental insurance. Update your profile if applicable.',
+        timestamp: new Date('2026-01-02T10:30:00'),
+        read: true
+    },
+    {
+        id: '12',
+        type: notificationTypes.CONFIRMATION,
+        title: 'Payment Received',
+        message: 'Thank you! Your payment of $150 has been successfully processed.',
+        timestamp: new Date('2026-01-01T16:45:00'),
+        read: true
     }
 ];
 

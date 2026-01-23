@@ -17,6 +17,7 @@ const GlassSurface = ({
     className = '',
     blur = 'medium',  // 'low' (12px), 'medium' (20px), 'high' (30px)
     tint = true,      // Legibility layer
+    allowOverflow = false,  // Allow children to scroll
     onClick,
     animated = false,
     ...props
@@ -37,7 +38,7 @@ const GlassSurface = ({
         border border-[var(--glass-border)]
         group
         relative
-        overflow-hidden
+        ${allowOverflow ? '' : 'overflow-hidden'}
         transition-all
         duration-500
         ease-out
@@ -80,7 +81,7 @@ const GlassSurface = ({
             )}
 
             {/* Content layer above tint */}
-            <div className="relative z-10">
+            <div className="relative z-10 flex flex-col flex-1 min-h-0">
                 {children}
             </div>
         </Component>

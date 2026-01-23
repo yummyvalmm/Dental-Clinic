@@ -12,14 +12,23 @@ const NotificationCenter = ({ isOpen, onClose, notifications, onMarkAsRead, onMa
     const { permission, isRequesting, fcmToken, requestPermission } = useNotificationContext();
 
     // Close on escape key
+    // Close on escape key & Lock Body Scroll
     useEffect(() => {
         const handleEscape = (e) => {
             if (e.key === 'Escape' && isOpen) {
                 onClose();
             }
         };
-        window.addEventListener('keydown', handleEscape);
-        return () => window.removeEventListener('keydown', handleEscape);
+
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+            window.addEventListener('keydown', handleEscape);
+        }
+
+        return () => {
+            document.body.style.overflow = 'unset';
+            window.removeEventListener('keydown', handleEscape);
+        };
     }, [isOpen, onClose]);
 
     return (
@@ -32,23 +41,30 @@ const NotificationCenter = ({ isOpen, onClose, notifications, onMarkAsRead, onMa
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
-                        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+                        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[70]"
                     />
 
-                    {/* Notification Panel */}
+                    {/* Notification Panel - iOS Style */}
                     <motion.div
-                        initial={{ x: '100%' }}
-                        animate={{ x: 0 }}
-                        exit={{ x: '100%' }}
+                        initial={{ y: '-100%' }}
+                        animate={{ y: 0 }}
+                        exit={{ y: '-100%' }}
                         transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-                        className="fixed top-0 right-0 h-full w-full sm:w-[400px] z-50"
+                        className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-md h-screen z-[80] rounded-b-3xl shadow-2xl"
+                        onClick={(e) => e.stopPropagation()}
                     >
                         <GlassSurface
-                            className="h-full flex flex-col"
+                            className="h-full flex flex-col rounded-b-3xl overflow-hidden"
                             intensity="high"
+                            allowOverflow={true}
                         >
+                            {/* Pull Handle - iOS Style */}
+                            <div className="pt-2 pb-4 flex justify-center">
+                                <div className="w-10 h-1 bg-white/30 rounded-full" />
+                            </div>
+
                             {/* Header */}
-                            <div className="px-6 pb-6 pt-28 border-b border-[var(--glass-border)]">
+                            <div className="px-6 pb-6 border-b border-[var(--glass-border)]">
                                 <div className="flex items-center justify-between mb-4">
                                     <div className="flex items-center gap-3">
                                         <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
@@ -69,30 +85,10 @@ const NotificationCenter = ({ isOpen, onClose, notifications, onMarkAsRead, onMa
                                     </button>
                                 </div>
 
-                                {/* Actions */}
-                                {notifications.length > 0 && (
-                                    <div className="flex gap-2">
-                                        {unreadCount > 0 && (
-                                            <button
-                                                onClick={onMarkAllAsRead}
-                                                className="flex-1 px-3 py-2 rounded-xl bg-[var(--glass-bg-low)] hover:bg-[var(--glass-bg-medium)] text-xs font-semibold text-[var(--color-text-main)] transition-colors flex items-center justify-center gap-2"
-                                            >
-                                                <CheckCheck size={14} />
-                                                Mark all read
-                                            </button>
-                                        )}
-                                        <button
-                                            onClick={onClearAll}
-                                            className="flex-1 px-3 py-2 rounded-xl bg-[var(--glass-bg-low)] hover:bg-[var(--glass-bg-medium)] text-xs font-semibold text-[var(--color-text-main)] transition-colors"
-                                        >
-                                            Clear all
-                                        </button>
-                                    </div>
-                                )}
                             </div>
 
                             {/* Notifications List */}
-                            <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                            <div className="flex-1 min-h-0 overflow-y-auto p-4 space-y-3">
                                 {/* Permission Request Banner */}
                                 {permission === 'default' && (
                                     <div className="bg-blue-600/20 border border-blue-500/30 rounded-2xl p-4 mb-4 flex flex-col gap-3">
@@ -154,6 +150,19 @@ const NotificationCenter = ({ isOpen, onClose, notifications, onMarkAsRead, onMa
                                     </AnimatePresence>
                                 )}
                             </div>
+
+                            {/* Sticky Mark All Read Button */}
+                            {notifications.length > 0 && unreadCount > 0 && (
+                                <div className="sticky bottom-0 p-4 bg-[var(--glass-bg-medium)] backdrop-blur-xl border-t border-[var(--glass-border)]">
+                                    <button
+                                        onClick={onMarkAllAsRead}
+                                        className="w-full px-4 py-3 rounded-xl bg-accent/20 hover:bg-accent/30 text-sm font-semibold text-accent transition-all duration-300 flex items-center justify-center gap-2 active:scale-95"
+                                    >
+                                        <CheckCheck size={18} />
+                                        Mark all as read
+                                    </button>
+                                </div>
+                            )}
                         </GlassSurface>
                     </motion.div>
                 </>

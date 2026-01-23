@@ -191,7 +191,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
             </AnimatePresence >
 
             {/* Notification Center */}
-            < NotificationCenter
+            <NotificationCenter
                 isOpen={isNotificationOpen}
                 onClose={() => setIsNotificationOpen(false)}
                 notifications={notifications}
