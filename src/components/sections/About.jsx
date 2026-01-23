@@ -19,6 +19,7 @@ const About = () => {
                                 src="https://images.unsplash.com/photo-1542884841-33167f225301?auto=format&fit=crop&q=80&w=1974&fm=webp"
                                 alt="Clinic Environment"
                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[3s] ease-linear"
+                                loading="lazy"
                             />
                             <div className="absolute inset-x-0 bottom-0 p-12 bg-gradient-to-t from-primary/40 to-transparent">
                                 <span className="text-white text-xs uppercase tracking-[0.4em] font-medium">Inside the Studio</span>

@@ -66,7 +66,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                             <Link to="/" className="flex items-center gap-2 group">
                                 <div className="relative w-10 h-10 rounded-xl flex items-center justify-center text-white font-serif font-bold text-xl shadow-lg overflow-hidden group-hover:shadow-blue-500/30 transition-all duration-500">
                                     <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-600"></div>
-                                    <span className="relative z-10">N</span>
+                                    <span className="relative z-10" aria-hidden="true">N</span>
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="font-serif text-xl tracking-tight text-[var(--color-text-main)] leading-none">Nova</span>

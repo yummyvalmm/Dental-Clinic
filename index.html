@@ -9,6 +9,24 @@
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="description"
     content="Premium dental care at Nova Dental. Book appointments, manage your treatment history, and access expert dental services with our modern digital platform." />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://novadental.com/" />
+  <meta property="og:title" content="Nova Dental - Mastery in Restorative & Implant Dentistry" />
+  <meta property="og:description"
+    content="Premium dental care in Knightsbridge, London. Specializing in complex case rehabilitation using minimally invasive microsurgery and digital smile design." />
+  <meta property="og:image" content="https://novadental.com/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://novadental.com/" />
+  <meta name="twitter:title" content="Nova Dental - Mastery in Restorative & Implant Dentistry" />
+  <meta name="twitter:description"
+    content="Premium dental care in Knightsbridge, London. Specializing in complex case rehabilitation using minimally invasive microsurgery and digital smile design." />
+  <meta name="twitter:image" content="https://novadental.com/og-image.jpg" />
   <meta name="theme-color" content="#0F172A" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -20,7 +38,86 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Playfair+Display:wght@400;700&display=swap"
     rel="stylesheet">
-  <title>Nova Dental</title>
+  <title>Nova Dental - Mastery in Restorative & Implant Dentistry | London</title>
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dentist",
+    "name": "Nova Dental",
+    "image": "https://novadental.com/og-image.jpg",
+    "@id": "https://novadental.com",
+    "url": "https://novadental.com",
+    "telephone": "+44 (0) 20 7123 4567",
+    "priceRange": "£££",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "12 Hans Road, Knightsbridge",
+      "addressLocality": "London",
+      "postalCode": "SW3 1RT",
+      "addressCountry": "GB"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 51.499092,
+      "longitude": -0.165685
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "09:00",
+        "closes": "18:00"
+      }
+    ],
+    "sameAs": [
+      "https://www.facebook.com/novadental",
+      "https://www.instagram.com/novadental"
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5",
+      "reviewCount": "247"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Dental Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Dental Implants",
+            "description": "Permanent tooth replacement using titanium implants"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Cosmetic Dentistry",
+            "description": "Veneers, whitening, and smile design"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Restorative Dentistry",
+            "description": "Complex case rehabilitation and full mouth reconstruction"
+          }
+        }
+      ]
+    }
+  }
+  </script>
 </head>
 
 <body>

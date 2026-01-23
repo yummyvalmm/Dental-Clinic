@@ -40,6 +40,7 @@ const Team = () => {
                                     src={member.image}
                                     alt={member.name}
                                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[1.5s] ease-out"
+                                    loading="lazy"
                                 />
 
                                 {/* Info Overlay */}

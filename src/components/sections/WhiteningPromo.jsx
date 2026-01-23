@@ -44,6 +44,7 @@ const WhiteningPromo = () => {
                                     src="https://images.unsplash.com/photo-1598256989800-fe5f95da9787?auto=format&fit=crop&q=80&w=2070&fm=webp"
                                     alt="Bright Smile"
                                     className="rounded-3xl shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500"
+                                    loading="lazy"
                                 />
                             </div>
                             {/* Visual accent behind image */}
