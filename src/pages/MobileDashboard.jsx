@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Calendar, Clock, Phone, FileText, ChevronRight, ArrowRight, Bell } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import GlassSurface from '../components/ui/GlassSurface';
+import Skeleton from '../components/ui/Skeleton';
 import { useAuth } from '../context/AuthContext';
 import { appointmentService } from '../services/appointmentService';
 
@@ -147,10 +148,7 @@ const MobileDashboard = () => {
 
                             <div className="mb-6">
                                 {isLoading ? (
-                                    <div className="animate-pulse space-y-2">
-                                        <div className="h-4 bg-[var(--glass-bg-low)] rounded w-3/4"></div>
-                                        <div className="h-4 bg-[var(--glass-bg-low)] rounded w-1/2"></div>
-                                    </div>
+                                    <Skeleton count={1} className="w-full opacity-60" />
                                 ) : nextAppointment ? (
                                     <>
                                         {/* Status Badge */}
@@ -212,7 +210,7 @@ const MobileDashboard = () => {
                             <Link
                                 to="/book"
                                 state={lastAppointment ? { serviceId: lastAppointment.service || lastAppointment.type } : null}
-                                className="flex items-center justify-between w-full p-1 pl-4 pr-2 rounded-xl bg-[var(--glass-bg-medium)] border border-[var(--glass-border)] group/btn text-[var(--color-text-main)] hover:bg-accent hover:border-accent hover:text-white transition-all duration-300"
+                                className="flex items-center justify-between w-full p-1 pl-4 pr-2 rounded-xl bg-[var(--glass-bg-medium)] border border-[var(--glass-border)] group/btn text-[var(--color-text-main)] hover:bg-accent hover:border-accent hover:text-white transition-all duration-300 active-press"
                             >
                                 <span className="text-sm font-bold">
                                     {lastAppointment ? 'Quick Rebook' : 'Schedule Visit'}

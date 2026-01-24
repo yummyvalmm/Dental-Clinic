@@ -1,6 +1,6 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import LoadingSpinner from '../ui/LoadingSpinner';
+import Skeleton from '../ui/Skeleton';
 
 const ProtectedRoute = ({ children }) => {
     const { user, loading } = useAuth();
@@ -8,8 +8,8 @@ const ProtectedRoute = ({ children }) => {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-bg-body">
-                <LoadingSpinner />
+            <div className="min-h-screen flex items-center justify-center bg-[var(--color-bg-body)]">
+                <Skeleton count={1} className="w-48" />
             </div>
         );
     }

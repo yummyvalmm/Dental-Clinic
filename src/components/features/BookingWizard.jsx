@@ -465,7 +465,7 @@ const BookingWizard = () => {
                                 className={`flex-1 h-14 rounded-full font-bold uppercase tracking-widest text-sm flex items-center justify-center gap-2 transition-all shadow-glow
                                 ${((step === 2 && (!formData.date || !formData.time)) || isSubmitting)
                                         ? 'bg-[var(--glass-bg-low)] text-[var(--color-text-muted)]/50 cursor-not-allowed border border-[var(--glass-border)]'
-                                        : 'bg-accent text-white hover:scale-[1.02] active:scale-[0.98] cursor-pointer animate-pulse-subtle'}`}
+                                        : 'bg-accent text-white hover:scale-[1.02] cursor-pointer animate-pulse-subtle active-press'}`}
                             >
                                 {isSubmitting ? (
                                     <span className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />

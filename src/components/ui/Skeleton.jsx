@@ -1,29 +1,32 @@
 import React from 'react';
+import GlassSurface from './GlassSurface';
 
 /**
- * Skeleton Component
- * A "Performance First" loading placeholder that mimics the shape of content.
- * Uses a glass-like shimmer effect to match the app's aesthetic.
+ * SkeletonLoader Component
  * 
- * Props:
- * - className: Additional classes for sizing/positioning (e.g., 'w-full h-32')
- * - variant: 'default' | 'circle' | 'text'
+ * Replaces generic spinners with a shimmering "skeleton" UI.
+ * Used for loading states in lists, cards, and details.
  */
-const Skeleton = ({ className = '', variant = 'default', ...props }) => {
-    const baseStyles = "relative overflow-hidden bg-white/10 backdrop-blur-sm before:absolute before:inset-0 before:-translate-x-full before:animate-[skeleton-shimmer_1.5s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent";
-
-
-    const variants = {
-        default: "rounded-lg",
-        circle: "rounded-full",
-        text: "rounded h-4 w-full"
-    };
-
+const Skeleton = ({ count = 3, className = '' }) => {
     return (
-        <div
-            className={`${baseStyles} ${variants[variant] || variants.default} ${className}`}
-            {...props}
-        />
+        <div className={`w-full space-y-4 ${className}`}>
+            {Array.from({ length: count }).map((_, i) => (
+                <GlassSurface
+                    key={i}
+                    blur="low"
+                    className="h-24 w-full rounded-2xl relative overflow-hidden"
+                >
+                    {/* Shimmer Effect */}
+                    <div className="absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/10 to-transparent z-10" />
+
+                    {/* Skeleton Content Structure */}
+                    <div className="p-4 flex flex-col justify-center h-full gap-3 opacity-50">
+                        <div className="h-4 w-1/3 bg-white/20 rounded-full" />
+                        <div className="h-3 w-1/2 bg-white/10 rounded-full" />
+                    </div>
+                </GlassSurface>
+            ))}
+        </div>
     );
 };
 

@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, CheckCircle, Clock, AlertCircle, Loader2, FileDown, ChevronDown, Stethoscope, Pill, ChevronLeft } from 'lucide-react';
 import GlassSurface from '../components/ui/GlassSurface';
-import SkeletonLoader from '../components/ui/LoadingSpinner';
+import Skeleton from '../components/ui/Skeleton';
+import EmptyState from '../components/ui/EmptyState';
 import { useAuth } from '../context/AuthContext';
-import { useLayout } from '../context/LayoutContext';
 import { useNavigate } from 'react-router-dom';
 
 import { appointmentService } from '../services/appointmentService';
@@ -13,7 +13,6 @@ import { toast } from 'sonner';
 
 const HistoryPage = () => {
     const { user, isLoggedIn } = useAuth();
-    const { setIsNavbarHidden } = useLayout();
     const navigate = useNavigate();
 
     // State management
@@ -148,7 +147,7 @@ const HistoryPage = () => {
                                 exit={{ opacity: 0 }}
                                 className="py-12 flex justify-center"
                             >
-                                <SkeletonLoader count={3} />
+                                <Skeleton count={3} />
                             </motion.div>
                         ) : error ? (
                             <motion.div key="error" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
@@ -278,14 +277,11 @@ const HistoryPage = () => {
                                 ))}
                             </div>
                         ) : (
-                            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                                <GlassSurface className="p-8 text-center flex flex-col items-center justify-center min-h-[300px]" intensity="low">
-                                    <div className="w-16 h-16 rounded-full bg-[var(--glass-bg-low)] flex items-center justify-center mb-4 text-[var(--color-text-muted)]/50">
-                                        <Calendar size={32} />
-                                    </div>
-                                    <h3 className="text-[var(--color-text-main)] font-bold mb-2">No Records Found</h3>
-                                    <p className="text-[var(--color-text-muted)] text-sm max-w-[200px] mb-6">You haven't had any appointments in this category yet.</p>
-
+                            <EmptyState
+                                icon={Calendar}
+                                title="No Records Found"
+                                description="You haven't had any appointments in this category yet."
+                                action={
                                     <button
                                         onClick={handleSeed}
                                         disabled={isSeeding}
@@ -294,8 +290,8 @@ const HistoryPage = () => {
                                         {isSeeding ? <Loader2 className="animate-spin" size={14} /> : <Sparkles size={14} />}
                                         Seed Test Data
                                     </button>
-                                </GlassSurface>
-                            </motion.div>
+                                }
+                            />
                         )}
                     </AnimatePresence>
                 </div>

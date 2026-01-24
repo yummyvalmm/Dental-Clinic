@@ -5,11 +5,11 @@ import { X, Bell, CheckCheck, BellRing, Settings } from 'lucide-react';
 import GlassSurface from './GlassSurface';
 import NotificationItem from './NotificationItem';
 
-const NotificationCenter = ({ isOpen, onClose, notifications, onMarkAsRead, onMarkAllAsRead, onClearAll }) => {
+const NotificationCenter = ({ isOpen, onClose, notifications, onMarkAsRead, onMarkAllAsRead }) => {
     const unreadCount = notifications.filter(n => !n.read).length;
 
     // Use the custom hook context
-    const { permission, isRequesting, fcmToken, requestPermission } = useNotificationContext();
+    const { permission, isRequesting, requestPermission } = useNotificationContext();
 
     // Close on escape key
     // Close on escape key & Lock Body Scroll

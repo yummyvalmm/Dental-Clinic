@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-env serviceworker */
 /* global clients */
 

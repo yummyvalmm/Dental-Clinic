@@ -1,14 +1,14 @@
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import LoadingSpinner from '../ui/LoadingSpinner';
+import Skeleton from '../ui/Skeleton';
 
 const PublicRoute = ({ children }) => {
-    const { user, loading } = useAuth();
+    const { user, loading: isLoading } = useAuth(); // Renamed 'loading' to 'isLoading' for consistency with the instruction's snippet
 
-    if (loading) {
+    if (isLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-bg-body">
-                <LoadingSpinner />
+            <div className="min-h-screen flex items-center justify-center bg-[var(--color-bg-body)]">
+                <Skeleton count={1} className="w-48" />
             </div>
         );
     }

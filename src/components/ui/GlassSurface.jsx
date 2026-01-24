@@ -24,9 +24,6 @@ const GlassSurface = React.memo(({
 }) => {
     const { trigger } = useHaptic();
 
-    // Check if device is likely mobile (simple heuristic)
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-
     // Blur levels for hierarchy - Updated to 2026 Standards (Min 12px)
     const blurLevels = {
         low: 'backdrop-blur-[12px]',      // Background cards

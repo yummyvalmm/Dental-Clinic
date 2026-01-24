@@ -27,13 +27,13 @@ export const usePushNotifications = () => {
 
     // 2. Listen for Foreground Messages
     useEffect(() => {
-        const unsubscribe = onMessageListener().then((payload) => {
+        onMessageListener().then((payload) => {
             toast.info(payload.notification.title || 'New Notification', {
                 description: payload.notification.body,
                 duration: 5000,
                 position: 'top-center' // Or 'bottom-center' for mobile friendliness
             });
-        }).catch((err) => { });
+        }).catch(() => { });
 
         // Note: The current onMessageListener implementation returns a Promise, 
         // effectively a one-time listener. ideally it should return an unsubscribe 
