@@ -5,8 +5,8 @@
   --font-serif: 'Playfair Display', serif;
 
   /* PWA-Specific Professional Fonts - Prioritize System */
-  --font-heading-pwa: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --font-body-pwa: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-heading-pwa: 'Playfair Display', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-body-pwa: 'Manrope', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 
   --color-primary: var(--color-primary);
   --color-accent: #2563EB;
@@ -31,14 +31,20 @@
   /* White */
   --color-text-main: #1A1A1A;
   /* Neutral dark gray instead of blue-tinted slate */
-  --color-text-muted: #64748B;
-  /* Slate-500 */
+  --color-text-muted: #475569;
+  /* Slate-600 */
   --color-primary: #F1F5F9;
   /* Slate-100 */
 
   /* Glassmorphism - Proper Implementation */
-  --glass-bg-low: rgba(255, 255, 255, 0.08);
-  --glass-bg-medium: rgba(255, 255, 255, 0.1);
+  /* Glassmorphism - Proper Implementation (Refined High Contrast) */
+  /* Level 1: Cards (Grounded, High Content Visibility) */
+  --glass-bg-low: rgba(255, 255, 255, 0.85);
+
+  /* Level 1.5: Floating Panels */
+  --glass-bg-medium: rgba(255, 255, 255, 0.85);
+
+  /* Level 2: Modals / Overlays (Glassy aesthetics) */
   --glass-bg-high: rgba(255, 255, 255, 0.15);
 
   /* Tint layer for legibility */
@@ -226,9 +232,9 @@ body {
   /* Default behavior for Web/Browser (Scrolls Window) */
   html,
   body {
-    overscroll-behavior-y: auto;
+    overscroll-behavior-y: contain;
     width: 100%;
-    /* No overflow hidden here, letting window scroll naturally */
+    min-height: 100%;
   }
 
   /* Mobile Performance Overrides */
@@ -253,12 +259,12 @@ body {
 
     html,
     body {
-      /* Lock the Viewport strictly */
-      overflow: hidden;
-      position: fixed;
+      /* Simplified PWA Scroll: Rely on natural viewport */
+      overflow-x: hidden;
+      overflow-y: auto;
       width: 100%;
       height: 100%;
-      overscroll-behavior: none;
+      overscroll-behavior-y: contain;
       -webkit-overflow-scrolling: touch;
     }
 
@@ -267,12 +273,8 @@ body {
      This class must be targeted via the ID #scroll-container in MainLayout
   */
     #scroll-container {
-      height: 100vh !important;
-      overflow-y: auto !important;
-      overscroll-behavior-y: auto !important;
-      -webkit-overflow-scrolling: touch;
-
-      padding-top: 0 !important;
+      min-height: 100vh;
+      overflow-y: visible !important;
       background-color: var(--color-bg-body);
     }
 
@@ -305,37 +307,21 @@ body {
 
   /* PWA Typography System - Bold, Trustworthy, Professional */
   h1,
-  h2,
+  h2 {
+    font-family: var(--font-heading-pwa) !important;
+    /* Playfair Display or System Serif */
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
   h3,
   h4,
   h5,
   h6 {
-    font-family: var(--font-heading-pwa) !important;
+    /* STRICTLY MANROPE / SANS for readability */
+    font-family: var(--font-body-pwa) !important;
     font-weight: 700;
-    /* Bold by default for authority */
-    letter-spacing: -0.02em;
-    /* Tighter tracking for impact */
-  }
-
-  h1 {
-    font-weight: 800;
-    /* Extra bold for main headings */
-    letter-spacing: -0.03em;
-  }
-
-  h2 {
-    font-weight: 700;
-    letter-spacing: -0.025em;
-  }
-
-  h3,
-  h4 {
-    font-weight: 700;
-  }
-
-  h5,
-  h6 {
-    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 
   /* Body text with improved readability */
@@ -642,7 +628,7 @@ textarea {
 }
 
 .btn-liquid:active {
-  transform: translateY(1px) scale(0.97);
+  transform: translateY(1px) scale(0.95);
   box-shadow:
     inset 0 1px 0 0 rgba(255, 255, 255, 0.6),
     0 4px 8px rgba(37, 99, 235, 0.1);
@@ -693,7 +679,7 @@ textarea {
 }
 
 .active-press:active {
-  transform: scale(0.96);
+  transform: scale(0.95);
 }
 
 

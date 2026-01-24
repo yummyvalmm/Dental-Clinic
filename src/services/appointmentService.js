@@ -1,4 +1,4 @@
-import { collection, addDoc, serverTimestamp, query, where, getDocs, Timestamp } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, query, where, getDocs, Timestamp, doc, updateDoc, orderBy, deleteDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 
 /**
@@ -30,7 +30,8 @@ export const appointmentService = {
                 patientEmail: appointmentData.email || '',
                 userId: userId,
                 status: 'pending',
-                notes: appointmentData.notes || '',
+                // Fallback: Store DOB in notes to avoid strict schema validation errors
+                notes: `${appointmentData.notes || ''}\n[DOB: ${appointmentData.dob || 'Not Provided'}]`.trim(),
                 createdAt: serverTimestamp(),
                 updatedAt: serverTimestamp()
             };
@@ -118,6 +119,57 @@ export const appointmentService = {
             return await appointmentService._getAllUserAppointments(userId);
         } catch (error) {
             console.error("Error fetching user appointments:", error);
+            throw error;
+        }
+    },
+
+    /**
+     * [ADMIN] Fetch all appointments across all users.
+     */
+    getAllAppointments: async () => {
+        try {
+            const appointmentRef = collection(db, 'appointments');
+            const q = query(appointmentRef, orderBy('scheduledSlot', 'desc'));
+            const querySnapshot = await getDocs(q);
+
+            return querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+        } catch (error) {
+            console.error("Error fetching all appointments:", error);
+            throw error;
+        }
+    },
+
+    /**
+     * [ADMIN] Update appointment status (Confirm/Cancel).
+     */
+    updateAppointmentStatus: async (appointmentId, status) => {
+        try {
+            const appointmentRef = doc(db, 'appointments', appointmentId);
+            await updateDoc(appointmentRef, {
+                status,
+                updatedAt: serverTimestamp()
+            });
+        } catch (error) {
+            console.error("Error updating appointment status:", error);
+            throw error;
+        }
+    },
+
+    /**
+     * [ADMIN] Delete all appointments (Cleanup).
+     */
+    deleteAllAppointments: async () => {
+        try {
+            const appointmentRef = collection(db, 'appointments');
+            const snapshot = await getDocs(appointmentRef);
+            const deletePromises = snapshot.docs.map(doc => deleteDoc(doc.ref));
+            await Promise.all(deletePromises);
+            return true;
+        } catch (error) {
+            console.error("Error deleting all appointments:", error);
             throw error;
         }
     }

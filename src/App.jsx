@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { LazyMotion, domAnimation } from 'framer-motion';
 
 import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider } from './context/AuthContext';
@@ -21,6 +22,7 @@ import PageSkeleton from './components/loaders/PageSkeleton';
 // Auth Guards
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import PublicRoute from './components/auth/PublicRoute';
+import AdminRoute from './components/auth/AdminRoute';
 
 // Pages - Direct Imports for Performance (Core Landing Pages)
 import HomePage from './pages/HomePage';
@@ -35,6 +37,7 @@ const HotlinePage = lazy(() => import('./pages/HotlinePage'));
 const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 const SystemSettingsPage = lazy(() => import('./pages/SystemSettingsPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
+const AdminPage = lazy(() => import('./pages/AdminPage'));
 
 const RoutePage = ({ component: Component }) => (
   <Suspense fallback={<PageSkeleton />}>
@@ -101,6 +104,13 @@ const AppRoutes = () => {
               <RoutePage component={SystemSettingsPage} />
             </ProtectedRoute>
           } />
+
+          {/* Admin Route */}
+          <Route path="/admin" element={
+            <AdminRoute>
+              <RoutePage component={AdminPage} />
+            </AdminRoute>
+          } />
         </Route>
       </Routes>
     </div>
@@ -114,9 +124,11 @@ function App() {
         <ThemeProvider>
           <LayoutProvider>
             <NotificationProvider>
-              <Router>
-                <AppRoutes />
-              </Router>
+              <LazyMotion features={domAnimation}>
+                <Router>
+                  <AppRoutes />
+                </Router>
+              </LazyMotion>
             </NotificationProvider>
           </LayoutProvider>
         </ThemeProvider>

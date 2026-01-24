@@ -23,16 +23,15 @@ const MainLayout = () => {
     const hiddenFooterRoutes = ['/', '/book', '/history', '/hotline', '/login', '/profile', '/settings'];
     const hiddenMobileHeaders = ['/login'];
 
-    const showNavbar = visibleNavbarRoutes.includes(pathname);
-    const showFooter = !hiddenFooterRoutes.includes(pathname);
-    const showMobileAppBar = !hiddenMobileHeaders.includes(pathname);
+    const showNavbar = visibleNavbarRoutes.includes(pathname) && !pathname.startsWith('/admin');
+    const showFooter = !hiddenFooterRoutes.includes(pathname) && !pathname.startsWith('/admin');
+    const isAdmin = pathname.startsWith('/admin');
+    const showMobileAppBar = !hiddenMobileHeaders.includes(pathname) && !isAdmin;
 
     return (
-        <>
+        <div className={isAdmin ? 'dark' : ''}>
             <Toaster richColors closeButton />
             <ScrollToTop />
-
-
 
             <SmoothScroll>
                 {showMobileAppBar && (
@@ -41,7 +40,7 @@ const MainLayout = () => {
 
                 <div
                     id="scroll-container"
-                    className={`min-h-screen bg-bg-body font-sans antialiased text-primary selection:bg-accent/20 ${showMobileAppBar ? 'pb-[calc(80px+env(safe-area-inset-bottom))]' : ''}`}
+                    className={`min-h-screen bg-bg-body font-sans antialiased text-primary selection:bg-accent/20 ${showMobileAppBar ? 'pb-[calc(120px+env(safe-area-inset-bottom))]' : ''}`}
                 >
                     {showNavbar && (
                         <Navbar
@@ -60,7 +59,7 @@ const MainLayout = () => {
                     {showFooter && <Footer />}
                 </div>
             </SmoothScroll>
-        </>
+        </div>
     );
 };
 

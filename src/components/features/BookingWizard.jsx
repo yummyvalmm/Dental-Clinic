@@ -73,6 +73,7 @@ const BookingWizard = () => {
         date: null,    // Selected day of the month
         time: null,    // Selected time slot
         name: '',      // Patient name
+        dob: '',       // Patient Date of Birth
         phone: '',     // Patient phone
         email: ''      // Patient email
     });
@@ -124,7 +125,7 @@ const BookingWizard = () => {
             handleNext();
         } catch (error) {
             console.error("Booking Error:", error);
-            toast.error('Failed to schedule appointment. Please try again.');
+            toast.error(`Booking Failed: ${error.message}`);
         } finally {
             setIsSubmitting(false);
         }
@@ -338,6 +339,7 @@ const BookingWizard = () => {
                                                 <div>
                                                     <p className="text-xs text-[var(--color-text-muted)] font-bold uppercase tracking-wider">Patient</p>
                                                     <p className="text-sm text-[var(--color-text-main)] font-bold">{formData.name}</p>
+                                                    {formData.dob && <p className="text-xs text-[var(--color-text-muted)] mt-0.5">Born: {formData.dob}</p>}
                                                 </div>
                                             </div>
                                             <button
@@ -379,6 +381,16 @@ const BookingWizard = () => {
                                                 value={formData.name}
                                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                                 className="w-full bg-[var(--glass-bg-low)] border border-[var(--glass-border)] py-4 pl-12 pr-4 text-[var(--color-text-main)] placeholder-[var(--color-text-muted)] focus:outline-none focus:border-accent/50 focus:bg-[var(--glass-bg-medium)] transition-all font-medium"
+                                            />
+                                        </div>
+                                        <div className="relative group">
+                                            <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--color-text-muted)]/50" size={18} />
+                                            <input
+                                                type="date"
+                                                placeholder="Date of Birth"
+                                                value={formData.dob}
+                                                onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
+                                                className="w-full bg-[var(--glass-bg-low)] border border-[var(--glass-border)] py-4 pl-12 pr-4 text-[var(--color-text-main)] placeholder-[var(--color-text-muted)] focus:outline-none focus:border-accent/50 focus:bg-[var(--glass-bg-medium)] transition-all font-medium appearance-none"
                                             />
                                         </div>
                                         <div className="relative group">

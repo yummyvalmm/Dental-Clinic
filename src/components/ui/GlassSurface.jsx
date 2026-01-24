@@ -17,6 +17,7 @@ const GlassSurface = React.memo(({
     children,
     className = '',
     blur = 'medium',  // 'low' (12px), 'medium' (20px), 'high' (30px)
+    elevation = 1,    // 0 = Transparent, 1 = Card (Opaque), 2 = Modal (Glassy)
     tint = true,      // Legibility layer
     allowOverflow = false,  // Allow children to scroll
     onClick,
@@ -33,8 +34,17 @@ const GlassSurface = React.memo(({
         high: 'backdrop-blur-[var(--glass-blur-lg)]'
     };
 
+    // Background levels based on Elevation (Visual Hierarchy)
+    const bgLevels = {
+        0: 'bg-transparent',
+        1: 'bg-[var(--glass-bg-low)]',   // High Contrast / Grounded
+        1.5: 'bg-[var(--glass-bg-medium)]',
+        2: 'bg-[var(--glass-bg-high)]'   // Glassy / Floating
+    };
+
     // Base glass styling - Mobile UI Standards 2026
     const blurClass = blurLevels[blur] || blurLevels['medium'];
+    const bgClass = bgLevels[elevation] || bgLevels[1];
 
     // Memoize styles to prevent re-calculations
     const style = React.useMemo(() => ({
@@ -54,7 +64,7 @@ const GlassSurface = React.memo(({
         <Component
             className={`
                 ${blurClass}
-                bg-[var(--glass-bg-low)]
+                ${bgClass}
                 border border-[var(--glass-border)]
                 group relative
                 ${allowOverflow ? '' : 'overflow-hidden'}

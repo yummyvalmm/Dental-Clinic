@@ -10,8 +10,10 @@ import { mockNotifications } from '../../data/notifications';
 import { useLayout } from '../../context/LayoutContext';
 
 import { desktopNavLinks, mobileMenuItems } from '../../data/navigation';
+import { useAuth } from '../../context/AuthContext';
 
 const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
+    const { role } = useAuth();
     const { isNavbarHidden } = useLayout();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -91,8 +93,8 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                                 <Phone size={20} />
                             </a>
 
-                            {/* Theme Toggle */}
-                            <ThemeToggle />
+                            {/* Theme Toggle - Hidden on Admin */}
+                            {!location.pathname.startsWith('/admin') && <ThemeToggle />}
 
                             {/* Notification Bell - Touch Target 44px */}
                             <button
@@ -109,7 +111,12 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                             </button>
 
                             {/* Primary CTA - Visible & Clear */}
-                            <Link to="/book" className="hidden sm:flex items-center gap-2 text-blue-900 border border-white/40 px-6 py-3 rounded-full text-xs uppercase tracking-widest font-bold btn-liquid hover:text-blue-700 transition-all active:scale-95">
+                            <Link
+                                to="/book"
+                                onMouseEnter={() => import('../../pages/BookingPage')}
+                                onTouchStart={() => import('../../pages/BookingPage')}
+                                className="hidden sm:flex items-center gap-2 text-blue-900 border border-white/40 px-6 py-3 rounded-full text-xs uppercase tracking-widest font-bold btn-liquid hover:text-blue-700 transition-all active:scale-95"
+                            >
                                 <span>Book Visit</span>
                                 <ArrowRight size={14} className="hover:translate-x-1 transition-transform" />
                             </Link>
@@ -139,6 +146,32 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                                 }}
                                 className="space-y-4"
                             >
+                                {role === 'admin' && (
+                                    <motion.div
+                                        variants={{
+                                            open: { opacity: 1, y: 0 },
+                                            closed: { opacity: 0, y: 20 }
+                                        }}
+                                    >
+                                        <Link
+                                            to="/admin"
+                                            onClick={() => setIsMenuOpen(false)}
+                                        >
+                                            <GlassSurface
+                                                className="group flex items-center justify-between p-6 rounded-[2rem] transition-all duration-300 border-accent/20 bg-accent/5"
+                                                intensity="medium"
+                                            >
+                                                <div className="flex items-center gap-5">
+                                                    <div className="w-14 h-14 rounded-full bg-accent text-white flex items-center justify-center shadow-lg shadow-accent/20">
+                                                        <Settings size={24} strokeWidth={1.5} />
+                                                    </div>
+                                                    <span className="text-xl font-bold tracking-tight text-accent">Admin Panel</span>
+                                                </div>
+                                                <ChevronRight size={20} className="text-accent" />
+                                            </GlassSurface>
+                                        </Link>
+                                    </motion.div>
+                                )}
                                 {mobileMenuItems.map((item, index) => (
                                     <motion.div
                                         key={index}

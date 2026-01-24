@@ -71,10 +71,17 @@ export const usePushNotifications = () => {
         }
     };
 
+    // 4. Manual Notification Trigger (e.g. for local actions)
+    const addNotification = (type, title, message) => {
+        console.log("Local Notification Triggered:", { type, title, message });
+        // Future: Persist to Firestore 'notifications' collection
+    };
+
     return {
         permission,
         isRequesting,
         fcmToken,
-        requestPermission
+        requestPermission,
+        addNotification
     };
 };

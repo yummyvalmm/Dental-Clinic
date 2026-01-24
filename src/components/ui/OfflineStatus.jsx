@@ -33,33 +33,31 @@ const OfflineStatus = () => {
         <AnimatePresence>
             {isOffline && (
                 <motion.div
-                    initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
-                    animate={{ opacity: 1, backdropFilter: "blur(8px)" }}
-                    exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
-                    className="fixed inset-0 z-[60] flex items-center justify-center bg-bg-body/80 p-6"
+                    initial={{ y: -100, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -100, opacity: 0 }}
+                    className="fixed top-0 left-0 right-0 z-[100] p-4 flex justify-center pointer-events-none"
                 >
                     <GlassSurface
-                        className="max-w-md w-full p-8 text-center flex flex-col items-center gap-6 rounded-3xl border-red-500/20 shadow-[0_0_50px_rgba(220,38,38,0.2)]"
+                        className="max-w-md w-full p-4 flex items-center justify-between gap-4 rounded-2xl border-orange-500/20 shadow-lg pointer-events-auto bg-orange-500/10 backdrop-blur-xl"
                         intensity="high"
                     >
-                        <div className="w-20 h-20 rounded-full bg-red-500/10 flex items-center justify-center text-red-500 shadow-inner">
-                            <WifiOff size={32} />
-                        </div>
-
-                        <div>
-                            <h2 className="text-2xl font-serif text-white mb-2">You are offline</h2>
-                            <p className="text-white/60 leading-relaxed">
-                                Please checks your internet connection.
-                                <br />Some features may be unavailable.
-                            </p>
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-orange-500/20 flex items-center justify-center text-orange-500">
+                                <WifiOff size={20} />
+                            </div>
+                            <div className="text-left">
+                                <h2 className="text-sm font-bold text-white leading-tight">Working Offline</h2>
+                                <p className="text-[10px] text-white/60">Using cached data. Some features limited.</p>
+                            </div>
                         </div>
 
                         <button
                             onClick={handleRetry}
-                            className="btn-liquid px-8 py-3 rounded-full flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-white"
+                            className="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-xl flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-white transition-colors"
                         >
-                            <RefreshCw size={16} />
-                            <span>Retry Connection</span>
+                            <RefreshCw size={12} />
+                            <span>Retry</span>
                         </button>
                     </GlassSurface>
                 </motion.div>

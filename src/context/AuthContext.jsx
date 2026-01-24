@@ -1,16 +1,29 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { authService } from '../services/authService';
+import { userService } from '../services/userService';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [userProfile, setUserProfile] = useState(null);
     const [loading, setLoading] = useState(true);
 
     // Listen for auth state changes
     useEffect(() => {
-        const unsubscribe = authService.onAuthStateChanged((currentUser) => {
-            setUser(currentUser);
+        const unsubscribe = authService.onAuthStateChanged(async (currentUser) => {
+            if (currentUser) {
+                setUser(currentUser);
+                try {
+                    const profile = await userService.getUserProfile(currentUser.uid);
+                    setUserProfile(profile);
+                } catch (error) {
+                    console.error("AuthContext: Error fetching profile:", error);
+                }
+            } else {
+                setUser(null);
+                setUserProfile(null);
+            }
             setLoading(false);
         });
         return () => unsubscribe();
@@ -23,7 +36,17 @@ export const AuthProvider = ({ children }) => {
     const logout = () => authService.logout();
 
     return (
-        <AuthContext.Provider value={{ user, isLoggedIn: !!user && !loading, loading, signup, login, loginWithGoogle, logout }}>
+        <AuthContext.Provider value={{
+            user,
+            isLoggedIn: !!user && !loading,
+            loading,
+            role: userProfile?.role || 'user',
+            userProfile,
+            signup,
+            login,
+            loginWithGoogle,
+            logout
+        }}>
             {!loading && children}
         </AuthContext.Provider>
     );

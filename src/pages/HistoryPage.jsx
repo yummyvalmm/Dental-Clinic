@@ -98,7 +98,7 @@ const HistoryPage = () => {
     }
 
     return (
-        <div className="w-full min-h-[100dvh] bg-bg-body relative overflow-hidden flex flex-col pt-8 pb-[calc(100px+env(safe-area-inset-bottom))] overscroll-none">
+        <div className="w-full min-h-[100dvh] bg-bg-body relative flex flex-col pt-8 pb-[calc(100px+env(safe-area-inset-bottom))]">
             <div className="container mx-auto px-6 relative z-10 flex-1 max-w-md w-full self-center">
 
                 {/* Header */}
@@ -188,10 +188,10 @@ const HistoryPage = () => {
                                                     <div>
                                                         <div className="flex items-center gap-2 mb-1">
                                                             <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full border
-                                                                ${(apt.type || apt.service) === 'checkup' ? 'text-blue-400 border-blue-400/20 bg-blue-400/10' :
-                                                                    (apt.type || apt.service) === 'surgery' ? 'text-rose-400 border-rose-400/20 bg-rose-400/10' :
-                                                                        'text-emerald-400 border-emerald-400/20 bg-emerald-400/10'}`}>
-                                                                {apt.type || apt.service || 'Visit'}
+                                                                ${apt.status === 'confirmed' ? 'text-emerald-400 border-emerald-400/20 bg-emerald-400/10' :
+                                                                    apt.status === 'cancelled' ? 'text-rose-400 border-rose-400/20 bg-rose-400/10' :
+                                                                        'text-amber-400 border-amber-400/20 bg-amber-400/10'}`}>
+                                                                {apt.status || 'Pending'}
                                                             </span>
                                                             <span className="text-[var(--color-text-muted)] text-xs">
                                                                 {apt.scheduledSlot.toDate().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
@@ -254,6 +254,16 @@ const HistoryPage = () => {
                                                                 <FileDown size={14} />
                                                                 Download Summary
                                                             </button>
+
+                                                            {/* Status Message */}
+                                                            <div className={`mt-4 p-3 rounded-xl border text-xs font-medium
+                                                                ${apt.status === 'confirmed' ? 'bg-emerald-400/5 border-emerald-400/10 text-emerald-200' :
+                                                                    apt.status === 'cancelled' ? 'bg-rose-400/5 border-rose-400/10 text-rose-200' :
+                                                                        'bg-amber-400/5 border-amber-400/10 text-amber-200'}`}>
+                                                                {apt.status === 'confirmed' && "Your appointment is confirmed. Please arrive 10 minutes early."}
+                                                                {apt.status === 'cancelled' && "This appointment has been cancelled. Please contact us for support."}
+                                                                {(apt.status === 'pending' || !apt.status) && "Your request is under review. We will notify you shortly."}
+                                                            </div>
 
                                                             {/* Book Again Action for Past appointments */}
                                                             {apt.scheduledSlot.toDate() < new Date() && (

@@ -5,9 +5,10 @@ import GlassSurface from '../components/ui/GlassSurface';
 import { useAuth } from '../context/AuthContext';
 
 const ProfilePage = () => {
-    const { user, isLoggedIn, logout } = useAuth();
+    const { user, isLoggedIn, role, logout } = useAuth();
 
     const resources = [
+        ...(role === 'admin' ? [{ label: 'Admin Panel', icon: Settings, path: '/admin' }] : []),
         { label: 'Privacy Policy', icon: Shield, path: '#' },
         { label: 'Terms of Service', icon: FileText, path: '#' },
         { label: 'Help & Support', icon: HelpCircle, path: '/hotline' }

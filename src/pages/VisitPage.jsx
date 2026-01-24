@@ -3,7 +3,7 @@ import { MapPin, Clock, Phone, Navigation } from 'lucide-react';
 
 const VisitPage = () => {
     return (
-        <div className="relative w-full h-[100dvh] bg-bg-body overflow-hidden overscroll-none touch-none fixed inset-0">
+        <div className="relative w-full min-h-[100dvh] bg-bg-body flex flex-col">
 
             {/* 1. Background Map - Full Screen (Desktop) / Static Image (Mobile) */}
             {/* 1. Background Map - Full Screen (Desktop Only) */}

@@ -8,6 +8,8 @@ import { registerRoute } from 'workbox-routing'
 import { CacheFirst, StaleWhileRevalidate } from 'workbox-strategies'
 import { ExpirationPlugin } from 'workbox-expiration'
 import { CacheableResponsePlugin } from 'workbox-cacheable-response'
+import { NavigationRoute } from 'workbox-routing'
+import { createHandlerBoundToURL } from 'workbox-precaching'
 
 /**
  * Service Worker for Dental Clinic PWA
@@ -30,6 +32,11 @@ cleanupOutdatedCaches()
 // Precache assets defined in the build manifest
 // This ensures core app files are available offline immediately after install
 precacheAndRoute(self.__WB_MANIFEST)
+
+// --- NAVIGATION FALLBACK ---
+// This ensures the PWA stays alive when the user navigates to a new route while offline
+// It serves the cached index.html for any navigation request
+registerRoute(new NavigationRoute(createHandlerBoundToURL('/index.html')))
 
 // --- RUNTIME CACHING (Moved from vite.config.js) ---
 

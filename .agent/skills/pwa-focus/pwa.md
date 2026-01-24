@@ -1,0 +1,1 @@
+all the instructions are for PWA 

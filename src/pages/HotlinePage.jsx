@@ -27,7 +27,7 @@ const HotlinePage = () => {
     ];
 
     return (
-        <div className="w-full h-[100dvh] bg-bg-body relative overflow-hidden flex flex-col pt-24 pb-24 lg:pt-32 overscroll-none touch-none">
+        <div className="w-full min-h-[100dvh] bg-bg-body relative flex flex-col pt-24 pb-24 lg:pt-32">
 
             {/* Ambient Background */}
             {/* Ambient Background Removed for uniform dark blue */}

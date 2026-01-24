@@ -73,7 +73,8 @@ const MobileDashboard = () => {
             icon: Calendar,
             path: "/book",
             color: "from-blue-500 to-indigo-600",
-            shadowColor: "shadow-blue-500/20"
+            shadowColor: "shadow-blue-500/20",
+            preload: () => import('./BookingPage')
         },
         {
             title: "Treatment History",
@@ -81,7 +82,8 @@ const MobileDashboard = () => {
             icon: FileText,
             path: "/history",
             color: "from-purple-500 to-pink-600",
-            shadowColor: "shadow-purple-500/20"
+            shadowColor: "shadow-purple-500/20",
+            preload: () => import('./HistoryPage')
         },
         {
             title: "Contact Clinic",
@@ -89,12 +91,17 @@ const MobileDashboard = () => {
             icon: Phone,
             path: "/hotline",
             color: "from-green-500 to-emerald-600",
-            shadowColor: "shadow-green-500/20"
+            shadowColor: "shadow-green-500/20",
+            preload: () => import('./HotlinePage')
         }
     ];
 
+    const handlePreload = (preloadFn) => {
+        if (preloadFn) preloadFn();
+    };
+
     return (
-        <div className="w-full min-h-[100dvh] bg-bg-body relative overflow-hidden flex flex-col pt-20 pb-[calc(6rem+env(safe-area-inset-bottom))] overscroll-none px-6">
+        <div className="w-full relative overflow-hidden flex flex-col pt-20 px-6">
 
             {/* Ambient Background - Subtle & Premium */}
             <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] bg-blue-400/10 rounded-full blur-[100px] pointer-events-none mix-blend-multiply dark:mix-blend-normal" />
@@ -232,7 +239,12 @@ const MobileDashboard = () => {
 
                         {quickActions.map((action, index) => (
                             <motion.div key={index} variants={itemVariants}>
-                                <Link to={action.path} className="block group">
+                                <Link
+                                    to={action.path}
+                                    className="block group"
+                                    onMouseEnter={() => handlePreload(action.preload)}
+                                    onTouchStart={() => handlePreload(action.preload)}
+                                >
                                     <GlassSurface
                                         blur="medium"
                                         tint={true}

@@ -36,8 +36,8 @@ const NotificationItem = ({ notification, onMarkAsRead }) => {
         <div
             onClick={() => !notification.read && onMarkAsRead(notification.id)}
             className={`p-3 rounded-xl cursor-pointer transition-all duration-300 ${notification.read
-                ? 'bg-[var(--glass-bg-low)] hover:bg-[var(--glass-bg-medium)]'
-                : 'bg-[var(--glass-bg-low)] hover:bg-[var(--glass-bg-medium)] border border-accent/30'
+                ? 'bg-black/5 hover:bg-black/10 dark:bg-white/5 dark:hover:bg-white/10'
+                : 'bg-white/80 dark:bg-[var(--glass-bg-low)] hover:bg-white dark:hover:bg-[var(--glass-bg-medium)] border border-accent/20 dark:border-accent/30 shadow-sm dark:shadow-none'
                 }`}
         >
             <div className="flex gap-2.5">
@@ -55,7 +55,7 @@ const NotificationItem = ({ notification, onMarkAsRead }) => {
                             <div className="w-1.5 h-1.5 rounded-full bg-accent shrink-0 mt-1" />
                         )}
                     </div>
-                    <p className={`text-[11px] leading-relaxed mb-1.5 ${notification.read ? 'text-[var(--color-text-muted)]/50' : 'text-[var(--color-text-muted)]'}`}>
+                    <p className={`text-[11px] leading-relaxed mb-1.5 ${notification.read ? 'text-[var(--color-text-muted)]' : 'text-[var(--color-text-muted)]'}`}>
                         {notification.message}
                     </p>
                     <span className="text-[10px] text-[var(--color-text-muted)]/40">
