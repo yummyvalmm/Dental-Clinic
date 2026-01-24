@@ -33,7 +33,14 @@ const BookingWizard = () => {
     // Scroll to top and sidebar control
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, [step]);
+
+        // Sync navbar visibility with step
+        if (step === 1) {
+            setIsNavbarHidden(false);
+        } else {
+            setIsNavbarHidden(true);
+        }
+    }, [step, setIsNavbarHidden]);
 
     // Handle initial state if passed via navigation (Quick Rebook)
     useEffect(() => {
@@ -42,7 +49,10 @@ const BookingWizard = () => {
             setStep(2); // Skip Step 1
             setIsNavbarHidden(true);
         }
-    }, [location.state]);
+
+        // Cleanup: Always restore navbar when leaving the wizard
+        return () => setIsNavbarHidden(false);
+    }, [location.state, setIsNavbarHidden]);
 
     // Smart Auto-Fill for Logged-in Users
     useEffect(() => {
@@ -174,7 +184,6 @@ const BookingWizard = () => {
                                             setFormData({ ...formData, service: service.id });
                                             // Small delay to allow user to see the selection state before transition
                                             setTimeout(() => {
-                                                setIsNavbarHidden(true);
                                                 handleNext();
                                             }, 350);
                                         }}

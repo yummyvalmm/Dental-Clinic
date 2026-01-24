@@ -134,8 +134,7 @@ const HistoryPage = () => {
                 <div className="relative pb-10">
                     {/* Continuous Vertical Line */}
                     {!isLoading && !error && filteredAppointments.length > 0 && (
-                        <motion.div
-                            layout
+                        <div
                             className="absolute left-[20px] top-6 bottom-0 w-0.5 bg-gradient-to-b from-[var(--glass-border)] via-[var(--glass-border)] to-transparent z-0 opacity-50"
                         />
                     )}
@@ -161,11 +160,10 @@ const HistoryPage = () => {
                             <div className="space-y-6 relative z-10">
                                 {filteredAppointments.map((apt, index) => (
                                     <motion.div
-                                        layout
                                         key={apt.id}
-                                        initial={{ opacity: 0, y: 20 }}
+                                        initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: index * 0.1, duration: 0.4, layout: { duration: 0.3 } }}
+                                        transition={{ delay: index * 0.05, duration: 0.3 }}
                                         className="relative pl-12"
                                     >
                                         {/* Timeline Dot */}
@@ -228,6 +226,7 @@ const HistoryPage = () => {
                                                         initial={{ height: 0, opacity: 0 }}
                                                         animate={{ height: 'auto', opacity: 1 }}
                                                         exit={{ height: 0, opacity: 0 }}
+                                                        transition={{ duration: 0.2, ease: "easeInOut" }}
                                                         className="overflow-hidden"
                                                     >
                                                         <div className="px-5 pb-5 pt-0 space-y-4">

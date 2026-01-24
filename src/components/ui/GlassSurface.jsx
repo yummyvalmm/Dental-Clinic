@@ -12,7 +12,7 @@ import { useHaptic } from '../../hooks/useHaptic';
  * 4. Haptic feedback on interaction
  * 5. Active state scaling
  */
-const GlassSurface = ({
+const GlassSurface = React.memo(({
     children,
     className = '',
     blur = 'medium',  // 'low' (12px), 'medium' (20px), 'high' (30px)
@@ -24,6 +24,9 @@ const GlassSurface = ({
 }) => {
     const { trigger } = useHaptic();
 
+    // Check if device is likely mobile (simple heuristic)
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
     // Blur levels for hierarchy - Updated to 2026 Standards (Min 12px)
     const blurLevels = {
         low: 'backdrop-blur-[12px]',      // Background cards
@@ -32,22 +35,12 @@ const GlassSurface = ({
     };
 
     // Base glass styling - Mobile UI Standards 2026
-    const baseClasses = `
-        ${blurLevels[blur]}
-        bg-[var(--glass-bg-low)]
-        border border-[var(--glass-border)]
-        group
-        relative
-        ${allowOverflow ? '' : 'overflow-hidden'}
-        transition-all
-        duration-500
-        ease-out
-        transform
-        translate-z-0
-        will-change-transform
-        ${onClick ? 'cursor-pointer active:scale-95 hover:border-[var(--glass-border-hover)] hover:-translate-y-0.5' : ''}
-        ${className}
-    `.trim().replace(/\s+/g, ' ');
+    const blurClass = blurLevels[blur] || blurLevels['medium'];
+
+    // Memoize styles to prevent re-calculations
+    const style = React.useMemo(() => ({
+        boxShadow: `var(--glass-shadow-deep), inset 0 1px 0 0 var(--glass-highlight)`
+    }), []);
 
     const handleInteraction = (e) => {
         if (onClick) {
@@ -60,10 +53,18 @@ const GlassSurface = ({
 
     return (
         <Component
-            className={baseClasses}
-            style={{
-                boxShadow: `var(--glass-shadow-deep), inset 0 1px 0 0 var(--glass-highlight)` // Depth shadows + Top Rim Light
-            }}
+            className={`
+                ${blurClass}
+                bg-[var(--glass-bg-low)]
+                border border-[var(--glass-border)]
+                group relative
+                ${allowOverflow ? '' : 'overflow-hidden'}
+                transition-all duration-300 ease-out
+                translate-z-0 will-change-transform
+                ${onClick ? 'cursor-pointer active:scale-95' : ''}
+                ${className} // User classes last to override
+            `.trim().replace(/\s+/g, ' ')}
+            style={style}
             onClick={handleInteraction}
             {...props}
         >
@@ -71,8 +72,9 @@ const GlassSurface = ({
             <div className="bg-noise" />
 
             {/* 2. Shine Gradient (Liquid Light) */}
+            {/* 2. Shine Gradient (Liquid Light) - Hover only on non-touch devices */}
             <div
-                className="absolute inset-0 bg-[image:var(--glass-shine)] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-[2]"
+                className="absolute inset-0 bg-[image:var(--glass-shine)] opacity-0 md:group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-[2]"
             />
 
             {/* 3. Legibility tint layer - 5% white per Mobile UI Standards */}
@@ -86,6 +88,6 @@ const GlassSurface = ({
             </div>
         </Component>
     );
-};
+});
 
 export default GlassSurface;
