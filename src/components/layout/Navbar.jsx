@@ -9,6 +9,8 @@ import ThemeToggle from '../ui/ThemeToggle';
 import { mockNotifications } from '../../data/notifications';
 import { useLayout } from '../../context/LayoutContext';
 
+import { desktopNavLinks, mobileMenuItems } from '../../data/navigation';
+
 const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
     const { isNavbarHidden } = useLayout();
     const [isScrolled, setIsScrolled] = useState(false);
@@ -44,12 +46,6 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const navLinks = [
-        { name: 'Home', href: '/' },
-        { name: 'Studio', href: '/studio' },
-        { name: 'Menu', href: '/services' },
-    ];
-
     return (
         <>
             <nav className={`fixed top-0 left-0 right-0 z-[60] py-4 transition-all duration-500 ${isNavbarHidden ? '-translate-y-full opacity-0 pointer-events-none' : 'translate-y-0 opacity-100 pointer-events-auto'}`}>
@@ -77,11 +73,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
 
                         {/* Desktop Nav Links */}
                         <div className="hidden lg:flex items-center gap-10">
-                            {[
-                                { name: 'Home', path: '/', hash: '#hero' },
-                                { name: 'The Studio', path: '/studio', hash: '#about' },
-                                { name: 'Treatments', path: '/services', hash: '#services' },
-                            ].map((link) => (
+                            {desktopNavLinks.map((link) => (
                                 <a
                                     key={link.name}
                                     href={link.hash}
@@ -147,12 +139,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                                 }}
                                 className="space-y-4"
                             >
-                                {[
-                                    { label: 'Login / Sign Up', path: '/login', icon: User },
-                                    { label: 'My Insurance', path: '#', icon: Shield },
-                                    { label: 'Language', path: '#', icon: Globe, value: 'EN' },
-                                    { label: 'Help & Support', path: '/hotline', icon: LifeBuoy }
-                                ].map((item, index) => (
+                                {mobileMenuItems.map((item, index) => (
                                     <motion.div
                                         key={index}
                                         variants={{

@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { User, LogOut, FileText, Shield, HelpCircle, ChevronRight, Mail, Phone, Settings } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import GlassSurface from '../components/ui/GlassSurface';

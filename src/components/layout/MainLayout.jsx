@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useOutlet } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import MobileAppBar from './MobileAppBar';
@@ -13,6 +14,7 @@ import { Toaster } from 'sonner';
 const MainLayout = () => {
     const { pathname } = useLocation();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const element = useOutlet();
 
     // Logic extracted exactly from App.jsx's conditional components
     // Navbar only visible on Profile page
@@ -48,7 +50,9 @@ const MainLayout = () => {
                         />
                     )}
 
-                    <Outlet />
+                    <AnimatePresence mode="wait">
+                        {element && React.cloneElement(element, { key: pathname })}
+                    </AnimatePresence>
 
                     <InstallPrompt />
                     <OfflineStatus />

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { User, Phone, Mail, ArrowRight, ArrowLeft, Lock, Eye, EyeOff, AlertCircle } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import GlassSurface from '../components/ui/GlassSurface';

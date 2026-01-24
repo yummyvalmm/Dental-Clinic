@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useHaptic } from '../../hooks/useHaptic';
+import { useMobileView } from '../../hooks/useMobileView';
 
 /**
  * GlassSurface Component - Proper Glassmorphism
@@ -23,12 +24,13 @@ const GlassSurface = React.memo(({
     ...props
 }) => {
     const { trigger } = useHaptic();
+    const isMobile = useMobileView();
 
-    // Blur levels for hierarchy - Updated to 2026 Standards (Min 12px)
+    // Blur levels using CSS variables for responsiveness
     const blurLevels = {
-        low: 'backdrop-blur-[12px]',      // Background cards
-        medium: 'backdrop-blur-[20px]',   // Primary surfaces
-        high: 'backdrop-blur-[30px]'      // Modals/overlays
+        low: 'backdrop-blur-[var(--glass-blur-sm)]',
+        medium: 'backdrop-blur-[var(--glass-blur-md)]',
+        high: 'backdrop-blur-[var(--glass-blur-lg)]'
     };
 
     // Base glass styling - Mobile UI Standards 2026
@@ -65,14 +67,15 @@ const GlassSurface = React.memo(({
             onClick={handleInteraction}
             {...props}
         >
-            {/* 1. Noise Texture for Tactile Feel */}
-            <div className="bg-noise" />
+            {/* 1. Noise Texture for Tactile Feel - Desktop Only */}
+            {!isMobile && <div className="bg-noise" />}
 
-            {/* 2. Shine Gradient (Liquid Light) */}
             {/* 2. Shine Gradient (Liquid Light) - Hover only on non-touch devices */}
-            <div
-                className="absolute inset-0 bg-[image:var(--glass-shine)] opacity-0 md:group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-[2]"
-            />
+            {!isMobile && (
+                <div
+                    className="absolute inset-0 bg-[image:var(--glass-shine)] opacity-0 md:group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-[2]"
+                />
+            )}
 
             {/* 3. Legibility tint layer - 5% white per Mobile UI Standards */}
             {tint && (

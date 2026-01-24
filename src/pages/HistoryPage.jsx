@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, CheckCircle, Clock, AlertCircle, Loader2, FileDown, ChevronDown, Stethoscope, Pill, ChevronLeft } from 'lucide-react';
+import { Calendar, CheckCircle, Clock, AlertCircle, Loader2, FileDown, ChevronDown, Stethoscope, Pill, ChevronLeft, Sparkles } from 'lucide-react';
 import GlassSurface from '../components/ui/GlassSurface';
 import Skeleton from '../components/ui/Skeleton';
 import EmptyState from '../components/ui/EmptyState';
@@ -24,7 +24,7 @@ const HistoryPage = () => {
 
     const filters = ['All', 'Checkup', 'Cleaning', 'Surgery', 'Whitening'];
 
-    const fetchHistory = async () => {
+    const fetchHistory = useCallback(async () => {
         setIsLoading(true);
         setError(null);
         try {
@@ -44,7 +44,7 @@ const HistoryPage = () => {
         } finally {
             setIsLoading(false);
         }
-    };
+    }, [user?.uid]);
 
     useEffect(() => {
         if (isLoggedIn) {
@@ -52,7 +52,7 @@ const HistoryPage = () => {
         } else {
             setIsLoading(false);
         }
-    }, [isLoggedIn, user]);
+    }, [isLoggedIn, user, fetchHistory]);
 
     const [isSeeding, setIsSeeding] = useState(false);
     const handleSeed = async () => {
@@ -62,7 +62,7 @@ const HistoryPage = () => {
             await seedService.seedDummyHistory(user.uid);
             toast.success("Dummy data seeded!");
             await fetchHistory();
-        } catch (err) {
+        } catch {
             toast.error("Failed to seed data.");
         } finally {
             setIsSeeding(false);
@@ -218,8 +218,8 @@ const HistoryPage = () => {
                                                 </div>
                                             </div>
 
-                                            {/* Expanded Content */}
-                                            <AnimatePresence>
+                                            {/* Expanded Content - Optimized */}
+                                            <AnimatePresence initial={false}>
                                                 {expandedId === apt.id && (
                                                     <motion.div
                                                         initial={{ height: 0, opacity: 0 }}

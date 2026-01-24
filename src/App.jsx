@@ -1,6 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
+
 import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider } from './context/AuthContext';
 import { NotificationProvider } from './context/NotificationContext';
@@ -36,85 +36,73 @@ const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 const SystemSettingsPage = lazy(() => import('./pages/SystemSettingsPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 
-function AppRoutes() {
+const RoutePage = ({ component: Component }) => (
+  <Suspense fallback={<PageSkeleton />}>
+    <PageTransition>
+      <Component />
+    </PageTransition>
+  </Suspense>
+);
+
+const AppRoutes = () => {
   const location = useLocation();
   const isMobileView = useMobileView();
 
   return (
     <div className="relative w-full h-full touch-pan-y">
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
-          <Route element={<MainLayout />}>
-            {/* Mobile gets Dashboard, Desktop gets HomePage */}
-            <Route path="/" element={
+      <Routes>
+        <Route element={<MainLayout />}>
+          {/* Mobile gets Dashboard, Desktop gets HomePage */}
+          <Route path="/" element={
+            <PageTransition>
+              {isMobileView ? <MobileDashboard /> : <HomePage />}
+            </PageTransition>
+          } />
+
+          {/* Utility Routes (Mobile + Desktop) */}
+          <Route path="/book" element={<RoutePage component={BookingPage} />} />
+
+          {/* Protected Routes */}
+          <Route path="/history" element={
+            <ProtectedRoute>
+              <RoutePage component={HistoryPage} />
+            </ProtectedRoute>
+          } />
+          <Route path="/profile" element={<RoutePage component={ProfilePage} />} />
+
+          <Route path="/hotline" element={<RoutePage component={HotlinePage} />} />
+
+          {/* Public Route (Login) */}
+          <Route path="/login" element={
+            <PublicRoute>
+              <RoutePage component={LoginPage} />
+            </PublicRoute>
+          } />
+
+          {/* Desktop-Only Routes */}
+          <Route path="/services" element={
+            <Suspense fallback={<PageSkeleton />}>
               <PageTransition>
-                {isMobileView ? <MobileDashboard /> : <HomePage />}
+                {isMobileView ? <MobileDashboard /> : <ServicesPage />}
               </PageTransition>
-            } />
+            </Suspense>
+          } />
+          <Route path="/studio" element={
+            <Suspense fallback={<PageSkeleton />}>
+              <PageTransition>
+                {isMobileView ? <MobileDashboard /> : <StudioPage />}
+              </PageTransition>
+            </Suspense>
+          } />
 
-            {/* Utility Routes (Mobile + Desktop) */}
-            <Route path="/book" element={
-              <Suspense fallback={<PageSkeleton />}>
-                <PageTransition><BookingPage /></PageTransition>
-              </Suspense>
-            } />
-
-            {/* Protected Routes */}
-            <Route path="/history" element={
-              <ProtectedRoute>
-                <Suspense fallback={<PageSkeleton />}>
-                  <PageTransition><HistoryPage /></PageTransition>
-                </Suspense>
-              </ProtectedRoute>
-            } />
-            <Route path="/profile" element={
-              <Suspense fallback={<PageSkeleton />}>
-                <PageTransition><ProfilePage /></PageTransition>
-              </Suspense>
-            } />
-
-            <Route path="/hotline" element={
-              <Suspense fallback={<PageSkeleton />}>
-                <PageTransition><HotlinePage /></PageTransition>
-              </Suspense>
-            } />
-
-            {/* Public Route (Login) */}
-            <Route path="/login" element={
-              <PublicRoute>
-                <Suspense fallback={<PageSkeleton />}>
-                  <PageTransition><LoginPage /></PageTransition>
-                </Suspense>
-              </PublicRoute>
-            } />
-
-            {/* Desktop-Only Routes */}
-            <Route path="/services" element={
-              <Suspense fallback={<PageSkeleton />}>
-                <PageTransition>
-                  {isMobileView ? <MobileDashboard /> : <ServicesPage />}
-                </PageTransition>
-              </Suspense>
-            } />
-            <Route path="/studio" element={
-              <Suspense fallback={<PageSkeleton />}>
-                <PageTransition>
-                  {isMobileView ? <MobileDashboard /> : <StudioPage />}
-                </PageTransition>
-              </Suspense>
-            } />
-
-            {/* Settings Route */}
-            <Route path="/settings" element={
-              <ProtectedRoute>
-                <Suspense fallback={<PageSkeleton />}>
-                  <PageTransition><SystemSettingsPage /></PageTransition>
-                </Suspense>
-              </ProtectedRoute>
-            } />
-          </Route>
-        </Routes>
-      </AnimatePresence>
+          {/* Settings Route */}
+          <Route path="/settings" element={
+            <ProtectedRoute>
+              <RoutePage component={SystemSettingsPage} />
+            </ProtectedRoute>
+          } />
+        </Route>
+      </Routes>
     </div>
   );
 }

@@ -211,13 +211,7 @@ const BookingWizard = () => {
                                                         {service.title}
                                                     </h3>
 
-                                                    {/* Selection Radio Indicator */}
-                                                    <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300
-                                                        ${formData.service === service.id
-                                                            ? 'border-accent bg-accent'
-                                                            : 'border-[var(--glass-border)] bg-transparent group-hover:border-[var(--color-text-muted)]'}`}>
-                                                        {formData.service === service.id && <Check size={14} className="text-white" strokeWidth={3} />}
-                                                    </div>
+
                                                 </div>
                                                 <div className="flex items-center justify-between">
                                                     <p className="text-xs text-[var(--color-text-muted)]">{service.price} • Start from 30 min</p>
