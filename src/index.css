@@ -161,6 +161,24 @@
   }
 }
 
+@keyframes pulse-subtle {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.85;
+    transform: scale(1.015);
+  }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 3s ease-in-out infinite;
+}
+
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   .animate-shimmer {
@@ -200,16 +218,57 @@ body {
 /* Mobile PWA Optimization */
 @media (max-width: 1024px) {
 
+  /* Default behavior for Web/Browser (Scrolls Window) */
   html,
   body {
-    /* Container Scroll Strict Mode */
-    overscroll-behavior: none;
-    overflow: hidden;
-    height: 100%;
+    overscroll-behavior-y: auto;
     width: 100%;
-    position: fixed;
-    /* Fix body to prevent any viewport movement */
-    max-width: 100vw;
+    /* No overflow hidden here, letting window scroll naturally */
+  }
+
+
+  /* 
+   === PWA ONLY MODE === 
+   Active only when installed/standalone 
+*/
+  @media all and (display-mode: standalone) {
+
+    html,
+    body {
+      /* Lock the Viewport strictly */
+      overflow: hidden;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      overscroll-behavior: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* 
+     Forces the MainLayout container to become the scrollable area 
+     This class must be targeted via the ID #scroll-container in MainLayout
+  */
+    #scroll-container {
+      height: 100vh !important;
+      overflow-y: auto !important;
+      overscroll-behavior-y: auto !important;
+      -webkit-overflow-scrolling: touch;
+
+      padding-top: 0 !important;
+      background-color: var(--color-bg-body);
+    }
+
+    /* PWA Layout Logic: Fixed Nav + Extra Safe Padding */
+    /* Enforce safe spacing on all page containers to prevent overlap */
+    #scroll-container>div[class*="pt-"] {
+      /* pt-24 (96px) is too small. Force sufficient clearance + Status Bar */
+      padding-top: calc(120px + env(safe-area-inset-top)) !important;
+    }
+
+    html,
+    body {
+      background-color: var(--color-bg-body);
+    }
   }
 
   body {

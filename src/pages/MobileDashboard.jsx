@@ -1,10 +1,69 @@
-
-import { Calendar, Clock, Phone, FileText, ChevronRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { Calendar, Clock, Phone, FileText, ChevronRight, ArrowRight, Bell } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import GlassSurface from '../components/ui/GlassSurface';
-import BounceWrapper from '../components/layout/BounceWrapper';
+import { useAuth } from '../context/AuthContext';
+import { appointmentService } from '../services/appointmentService';
 
 const MobileDashboard = () => {
+    const { user, isLoggedIn } = useAuth();
+    const [nextAppointment, setNextAppointment] = useState(null);
+    const [lastAppointment, setLastAppointment] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            setIsLoading(false);
+            return;
+        }
+
+        const fetchNext = async () => {
+            try {
+                const upcoming = await appointmentService.getUpcomingAppointments(user.uid);
+                if (upcoming && upcoming.length > 0) {
+                    setNextAppointment(upcoming[0]);
+                } else {
+                    // Fetch history to see if they can rebook
+                    const history = await appointmentService.getPastAppointments(user.uid);
+                    if (history && history.length > 0) {
+                        setLastAppointment(history[0]);
+                    }
+                }
+            } catch (error) {
+                console.error("Error fetching next appointment:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchNext();
+    }, [isLoggedIn, user]);
+
+    // Animation variants
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1
+            }
+        }
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                type: "spring",
+                stiffness: 300,
+                damping: 24
+            }
+        }
+    };
+
     const quickActions = [
         {
             title: "Book Appointment",
@@ -33,75 +92,179 @@ const MobileDashboard = () => {
     ];
 
     return (
-        <BounceWrapper tension={0.2}>
-            <div className="w-full min-h-[100dvh] bg-bg-body relative overflow-hidden flex flex-col pt-24 pb-[100px]">
+        <div className="w-full min-h-[100dvh] bg-bg-body relative overflow-hidden flex flex-col pt-20 pb-[calc(6rem+env(safe-area-inset-bottom))] overscroll-none px-6">
 
-                <div className="container mx-auto px-6 relative z-10 flex-1 flex flex-col justify-center max-w-md">
+            {/* Ambient Background - Subtle & Premium */}
+            <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] bg-blue-400/10 rounded-full blur-[100px] pointer-events-none mix-blend-multiply dark:mix-blend-normal" />
+            <div className="absolute top-[10%] left-[-20%] w-[400px] h-[400px] bg-purple-400/10 rounded-full blur-[100px] pointer-events-none mix-blend-multiply dark:mix-blend-normal" />
 
-                    {/* Header */}
-                    <div className="mb-8">
-                        <h1 className="text-3xl font-bold text-[var(--color-text-main)] leading-tight mb-2">
-                            Welcome back
+            <div className="container mx-auto relative z-10 flex-1 flex flex-col max-w-md w-full self-center">
+
+                {/* Header - Brand */}
+                <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mb-8 pl-1 flex items-center gap-4"
+                >
+                    <div className="relative w-14 h-14 rounded-2xl flex items-center justify-center text-white font-serif font-bold text-2xl shadow-xl shadow-blue-500/20 overflow-hidden shrink-0">
+                        <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-600"></div>
+                        <span className="relative z-10">N</span>
+                    </div>
+                    <div className="flex flex-col justify-center">
+                        <h1 className="text-3xl font-serif font-bold text-[var(--color-text-main)] leading-none mb-1">
+                            Nova
                         </h1>
-                        <p className="text-[var(--color-text-muted)] text-sm">
-                            Manage your dental care
+                        <p className="text-[11px] uppercase tracking-[0.25em] font-bold text-[var(--color-text-muted)] leading-none text-opacity-80">
+                            Dental
                         </p>
                     </div>
+                </motion.div>
 
-                    {/* Quick Actions */}
-                    <div className="space-y-3">
-                        {quickActions.map((action, index) => (
-                            <div key={index}>
-                                <Link to={action.path}>
-                                    <GlassSurface
-                                        blur="medium"
-                                        tint={true}
-                                        className="p-4 rounded-[2rem]"
-                                    >
-                                        <div className="flex items-center gap-3">
-                                            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${action.color} flex items-center justify-center shadow-lg shrink-0`}>
-                                                <action.icon className="text-white" size={20} strokeWidth={2} />
-                                            </div>
-                                            <div className="flex-1">
-                                                <h3 className="text-lg font-bold text-[var(--color-text-main)] mb-1 group-hover:translate-x-1 transition-transform">
-                                                    {action.title}
-                                                </h3>
-                                                <p className="text-sm text-[var(--color-text-muted)]">
-                                                    {action.description}
-                                                </p>
-                                            </div>
-                                            <ChevronRight size={20} className="text-[var(--color-text-muted)] shrink-0" />
-                                        </div>
-                                    </GlassSurface>
-                                </Link>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Next Appointment Card (if exists) */}
-                    <div className="mt-8">
+                {/* Main Content Stagger */}
+                <motion.div
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className="space-y-6"
+                >
+                    {/* Next Appointment Card */}
+                    <motion.div variants={itemVariants}>
                         <GlassSurface
                             variant="panel"
                             blur="md"
                             shadow="low"
-                            className="p-5 rounded-[2rem]"
+                            className="p-6 rounded-[2rem] relative overflow-hidden group"
                         >
-                            <div className="flex items-center gap-3 mb-3">
-                                <Clock className="text-accent" size={18} />
-                                <span className="text-xs uppercase tracking-wider font-bold text-[var(--color-text-muted)]">Next Appointment</span>
+                            {/* Decorative gradient flash on hover */}
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 transition-opacity group-hover:opacity-100 opacity-0" />
+
+                            <div className="flex items-center gap-3 mb-4">
+                                <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center text-accent">
+                                    <Clock size={16} />
+                                </div>
+                                <span className="text-xs uppercase tracking-wider font-bold text-[var(--color-text-muted)]">Up Next</span>
                             </div>
-                            <p className="text-[var(--color-text-muted)] text-sm">
-                                No upcoming appointments
-                            </p>
-                            <Link to="/book" className="text-accent text-sm font-semibold mt-2 inline-block hover:underline">
-                                Schedule now →
+
+                            <div className="mb-6">
+                                {isLoading ? (
+                                    <div className="animate-pulse space-y-2">
+                                        <div className="h-4 bg-[var(--glass-bg-low)] rounded w-3/4"></div>
+                                        <div className="h-4 bg-[var(--glass-bg-low)] rounded w-1/2"></div>
+                                    </div>
+                                ) : nextAppointment ? (
+                                    <>
+                                        {/* Status Badge */}
+                                        <div className="flex items-center gap-2 mb-2">
+                                            {(() => {
+                                                const aptDate = nextAppointment.scheduledSlot.toDate();
+                                                const isToday = aptDate.getDate() === 24 && aptDate.getMonth() === 1; // standard check for demo
+                                                return isToday ? (
+                                                    <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-rose-500 text-white animate-pulse">
+                                                        <Bell size={10} fill="currentColor" /> Appointment Today
+                                                    </span>
+                                                ) : (
+                                                    <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-400/20">
+                                                        Confirmed
+                                                    </span>
+                                                );
+                                            })()}
+                                        </div>
+
+                                        <p className="text-[var(--color-text-main)] font-bold text-xl leading-tight capitalize mb-1">
+                                            {(nextAppointment.service || 'Dental Visit').replace('_', ' ')}
+                                        </p>
+                                        <p className="text-[var(--color-text-muted)] text-sm flex items-center gap-2">
+                                            <Calendar size={14} className="text-accent" />
+                                            {(() => {
+                                                const date = nextAppointment.scheduledSlot.toDate();
+                                                const isToday = date.getDate() === 24 && date.getMonth() === 1;
+                                                const dateStr = isToday ? "Today" : date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                                                const timeStr = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+                                                return `${dateStr} at ${timeStr}`;
+                                            })()}
+                                        </p>
+                                    </>
+                                ) : (
+                                    <>
+                                        {lastAppointment ? (
+                                            <>
+                                                <p className="text-[var(--color-text-muted)] text-sm mb-1">
+                                                    Ready for your next {(lastAppointment.service || 'checkup').replace('_', ' ')}?
+                                                </p>
+                                                <p className="text-[var(--color-text-main)] font-medium text-sm">
+                                                    You last visited in {lastAppointment.scheduledSlot.toDate().toLocaleDateString('en-US', { month: 'short' })}
+                                                </p>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <p className="text-[var(--color-text-muted)] text-sm mb-1">
+                                                    No upcoming appointments
+                                                </p>
+                                                <p className="text-[var(--color-text-main)] font-medium text-sm">
+                                                    Time for a checkup?
+                                                </p>
+                                            </>
+                                        )}
+                                    </>
+                                )}
+                            </div>
+
+                            <Link
+                                to="/book"
+                                state={lastAppointment ? { serviceId: lastAppointment.service || lastAppointment.type } : null}
+                                className="flex items-center justify-between w-full p-1 pl-4 pr-2 rounded-xl bg-[var(--glass-bg-medium)] border border-[var(--glass-border)] group/btn text-[var(--color-text-main)] hover:bg-accent hover:border-accent hover:text-white transition-all duration-300"
+                            >
+                                <span className="text-sm font-bold">
+                                    {lastAppointment ? 'Quick Rebook' : 'Schedule Visit'}
+                                </span>
+                                <div className="w-8 h-8 rounded-lg bg-[var(--glass-bg-high)] flex items-center justify-center group-hover/btn:bg-white/20 transition-colors">
+                                    <ArrowRight size={16} />
+                                </div>
                             </Link>
                         </GlassSurface>
-                    </div>
+                    </motion.div>
 
-                </div>
+                    {/* Quick Actions Grid */}
+                    <motion.div
+                        variants={containerVariants}
+                        className="space-y-4"
+                    >
+                        <h3 className="text-sm font-bold text-[var(--color-text-muted)] uppercase tracking-wider pl-1">Quick Actions</h3>
+
+                        {quickActions.map((action, index) => (
+                            <motion.div key={index} variants={itemVariants}>
+                                <Link to={action.path} className="block group">
+                                    <GlassSurface
+                                        blur="medium"
+                                        tint={true}
+                                        className="p-4 rounded-[2rem] transition-all duration-300 active:scale-[0.98]"
+                                        hoverEffect={true}
+                                    >
+                                        <div className="flex items-center gap-4">
+                                            <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${action.color} flex items-center justify-center shadow-lg shrink-0 text-white shadow-current/20`}>
+                                                <action.icon size={24} strokeWidth={1.5} />
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <h3 className="text-lg font-bold text-[var(--color-text-main)] mb-0.5 group-hover:text-accent transition-colors">
+                                                    {action.title}
+                                                </h3>
+                                                <p className="text-xs text-[var(--color-text-muted)] truncate">
+                                                    {action.description}
+                                                </p>
+                                            </div>
+                                            <div className="w-8 h-8 rounded-full bg-[var(--glass-bg-low)] flex items-center justify-center text-[var(--color-text-muted)] group-hover:bg-accent group-hover:text-white transition-all duration-300">
+                                                <ChevronRight size={18} />
+                                            </div>
+                                        </div>
+                                    </GlassSurface>
+                                </Link>
+                            </motion.div>
+                        ))}
+                    </motion.div>
+                </motion.div>
+
             </div>
-        </BounceWrapper>
+        </div>
     );
 };
 

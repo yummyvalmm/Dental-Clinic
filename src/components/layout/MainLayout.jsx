@@ -15,12 +15,13 @@ const MainLayout = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     // Logic extracted exactly from App.jsx's conditional components
-    const hiddenNavbarRoutes = ['/login'];
+    // Navbar only visible on Profile page
+    const visibleNavbarRoutes = ['/profile'];
     // Combined list from ConditionalFooter: '/', '/book', '/history', '/hotline', '/login', '/profile', '/settings'
     const hiddenFooterRoutes = ['/', '/book', '/history', '/hotline', '/login', '/profile', '/settings'];
     const hiddenMobileHeaders = ['/login'];
 
-    const showNavbar = !hiddenNavbarRoutes.includes(pathname);
+    const showNavbar = visibleNavbarRoutes.includes(pathname);
     const showFooter = !hiddenFooterRoutes.includes(pathname);
     const showMobileAppBar = !hiddenMobileHeaders.includes(pathname);
 
@@ -38,7 +39,7 @@ const MainLayout = () => {
 
                 <div
                     id="scroll-container"
-                    className={`h-screen overflow-y-auto overscroll-y-auto bg-bg-body font-sans antialiased text-primary selection:bg-accent/20 ${showMobileAppBar ? 'pb-[calc(80px+env(safe-area-inset-bottom))]' : ''}`}
+                    className={`min-h-screen bg-bg-body font-sans antialiased text-primary selection:bg-accent/20 ${showMobileAppBar ? 'pb-[calc(80px+env(safe-area-inset-bottom))]' : ''}`}
                 >
                     {showNavbar && (
                         <Navbar

@@ -1,73 +1,124 @@
+import { collection, addDoc, serverTimestamp, query, where, getDocs, orderBy, Timestamp, limit } from 'firebase/firestore';
+import { db } from '../lib/firebase';
+
 /**
  * Appointment Service
- * Handles data fetching and business logic for appointments.
- * Currently uses mock data, but structure allows easy swap to API/Firestore.
+ * Handles all Firestore operations related to dental appointments.
  */
-
-const MOCK_APPOINTMENTS = [
-    {
-        id: 1,
-        date: "Jan 15, 2026",
-        time: "10:00 AM",
-        treatment: "General Checkup",
-        type: "Checkup",
-        dentist: "Dr. Sarah Johnson",
-        status: "completed",
-        notes: "Teeth are healthy. Recommended daily flossing.",
-        prescription: "Fluoride rinse"
-    },
-    {
-        id: 2,
-        date: "Dec 10, 2025",
-        time: "2:30 PM",
-        treatment: "Deep Cleaning",
-        type: "Cleaning",
-        dentist: "Dr. Sarah Johnson",
-        status: "completed",
-        notes: "Plaque removal successful. Minor gum sensitivity.",
-        prescription: "Sensitivity toothpaste"
-    },
-    {
-        id: 3,
-        date: "Nov 05, 2025",
-        time: "11:00 AM",
-        treatment: "Whitening Session",
-        type: "Whitening",
-        dentist: "Dr. Michael Chen",
-        status: "completed",
-        notes: "Shade improved by 2 levels.",
-        prescription: "None"
-    }
-];
-
 export const appointmentService = {
     /**
-     * Fetch appointment history for a user.
-     * @param {string} userId - ID of the user
-     * @param {string} filter - Optional type filter
-     * @returns {Promise<Array>} List of appointments
+     * Create a new appointment in Firestore.
+     * @param {object} appointmentData - The booking details (service, scheduledSlot, patient info)
+     * @param {string|null} userId - The UID of the logged-in user, or null if guest
+     * @returns {Promise<string>} The ID of the created document
      */
-    getHistory: async (userId, filter = 'All') => {
-        // Simulate network delay
-        await new Promise(resolve => setTimeout(resolve, 800));
+    createAppointment: async (appointmentData, userId = null) => {
+        try {
+            // Validation
+            if (!appointmentData.service || !appointmentData.scheduledSlot) {
+                throw new Error("Missing required appointment data: service or scheduledSlot");
+            }
 
-        // In a real app, this would fetch from Firestore/Backend using userId
-        let data = [...MOCK_APPOINTMENTS];
+            const appointmentRef = collection(db, 'appointments');
 
-        if (filter !== 'All') {
-            data = data.filter(apt => apt.type === filter || apt.treatment.includes(filter));
+            // Format data for standard procedure
+            const finalData = {
+                service: appointmentData.service,
+                scheduledSlot: Timestamp.fromDate(appointmentData.scheduledSlot),
+                patientName: appointmentData.name || 'Unknown',
+                patientPhone: appointmentData.phone || '',
+                patientEmail: appointmentData.email || '',
+                userId: userId,
+                status: 'pending',
+                notes: appointmentData.notes || '',
+                createdAt: serverTimestamp(),
+                updatedAt: serverTimestamp()
+            };
+
+            const docRef = await addDoc(appointmentRef, finalData);
+            return docRef.id;
+        } catch (error) {
+            console.error("Error creating appointment:", error);
+            throw error;
         }
-
-        return data;
     },
 
     /**
-     * Get details for a specific appointment
-     * @param {string} id 
-     * @returns {Promise<object>}
+     * Internal helper to fetch all appointments for a user and sort them.
+     * Robust against missing or old data formats.
      */
-    getById: async (id) => {
-        await new Promise(resolve => setTimeout(resolve, 300));
-        return MOCK_APPOINTMENTS.find(a => a.id === id);
+    _getAllUserAppointments: async (userId) => {
+        if (!userId) return [];
+
+        try {
+            const appointmentRef = collection(db, 'appointments');
+            const q = query(appointmentRef, where('userId', '==', userId));
+            const querySnapshot = await getDocs(q);
+
+            return querySnapshot.docs.map(doc => {
+                const data = doc.data();
+                // Standard procedure: ensure we always have a sortable time
+                let sortTime = 0;
+                if (data.scheduledSlot && typeof data.scheduledSlot.toMillis === 'function') {
+                    sortTime = data.scheduledSlot.toMillis();
+                } else if (data.createdAt && typeof data.createdAt.toMillis === 'function') {
+                    sortTime = data.createdAt.toMillis();
+                }
+
+                return {
+                    id: doc.id,
+                    ...data,
+                    _sortTime: sortTime // used for internal sorting
+                };
+            }).sort((a, b) => b._sortTime - a._sortTime);
+        } catch (error) {
+            console.error("Firestore Error in _getAllUserAppointments:", error);
+            throw error;
+        }
+    },
+
+    /**
+     * Fetch upcoming appointments for a specific user.
+     */
+    getUpcomingAppointments: async (userId) => {
+        try {
+            const now = Date.now();
+            const all = await appointmentService._getAllUserAppointments(userId);
+
+            return all
+                .filter(apt => apt._sortTime >= now)
+                .sort((a, b) => a._sortTime - b._sortTime);
+        } catch (error) {
+            console.error("Error fetching upcoming appointments:", error);
+            throw error;
+        }
+    },
+
+    /**
+     * Fetch past appointments for a specific user.
+     */
+    getPastAppointments: async (userId) => {
+        try {
+            const now = Date.now();
+            const all = await appointmentService._getAllUserAppointments(userId);
+
+            return all
+                .filter(apt => apt._sortTime < now);
+        } catch (error) {
+            console.error("Error fetching past appointments:", error);
+            throw error;
+        }
+    },
+
+    /**
+     * Fetch all appointments for a specific user.
+     */
+    getHistory: async (userId) => {
+        try {
+            return await appointmentService._getAllUserAppointments(userId);
+        } catch (error) {
+            console.error("Error fetching user appointments:", error);
+            throw error;
+        }
     }
 };

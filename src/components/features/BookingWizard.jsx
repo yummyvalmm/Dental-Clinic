@@ -1,8 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Calendar, User, Phone, Check, ChevronRight, ChevronLeft, Star, Sparkles, Clock } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
+import { Calendar, User, Phone, Check, ChevronRight, ChevronLeft, Star, Sparkles, Clock, Edit2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import GlassSurface from '../ui/GlassSurface';
 import { useLayout } from '../../context/LayoutContext';
+import { useAuth } from '../../context/AuthContext';
+import { useNotificationContext } from '../../context/NotificationContext';
+import { appointmentService } from '../../services/appointmentService';
+import { notificationTypes } from '../../data/notifications';
+import { toast } from 'sonner';
 
 /**
  * BookingWizard Component
@@ -15,21 +21,41 @@ import { useLayout } from '../../context/LayoutContext';
  * - Enhanced Touch Targets
  */
 const BookingWizard = () => {
+    const location = useLocation();
     const { setIsNavbarHidden } = useLayout();
+    const { user } = useAuth(); // Access auth context
+    const { addNotification } = useNotificationContext(); // Notification context
     // Current active step in the wizard flows (1-4)
     const [step, setStep] = useState(1);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isEditMode, setIsEditMode] = useState(false);
 
-    // Control Navbar visibility based on step
+    // Scroll to top and sidebar control
     useEffect(() => {
-        if (step > 1 && step < 4) {
-            setIsNavbarHidden(true);
-        } else {
-            setIsNavbarHidden(false);
-        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, [step]);
 
-        // Cleanup: ensure navbar returns when unmounting
-        return () => setIsNavbarHidden(false);
-    }, [step, setIsNavbarHidden]);
+    // Handle initial state if passed via navigation (Quick Rebook)
+    useEffect(() => {
+        if (location.state?.serviceId) {
+            setFormData(prev => ({ ...prev, service: location.state.serviceId }));
+            setStep(2); // Skip Step 1
+            setIsNavbarHidden(true);
+        }
+    }, [location.state]);
+
+    // Smart Auto-Fill for Logged-in Users
+    useEffect(() => {
+        if (user) {
+            setFormData(prev => ({
+                ...prev,
+                name: prev.name || user.displayName || '',
+                // If the user object has a phoneNumber field, use it, else keep empty
+                phone: prev.phone || user.phoneNumber || '',
+                email: prev.email || user.email || ''
+            }));
+        }
+    }, [user]);
 
     // Central state for all booking data collected across steps
     const [formData, setFormData] = useState({
@@ -62,8 +88,50 @@ const BookingWizard = () => {
     const totalSteps = 4;
     const progressPercentage = (step / totalSteps) * 100;
 
+    const handleSubmit = async () => {
+        if (isSubmitting) return;
+
+        // Construct a proper Date object for the scheduled slot
+        // Standard procedure: year, month (0-indexed), day, hours, minutes
+        const [hours, minutes] = (formData.time || "09:00").split(':').map(Number);
+        const scheduledSlot = new Date(2026, 1, formData.date || 24, hours, minutes);
+
+        setIsSubmitting(true);
+        try {
+            await appointmentService.createAppointment({
+                ...formData,
+                scheduledSlot
+            }, user?.uid || null);
+
+            // Trigger app-level notification/reminder
+            addNotification(
+                notificationTypes.CONFIRMATION,
+                'Appointment Confirmed',
+                `Your appointment for ${formData.service} on Feb ${formData.date} at ${formData.time} is confirmed.`
+            );
+
+            toast.success('Appointment scheduled successfully!');
+            handleNext();
+        } catch (error) {
+            console.error("Booking Error:", error);
+            toast.error('Failed to schedule appointment. Please try again.');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     return (
-        <div className="w-full max-w-4xl mx-auto flex flex-col min-h-[85vh] md:min-h-0">
+        <div className="w-full max-w-4xl mx-auto flex flex-col min-h-[85vh] md:min-h-0 relative">
+
+            {/* Contextual Back Button - Top Left */}
+            <div className="px-1 mb-4">
+                <button
+                    onClick={() => step === 1 ? window.history.back() : handleBack()}
+                    className="w-10 h-10 rounded-full flex items-center justify-center text-[var(--color-text-muted)] hover:bg-[var(--glass-bg-low)] transition-colors border border-[var(--glass-border)]"
+                >
+                    <ChevronLeft size={24} />
+                </button>
+            </div>
 
             {/* Progress Bar - Header */}
             <div className="mb-6 px-1">
@@ -81,7 +149,7 @@ const BookingWizard = () => {
                 </div>
             </div>
 
-            <div className="flex-1 pb-32"> {/* Padding bottom for sticky footer */}
+            <div className="flex-1 pb-[calc(8rem+env(safe-area-inset-bottom))]"> {/* Padding bottom for sticky footer */}
                 <AnimatePresence mode="wait">
                     {/* ---------------- STEP 1: SELECT TREATMENT ---------------- */}
                     {step === 1 && (
@@ -97,33 +165,66 @@ const BookingWizard = () => {
                                 <p className="text-[var(--color-text-muted)] text-sm">Choose the service you'd like to book.</p>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div className="flex flex-col gap-3">
                                 {services.map((service) => (
                                     <GlassSurface
                                         key={service.id}
                                         onClick={() => {
-                                            // Update state selection and auto-advance
-                                            setIsNavbarHidden(true); // Immediate hide for snappy feel
+                                            if (formData.service === service.id) return; // Prevent double trigger
                                             setFormData({ ...formData, service: service.id });
-                                            handleNext();
+                                            // Small delay to allow user to see the selection state before transition
+                                            setTimeout(() => {
+                                                setIsNavbarHidden(true);
+                                                handleNext();
+                                            }, 350);
                                         }}
                                         variant="card"
                                         blur="md"
-                                        className={`p-4 rounded-[2rem] text-left transition-all duration-300 group relative overflow-hidden active:scale-[0.98] cursor-pointer
+                                        className={`p-5 rounded-[2rem] text-left transition-all duration-300 group relative overflow-hidden active:scale-[0.98] cursor-pointer border
                                             ${formData.service === service.id
-                                                ? 'bg-accent/10 border-accent/50 ring-1 ring-accent/50'
-                                                : ''}`}
+                                                ? 'bg-accent/10 border-accent/50 ring-1 ring-accent/60'
+                                                : 'border-transparent hover:border-[var(--glass-border)]'}`}
                                         hoverEffect={true}
                                     >
-                                        <div className="flex items-center gap-3">
-                                            <div className={`p-2.5 rounded-xl transition-colors shrink-0 ${formData.service === service.id ? 'bg-accent text-white shadow-glow' : 'bg-[var(--glass-bg-low)] text-[var(--color-text-muted)]'}`}>
-                                                <service.icon size={20} strokeWidth={2} />
+                                        <div className="flex items-center gap-4">
+                                            {/* Icon Container */}
+                                            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300 shrink-0
+                                                ${formData.service === service.id
+                                                    ? 'bg-accent text-white shadow-glow scale-110'
+                                                    : 'bg-[var(--glass-bg-low)] text-[var(--color-text-muted)] group-hover:bg-[var(--glass-bg-medium)] group-hover:text-[var(--color-text-main)]'}`}>
+                                                <service.icon size={26} strokeWidth={1.5} />
                                             </div>
+
+                                            {/* Content */}
                                             <div className="flex-1 min-w-0">
-                                                <h3 className="text-base font-bold text-[var(--color-text-main)] leading-tight">{service.title}</h3>
-                                                <p className="text-xs text-[var(--color-text-muted)] mt-0.5">{service.price} • 30-60 min</p>
+                                                <div className="flex justify-between items-center mb-1">
+                                                    <h3 className={`text-lg font-bold leading-tight transition-colors ${formData.service === service.id ? 'text-accent' : 'text-[var(--color-text-main)]'}`}>
+                                                        {service.title}
+                                                    </h3>
+
+                                                    {/* Selection Radio Indicator */}
+                                                    <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300
+                                                        ${formData.service === service.id
+                                                            ? 'border-accent bg-accent'
+                                                            : 'border-[var(--glass-border)] bg-transparent group-hover:border-[var(--color-text-muted)]'}`}>
+                                                        {formData.service === service.id && <Check size={14} className="text-white" strokeWidth={3} />}
+                                                    </div>
+                                                </div>
+                                                <div className="flex items-center justify-between">
+                                                    <p className="text-xs text-[var(--color-text-muted)]">{service.price} • Start from 30 min</p>
+                                                </div>
                                             </div>
                                         </div>
+
+                                        {/* Subtle Active Background Flash */}
+                                        {formData.service === service.id && (
+                                            <motion.div
+                                                layoutId="selected-glow"
+                                                className="absolute inset-0 bg-accent/5 z-[-1]"
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                            />
+                                        )}
                                     </GlassSurface>
                                 ))}
                             </div>
@@ -218,28 +319,77 @@ const BookingWizard = () => {
                                         <Calendar size={24} />
                                     </div>
                                     <div>
-                                        <h4 className="text-[var(--color-text-main)] font-bold">{formData.service || 'Treatment'}</h4>
+                                        <h4 className="text-[var(--color-text-main)] font-bold capitalize">{formData.service?.replace('_', ' ') || 'Treatment'}</h4>
                                         <p className="text-[var(--color-text-muted)] text-sm">Feb {formData.date}, {formData.time}</p>
                                     </div>
                                 </div>
-                                <div className="space-y-4">
-                                    <div className="relative group">
-                                        <User className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--color-text-muted)]/50" size={18} />
-                                        <input
-                                            type="text"
-                                            placeholder="Full Name"
-                                            className="w-full bg-[var(--glass-bg-low)] border border-[var(--glass-border)] py-4 pl-12 pr-4 text-[var(--color-text-main)] placeholder-[var(--color-text-muted)] focus:outline-none focus:border-accent/50 focus:bg-[var(--glass-bg-medium)] transition-all font-medium"
-                                        />
+
+                                {/* Smart Summary for Authenticated Users */}
+                                {user && !isEditMode ? (
+                                    <div className="space-y-4">
+                                        <div className="flex items-center justify-between p-4 rounded-xl bg-[var(--glass-bg-low)] border border-[var(--glass-border)]">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center text-accent">
+                                                    <User size={16} />
+                                                </div>
+                                                <div>
+                                                    <p className="text-xs text-[var(--color-text-muted)] font-bold uppercase tracking-wider">Patient</p>
+                                                    <p className="text-sm text-[var(--color-text-main)] font-bold">{formData.name}</p>
+                                                </div>
+                                            </div>
+                                            <button
+                                                onClick={() => setIsEditMode(true)}
+                                                className="p-2 rounded-lg hover:bg-[var(--glass-bg-medium)] text-[var(--color-text-muted)] transition-colors"
+                                            >
+                                                <Edit2 size={16} />
+                                            </button>
+                                        </div>
+                                        <div className="p-4 rounded-xl bg-[var(--glass-bg-low)] border border-[var(--glass-border)]">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center text-accent">
+                                                    <Phone size={16} />
+                                                </div>
+                                                <div>
+                                                    <p className="text-xs text-[var(--color-text-muted)] font-bold uppercase tracking-wider">Contact</p>
+                                                    <p className="text-sm text-[var(--color-text-main)] font-bold">{formData.phone}</p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="relative group">
-                                        <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--color-text-muted)]/50" size={18} />
-                                        <input
-                                            type="tel"
-                                            placeholder="Phone Number"
-                                            className="w-full bg-[var(--glass-bg-low)] border border-[var(--glass-border)] py-4 pl-12 pr-4 text-[var(--color-text-main)] placeholder-[var(--color-text-muted)] focus:outline-none focus:border-accent/50 focus:bg-[var(--glass-bg-medium)] transition-all font-medium"
-                                        />
+                                ) : (
+                                    <div className="space-y-4">
+                                        {user && isEditMode && (
+                                            <div className="flex justify-end">
+                                                <button
+                                                    onClick={() => setIsEditMode(false)}
+                                                    className="text-[10px] font-bold uppercase tracking-widest text-accent hover:underline"
+                                                >
+                                                    Save Changes
+                                                </button>
+                                            </div>
+                                        )}
+                                        <div className="relative group">
+                                            <User className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--color-text-muted)]/50" size={18} />
+                                            <input
+                                                type="text"
+                                                placeholder="Full Name"
+                                                value={formData.name}
+                                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                                className="w-full bg-[var(--glass-bg-low)] border border-[var(--glass-border)] py-4 pl-12 pr-4 text-[var(--color-text-main)] placeholder-[var(--color-text-muted)] focus:outline-none focus:border-accent/50 focus:bg-[var(--glass-bg-medium)] transition-all font-medium"
+                                            />
+                                        </div>
+                                        <div className="relative group">
+                                            <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--color-text-muted)]/50" size={18} />
+                                            <input
+                                                type="tel"
+                                                placeholder="Phone Number"
+                                                value={formData.phone}
+                                                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                                className="w-full bg-[var(--glass-bg-low)] border border-[var(--glass-border)] py-4 pl-12 pr-4 text-[var(--color-text-main)] placeholder-[var(--color-text-muted)] focus:outline-none focus:border-accent/50 focus:bg-[var(--glass-bg-medium)] transition-all font-medium"
+                                            />
+                                        </div>
                                     </div>
-                                </div>
+                                )}
                             </GlassSurface>
                         </motion.div>
                     )}
@@ -259,44 +409,69 @@ const BookingWizard = () => {
                             <p className="text-[var(--color-text-muted)] mb-8 max-w-xs mx-auto">
                                 See you in February. A confirmation has been sent to your phone.
                             </p>
-                            <button
-                                onClick={() => window.location.href = '/'}
-                                className="w-full py-4 rounded-2xl bg-accent text-white font-bold uppercase tracking-widest text-sm hover:scale-[1.02] transition-transform"
-                            >
-                                Back to Home
-                            </button>
+                            <div className="w-full space-y-3">
+                                {user ? (
+                                    <button
+                                        onClick={() => window.location.href = '/history'}
+                                        className="w-full py-4 rounded-2xl bg-accent text-white font-bold uppercase tracking-widest text-sm hover:scale-[1.02] transition-transform shadow-lg shadow-accent/20"
+                                    >
+                                        View My Appointments
+                                    </button>
+                                ) : (
+                                    <button
+                                        onClick={() => window.location.href = '/login'}
+                                        className="w-full py-4 rounded-2xl bg-accent text-white font-bold uppercase tracking-widest text-sm hover:scale-[1.02] transition-transform shadow-lg shadow-accent/20"
+                                    >
+                                        Create Account to Manage
+                                    </button>
+                                )}
+                                <button
+                                    onClick={() => window.location.href = '/'}
+                                    className="w-full py-4 rounded-2xl bg-[var(--glass-bg-low)] text-[var(--color-text-muted)] font-bold uppercase tracking-widest text-sm hover:bg-[var(--glass-bg-medium)] transition-colors"
+                                >
+                                    Back to Home
+                                </button>
+                            </div>
                         </motion.div>
                     )}
                 </AnimatePresence>
             </div>
 
             {/* Sticky Action Footer (Natural Touch Zone) */}
-            {step > 1 && step < 4 && (
-                <div className="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-bg-body via-bg-body to-transparent z-50">
-                    <div className="container max-w-4xl mx-auto flex gap-4">
-                        {step > 1 && (
+            {
+                step > 1 && step < 4 && (
+                    <div className="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-bg-body via-bg-body to-transparent z-50">
+                        <div className="container max-w-4xl mx-auto flex gap-4">
+                            {step > 1 && (
+                                <button
+                                    onClick={handleBack}
+                                    className="w-14 h-14 rounded-full bg-[var(--glass-bg-low)] flex items-center justify-center text-[var(--color-text-muted)] hover:bg-[var(--glass-bg-medium)] hover:text-[var(--color-text-main)] transition-colors shrink-0"
+                                >
+                                    <ChevronLeft size={24} />
+                                </button>
+                            )}
                             <button
-                                onClick={handleBack}
-                                className="w-14 h-14 rounded-full bg-[var(--glass-bg-low)] flex items-center justify-center text-[var(--color-text-muted)] hover:bg-[var(--glass-bg-medium)] hover:text-[var(--color-text-main)] transition-colors shrink-0"
+                                onClick={step === 3 ? handleSubmit : handleNext}
+                                disabled={(step === 2 && (!formData.date || !formData.time)) || isSubmitting}
+                                className={`flex-1 h-14 rounded-full font-bold uppercase tracking-widest text-sm flex items-center justify-center gap-2 transition-all shadow-glow
+                                ${((step === 2 && (!formData.date || !formData.time)) || isSubmitting)
+                                        ? 'bg-[var(--glass-bg-low)] text-[var(--color-text-muted)]/50 cursor-not-allowed border border-[var(--glass-border)]'
+                                        : 'bg-accent text-white hover:scale-[1.02] active:scale-[0.98] cursor-pointer animate-pulse-subtle'}`}
                             >
-                                <ChevronLeft size={24} />
+                                {isSubmitting ? (
+                                    <span className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                                ) : (
+                                    <>
+                                        {step === 3 ? 'Confirm Booking' : 'Continue'}
+                                        <ChevronRight size={18} />
+                                    </>
+                                )}
                             </button>
-                        )}
-                        <button
-                            onClick={handleNext}
-                            disabled={step === 2 && (!formData.date || !formData.time)}
-                            className={`flex-1 h-14 rounded-full font-bold uppercase tracking-widest text-sm flex items-center justify-center gap-2 transition-all shadow-glow
-                                ${step === 2 && (!formData.date || !formData.time)
-                                    ? 'bg-[var(--glass-bg-low)] text-[var(--color-text-muted)]/50 cursor-not-allowed border border-[var(--glass-border)]'
-                                    : 'bg-accent text-white hover:scale-[1.02] active:scale-[0.98] cursor-pointer'}`}
-                        >
-                            {step === 3 ? 'Confirm Booking' : 'Continue'}
-                            <ChevronRight size={18} />
-                        </button>
+                        </div>
                     </div>
-                </div>
-            )}
-        </div>
+                )
+            }
+        </div >
     );
 };
 
