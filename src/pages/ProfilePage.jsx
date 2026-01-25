@@ -23,10 +23,10 @@ const ProfilePage = () => {
         <div className="min-h-[100dvh] w-full bg-bg-body relative flex flex-col pt-24 pb-32 px-6 overflow-hidden">
 
             {/* Ambient Background */}
-            {/* Ambient Background - Dynamic Liquid Blobs */}
-            <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-blue-400/30 dark:bg-accent/10 rounded-full blur-[120px] pointer-events-none mix-blend-multiply dark:mix-blend-normal" />
-            <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-purple-400/30 dark:bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none mix-blend-multiply dark:mix-blend-normal" />
-            <div className="absolute top-[20%] left-[50%] w-[300px] h-[300px] bg-indigo-300/20 dark:bg-transparent rounded-full blur-[80px] pointer-events-none mix-blend-multiply dark:mix-blend-normal" />
+            {/* Ambient Background - Dynamic Liquid Blobs - Fixed to Viewport */}
+            <div className="fixed top-[-10%] right-[-10%] w-[600px] h-[600px] bg-blue-400/30 dark:bg-accent/10 rounded-full blur-[120px] pointer-events-none mix-blend-multiply dark:mix-blend-normal z-0" />
+            <div className="fixed bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-purple-400/30 dark:bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none mix-blend-multiply dark:mix-blend-normal z-0" />
+            <div className="fixed top-[20%] left-[50%] w-[300px] h-[300px] bg-indigo-300/20 dark:bg-transparent rounded-full blur-[80px] pointer-events-none mix-blend-multiply dark:mix-blend-normal z-0" />
 
             <div className="w-full max-w-md mx-auto relative z-10 flex flex-col gap-6">
 

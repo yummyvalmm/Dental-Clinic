@@ -101,11 +101,13 @@ const MobileDashboard = () => {
     };
 
     return (
-        <div className="w-full relative overflow-hidden flex flex-col pt-20 px-6">
+        <div className="w-full min-h-full relative overflow-hidden flex flex-col pt-20 px-6">
 
-            {/* Ambient Background - Subtle & Premium */}
-            <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] bg-blue-400/10 rounded-full blur-[100px] pointer-events-none mix-blend-multiply dark:mix-blend-normal" />
-            <div className="absolute top-[10%] left-[-20%] w-[400px] h-[400px] bg-purple-400/10 rounded-full blur-[100px] pointer-events-none mix-blend-multiply dark:mix-blend-normal" />
+            {/* Ambient Background - Subtle & Premium - Fixed to Viewport */}
+            {/* Opacity boosted to /30 in light mode to ensure visibility against white bg */}
+            <div className="fixed top-[-20%] right-[-10%] w-[500px] h-[500px] bg-blue-500/30 dark:bg-blue-400/10 rounded-full blur-[100px] pointer-events-none mix-blend-multiply dark:mix-blend-normal z-0" />
+            <div className="fixed top-[10%] left-[-20%] w-[400px] h-[400px] bg-purple-500/30 dark:bg-purple-400/10 rounded-full blur-[100px] pointer-events-none mix-blend-multiply dark:mix-blend-normal z-0" />
+            <div className="fixed bottom-[-10%] right-[-10%] w-[300px] h-[300px] bg-emerald-500/30 dark:bg-emerald-400/10 rounded-full blur-[80px] pointer-events-none mix-blend-multiply dark:mix-blend-normal z-0" />
 
             <div className="container mx-auto relative z-10 flex-1 flex flex-col max-w-md w-full self-center">
 

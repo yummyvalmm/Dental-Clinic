@@ -11,7 +11,7 @@ import SEO from '../components/common/SEO';
 
 const HomePage = () => {
     return (
-        <div className="min-h-[100dvh] w-full pb-[calc(6rem+env(safe-area-inset-bottom))] lg:pb-0 overflow-x-hidden">
+        <div className="min-h-[100dvh] w-full lg:pb-0 overflow-x-hidden">
             <Navbar />
             <SEO
                 title="Premium Cosmetic Dentistry"

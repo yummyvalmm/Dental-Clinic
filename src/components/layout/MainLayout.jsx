@@ -40,7 +40,7 @@ const MainLayout = () => {
 
                 <div
                     id="scroll-container"
-                    className={`min-h-screen bg-bg-body font-sans antialiased text-primary selection:bg-accent/20 ${showMobileAppBar ? 'pb-[calc(120px+env(safe-area-inset-bottom))]' : ''}`}
+                    className={`min-h-[100dvh] w-full bg-bg-body font-sans antialiased text-primary selection:bg-accent/20 ${showMobileAppBar ? 'pb-[calc(90px+env(safe-area-inset-bottom))]' : ''}`}
                 >
                     {showNavbar && (
                         <Navbar
